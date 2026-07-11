@@ -44,7 +44,7 @@ export default async function HomePage() {
                   className="h-11 w-11 rounded-pill object-cover ring-2 ring-white/20"
                 />
               ) : (
-                <span className="flex h-11 w-11 items-center justify-center rounded-pill bg-white/15 text-[15px] font-bold text-white ring-2 ring-white/20">
+                <span className="flex h-11 w-11 items-center justify-center rounded-pill bg-white/15 text-[15px] font-bold text-white ring-2 ring-white/20 backdrop-blur-md">
                   {initials(profile?.full_name)}
                 </span>
               )}
@@ -81,7 +81,7 @@ async function HourlyValue() {
           <p className="mt-4 text-[17px] font-semibold text-gold">Configure seu negócio →</p>
         )}
       </div>
-      <span className="mb-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-pill bg-white/10">
+      <span className="mb-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-pill bg-white/10 backdrop-blur-md">
         <ArrowRight className="h-4 w-4 text-white/70" />
       </span>
     </div>
