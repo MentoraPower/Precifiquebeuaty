@@ -37,11 +37,11 @@ export function BottomNav() {
               aria-label="Ações rápidas"
               aria-expanded={open}
               className={cn(
-                'flex h-12 w-12 items-center justify-center rounded-pill bg-gold text-white shadow-float transition active:scale-95',
+                'flex h-16 w-16 -translate-y-1/2 items-center justify-center rounded-pill bg-gradient-to-b from-[#4a3320] to-brown text-white shadow-float ring-4 ring-bg transition active:scale-95',
                 open && 'rotate-45',
               )}
             >
-              <Plus className="h-6 w-6" />
+              <Plus className="h-7 w-7" />
             </button>
           </div>
           <NavItem {...items[2]} active={pathname.startsWith('/simulacoes')} />
