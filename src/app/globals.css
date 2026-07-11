@@ -79,7 +79,7 @@ a:focus,
 
 @layer components {
   .field {
-    @apply w-full rounded-[10px] border border-line bg-bg px-4 py-3 text-[15px] text-ink outline-none transition
+    @apply w-full rounded-[10px] border border-line bg-bg px-4 py-3.5 text-[15px] text-ink outline-none transition
       placeholder:text-subtle focus:border-line focus:ring-0;
   }
   .label {
