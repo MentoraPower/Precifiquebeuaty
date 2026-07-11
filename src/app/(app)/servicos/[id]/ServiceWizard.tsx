@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Plus, Trash2, Package, Star, AlertTriangle, Info } from 'lucide-react'
+import { Plus, Trash2, Package, AlertTriangle, Info } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { formatCents, formatBps } from '@/lib/format'
 import {
@@ -442,9 +442,6 @@ function ResultView({
   return (
     <div className="space-y-4">
       <div className="flex flex-col items-center py-4">
-        <span className="mb-3 flex h-16 w-16 items-center justify-center rounded-pill bg-champagne text-gold">
-          <Star className="h-8 w-8" fill="currentColor" />
-        </span>
         <p className="text-[13px] text-muted">Seu preço sugerido</p>
         <p className="text-[40px] font-bold leading-none">{formatCents(pricing.suggestedPriceCents)}</p>
         <div className="mt-3">
