@@ -13,7 +13,7 @@ interface AppHeaderProps {
 export function AppHeader({ title, subtitle, back, right }: AppHeaderProps) {
   const router = useRouter()
   return (
-    <header className="safe-top sticky top-0 z-30 bg-surface/90 px-5 pb-2 pt-4 backdrop-blur">
+    <header className="safe-top px-5 pb-2 pt-4">
       <div className="flex items-start gap-3">
         {back && (
           <button
