@@ -27,7 +27,7 @@ export function ListScreenSkeleton({
     <main>
       <TopLoadingBar />
       <header className={`safe-top px-5 pb-2 pt-5 ${center ? 'text-center' : ''}`}>
-        <h1 className={`${center ? 'text-[30px] font-medium' : 'text-[22px] font-bold'} leading-tight`}>{title}</h1>
+        <h1 className={`${center ? 'text-[34px] font-medium' : 'text-[22px] font-bold'} leading-tight`}>{title}</h1>
         {subtitle && <p className={`mt-1 text-[13px] text-muted ${center ? 'mx-auto max-w-[300px]' : ''}`}>{subtitle}</p>}
       </header>
 
