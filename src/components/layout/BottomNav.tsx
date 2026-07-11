@@ -25,6 +25,13 @@ export function BottomNav() {
   const router = useRouter()
   const [open, setOpen] = useState(false)
 
+  // Esconde a navegação nas telas de cadastro (wizards com Cancelar/Continuar).
+  const isWizard =
+    pathname.startsWith('/servicos/') ||
+    pathname.startsWith('/simulacoes/campanha/') ||
+    pathname.startsWith('/simulacoes/novo/')
+  if (isWizard) return null
+
   return (
     <>
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-line bg-bg/95 backdrop-blur">
