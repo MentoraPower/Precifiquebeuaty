@@ -3,14 +3,14 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Plus, Scissors, MoreVertical, Clock } from 'lucide-react'
+import { Plus, Scissors, Clock, Pencil, Copy, Power, Trash2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { formatCents } from '@/lib/format'
 import type { ServiceRow } from '@/lib/database.types'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { Button } from '@/components/ui/Button'
-import { Chip, Badge, EmptyState } from '@/components/ui/misc'
-import { BottomSheet } from '@/components/ui/BottomSheet'
+import { Chip, EmptyState } from '@/components/ui/misc'
+import { KebabMenu } from '@/components/ui/KebabMenu'
 
 type Filter = 'all' | 'active' | 'inactive'
 
@@ -19,7 +19,6 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   const supabase = createClient()
   const [items, setItems] = useState(initial)
   const [filter, setFilter] = useState<Filter>('all')
-  const [menu, setMenu] = useState<ServiceRow | null>(null)
 
   const filtered = items.filter((s) =>
     filter === 'all' ? true : filter === 'active' ? s.status === 'active' : s.status === 'inactive',
@@ -32,13 +31,11 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   async function toggleStatus(s: ServiceRow) {
     const next = s.status === 'active' ? 'inactive' : 'active'
     setItems((prev) => prev.map((x) => (x.id === s.id ? { ...x, status: next } : x)))
-    setMenu(null)
     await supabase.from('services').update({ status: next }).eq('id', s.id)
     router.refresh()
   }
 
   async function duplicate(s: ServiceRow) {
-    setMenu(null)
     const {
       data: { user },
     } = await supabase.auth.getUser()
@@ -64,7 +61,6 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
 
   async function archive(s: ServiceRow) {
     if (!confirm(`Excluir "${s.name}"?`)) return
-    setMenu(null)
     setItems((p) => p.filter((x) => x.id !== s.id))
     await supabase.from('services').update({ deleted_at: new Date().toISOString() }).eq('id', s.id)
     router.refresh()
@@ -124,8 +120,8 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <p className="truncate text-[14px] font-medium">{s.name}</p>
-                      {s.status === 'draft' && <Badge tone="gold">rascunho</Badge>}
-                      {s.status === 'inactive' && <Badge tone="neutral">inativo</Badge>}
+                      {s.status === 'draft' && <StatusTag label="Rascunho" tone="draft" />}
+                      {s.status === 'inactive' && <StatusTag label="Inativo" tone="inactive" />}
                     </div>
                     <p className="flex items-center gap-1 text-[12px] text-muted">
                       <Clock className="h-3 w-3" /> {s.duration_minutes} min
@@ -133,45 +129,32 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
                   </div>
                 </Link>
                 <span className="text-[15px] font-semibold">{price != null ? formatCents(price) : '—'}</span>
-                <button onClick={() => setMenu(s)} className="text-subtle hover:text-ink" aria-label="Opções">
-                  <MoreVertical className="h-5 w-5" />
-                </button>
+                <KebabMenu
+                  items={[
+                    { label: 'Editar', icon: Pencil, onClick: () => router.push(`/servicos/${s.id}`) },
+                    { label: 'Duplicar', icon: Copy, onClick: () => duplicate(s) },
+                    { label: s.status === 'active' ? 'Inativar' : 'Ativar', icon: Power, onClick: () => toggleStatus(s) },
+                    { label: 'Excluir', icon: Trash2, onClick: () => archive(s), danger: true },
+                  ]}
+                />
               </div>
             )
           })
         )}
       </div>
-
-      <BottomSheet open={!!menu} onClose={() => setMenu(null)} title={menu?.name}>
-        {menu && (
-          <div className="space-y-1">
-            <Link href={`/servicos/${menu.id}`} className="block">
-              <MenuItem>Editar</MenuItem>
-            </Link>
-            <button className="w-full" onClick={() => duplicate(menu)}>
-              <MenuItem>Duplicar</MenuItem>
-            </button>
-            <button className="w-full" onClick={() => toggleStatus(menu)}>
-              <MenuItem>{menu.status === 'active' ? 'Inativar' : 'Ativar'}</MenuItem>
-            </button>
-            <button className="w-full" onClick={() => archive(menu)}>
-              <MenuItem danger>Excluir</MenuItem>
-            </button>
-          </div>
-        )}
-      </BottomSheet>
     </main>
   )
 }
 
-function MenuItem({ children, danger }: { children: React.ReactNode; danger?: boolean }) {
+// Etiqueta de status sólida e discreta (sem preenchimento colorido).
+function StatusTag({ label, tone }: { label: string; tone: 'draft' | 'inactive' }) {
   return (
-    <div
-      className={`rounded-btn px-4 py-3 text-left text-[15px] transition hover:bg-surface ${
-        danger ? 'text-danger' : 'text-ink'
+    <span
+      className={`shrink-0 rounded-md border px-1.5 py-0.5 text-[11px] font-medium ${
+        tone === 'draft' ? 'border-gold/40 text-gold' : 'border-line text-subtle'
       }`}
     >
-      {children}
-    </div>
+      {label}
+    </span>
   )
 }
