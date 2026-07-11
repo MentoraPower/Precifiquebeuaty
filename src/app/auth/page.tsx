@@ -23,8 +23,7 @@ export default function AuthPage() {
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) throw error
-      router.replace('/')
-      router.refresh()
+      router.replace('/home')
     } catch (err) {
       setError(err instanceof Error ? traduzErro(err.message) : 'Não foi possível continuar.')
     } finally {
