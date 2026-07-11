@@ -1,19 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import {
-  Briefcase,
-  Boxes,
-  Receipt,
-  Info,
-  LogOut,
-  ChevronRight,
-  User,
-  Lock,
-  Check,
-} from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Briefcase, Boxes, Receipt, LogOut, ChevronRight, User, Lock, Check, Camera, Loader2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { initials, formatBps } from '@/lib/format'
 import { Button } from '@/components/ui/Button'
@@ -30,43 +20,120 @@ interface Defaults {
   marginBps: number
 }
 
+// Redimensiona/recorta a imagem para um quadrado pequeno (JPEG leve).
+function resizeImage(file: File, size = 256): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onerror = () => reject(new Error('read'))
+    reader.onload = () => {
+      const img = new window.Image()
+      img.onerror = () => reject(new Error('img'))
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        canvas.width = size
+        canvas.height = size
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return reject(new Error('ctx'))
+        const min = Math.min(img.width, img.height)
+        const sx = (img.width - min) / 2
+        const sy = (img.height - min) / 2
+        ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size)
+        canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('blob'))), 'image/jpeg', 0.85)
+      }
+      img.src = reader.result as string
+    }
+    reader.readAsDataURL(file)
+  })
+}
+
+function Avatar({ url, name, size }: { url: string | null; name: string; size: number }) {
+  const cls = `flex shrink-0 items-center justify-center overflow-hidden rounded-pill bg-ink text-white font-bold`
+  if (url) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={url} alt={name} className={`${cls} object-cover`} style={{ width: size, height: size }} />
+  }
+  return (
+    <span className={cls} style={{ width: size, height: size, fontSize: size * 0.32 }}>
+      {initials(name)}
+    </span>
+  )
+}
+
 export function MenuClient({
   email,
   fullName,
   profession,
   plan,
+  avatarUrl: initialAvatarUrl,
   defaults,
 }: {
   email: string
   fullName: string
   profession: string
   plan: string
+  avatarUrl: string | null
   defaults: Defaults
 }) {
   const router = useRouter()
   const supabase = createClient()
   const confirm = useConfirm()
+  const params = useSearchParams()
+  const fileRef = useRef<HTMLInputElement>(null)
 
   const [profileOpen, setProfileOpen] = useState(false)
   const [passwordOpen, setPasswordOpen] = useState(false)
   const [feesOpen, setFeesOpen] = useState(false)
-  const [aboutOpen, setAboutOpen] = useState(false)
 
   const [name, setName] = useState(fullName)
   const [prof, setProf] = useState(profession)
   const [displayName, setDisplayName] = useState(fullName)
   const [displayProf, setDisplayProf] = useState(profession)
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(initialAvatarUrl)
   const [fees, setFees] = useState(defaults)
 
   const [savingProfile, setSavingProfile] = useState(false)
   const [savingFees, setSavingFees] = useState(false)
+  const [uploading, setUploading] = useState(false)
 
-  // troca de senha
   const [pw1, setPw1] = useState('')
   const [pw2, setPw2] = useState('')
   const [pwSaving, setPwSaving] = useState(false)
   const [pwError, setPwError] = useState<string | null>(null)
   const [pwDone, setPwDone] = useState(false)
+
+  // abre o perfil automaticamente quando vem da Home (?profile=1)
+  useEffect(() => {
+    if (params.get('profile')) setProfileOpen(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (fileRef.current) fileRef.current.value = ''
+    if (!file) return
+    setUploading(true)
+    try {
+      const blob = await resizeImage(file, 256)
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+      const path = `${user.id}/avatar.jpg`
+      const { error: upErr } = await supabase.storage
+        .from('avatars')
+        .upload(path, blob, { upsert: true, contentType: 'image/jpeg' })
+      if (upErr) throw upErr
+      const { data } = supabase.storage.from('avatars').getPublicUrl(path)
+      const url = `${data.publicUrl}?t=${Date.now()}`
+      await supabase.from('profiles').update({ avatar_url: url }).eq('id', user.id)
+      setAvatarUrl(url)
+      router.refresh()
+    } catch {
+      await confirm({ title: 'Não foi possível enviar a foto', message: 'Tente novamente com outra imagem.', confirmLabel: 'Ok', cancelLabel: 'Fechar' })
+    } finally {
+      setUploading(false)
+    }
+  }
 
   async function saveProfile() {
     setSavingProfile(true)
@@ -142,9 +209,7 @@ export function MenuClient({
           onClick={() => setProfileOpen(true)}
           className="flex w-full items-center gap-4 rounded-card border border-line bg-bg p-4 text-left transition hover:border-ink/20"
         >
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-pill bg-ink text-[18px] font-bold text-white">
-            {initials(displayName)}
-          </span>
+          <Avatar url={avatarUrl} name={displayName} size={56} />
           <div className="min-w-0 flex-1">
             <p className="truncate text-[17px] font-bold">{displayName || 'Sua conta'}</p>
             <p className="truncate text-[13px] text-muted">{email}</p>
@@ -155,7 +220,7 @@ export function MenuClient({
         </button>
 
         <Section title="Conta">
-          <Row icon={User} label="Editar perfil" hint={displayProf || 'Nome e profissão'} onClick={() => setProfileOpen(true)} />
+          <Row icon={User} label="Editar perfil" hint={displayProf || 'Nome, foto e profissão'} onClick={() => setProfileOpen(true)} />
           <Row icon={Lock} label="Trocar senha" onClick={() => setPasswordOpen(true)} />
         </Section>
 
@@ -167,7 +232,6 @@ export function MenuClient({
 
         <Section title="Aplicativo">
           <InstallPWARow />
-          <Row icon={Info} label="Sobre o app" onClick={() => setAboutOpen(true)} />
         </Section>
 
         <Button variant="outline" fullWidth size="lg" onClick={signOut} className="text-danger">
@@ -175,13 +239,26 @@ export function MenuClient({
         </Button>
       </div>
 
+      <input ref={fileRef} type="file" accept="image/*" hidden onChange={handleFile} />
+
       {/* Editar perfil */}
       <Modal open={profileOpen} onClose={() => setProfileOpen(false)} title="Editar perfil">
-        <div className="space-y-4">
-          <div className="flex justify-center">
-            <span className="flex h-16 w-16 items-center justify-center rounded-pill bg-ink text-[20px] font-bold text-white">
-              {initials(name)}
-            </span>
+        <div className="space-y-5">
+          <div className="flex flex-col items-center">
+            <div className="relative">
+              <Avatar url={avatarUrl} name={name} size={88} />
+              <button
+                onClick={() => fileRef.current?.click()}
+                disabled={uploading}
+                aria-label="Trocar foto"
+                className="absolute -bottom-1 -right-1 flex h-9 w-9 items-center justify-center rounded-pill border-[3px] border-bg bg-ink text-white transition active:scale-95"
+              >
+                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
+              </button>
+            </div>
+            <button onClick={() => fileRef.current?.click()} className="mt-3 text-[13px] font-medium text-gold" disabled={uploading}>
+              {uploading ? 'Enviando…' : 'Trocar foto'}
+            </button>
           </div>
           <Input label="Nome" value={name} onChange={(e) => setName(e.target.value)} placeholder="Seu nome" />
           <Input label="Profissão" value={prof} onChange={(e) => setProf(e.target.value)} placeholder="Ex.: Designer de sobrancelhas" />
@@ -225,17 +302,6 @@ export function MenuClient({
           </Button>
         </div>
       </Modal>
-
-      {/* Sobre */}
-      <Modal open={aboutOpen} onClose={() => setAboutOpen(false)} title="Sobre o app">
-        <div className="space-y-2 text-[14px] text-muted">
-          <p className="flex items-center gap-2 font-semibold text-ink">
-            <User className="h-4 w-4" /> W Calculadora
-          </p>
-          <p>Precifique com clareza, calcule seu lucro e a viabilidade das suas campanhas.</p>
-          <p className="pt-1 text-[12px] text-subtle">Versão 1.0.0</p>
-        </div>
-      </Modal>
     </main>
   )
 }
@@ -254,14 +320,12 @@ function Row({
   label,
   hint,
   href,
-  external,
   onClick,
 }: {
   icon: typeof Briefcase
   label: string
   hint?: string
   href?: string
-  external?: boolean
   onClick?: () => void
 }) {
   const inner = (
@@ -278,11 +342,7 @@ function Row({
   )
   const cls = 'flex w-full items-center gap-3 px-4 py-3.5 text-left transition hover:bg-surface'
   if (href) {
-    return external ? (
-      <a href={href} className={cls}>
-        {inner}
-      </a>
-    ) : (
+    return (
       <Link href={href} className={cls}>
         {inner}
       </Link>

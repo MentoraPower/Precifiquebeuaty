@@ -12,7 +12,7 @@ export default async function MenuPage() {
   if (!user) redirect('/auth')
 
   const [{ data: profile }, { data: settings }] = await Promise.all([
-    supabase.from('profiles').select('full_name, profession, plan').eq('id', user.id).single(),
+    supabase.from('profiles').select('full_name, profession, plan, avatar_url').eq('id', user.id).single(),
     supabase
       .from('business_settings')
       .select('default_card_fee_bps, default_tax_bps, default_commission_bps, default_margin_bps')
@@ -25,6 +25,7 @@ export default async function MenuPage() {
       fullName={profile?.full_name ?? ''}
       profession={profile?.profession ?? ''}
       plan={profile?.plan ?? 'essencial'}
+      avatarUrl={profile?.avatar_url ?? null}
       defaults={{
         cardFeeBps: settings?.default_card_fee_bps ?? 0,
         taxBps: settings?.default_tax_bps ?? 0,

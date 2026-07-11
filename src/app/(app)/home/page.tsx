@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
-import { Bell, LayoutGrid, Package, LineChart, Layers, ArrowRight, TrendingUp } from 'lucide-react'
+import { LayoutGrid, Package, LineChart, Layers, ArrowRight, TrendingUp } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { getSessionUser } from '@/lib/supabase/session'
 import { getBusinessContext } from '@/lib/queries'
-import { formatCents, formatDateBR } from '@/lib/format'
+import { formatCents, formatDateBR, initials } from '@/lib/format'
 import { Card, DarkCard } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/misc'
 import { TopLoadingBar } from '@/components/TopLoadingBar'
@@ -20,7 +20,7 @@ export default async function HomePage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name, onboarding_completed')
+    .select('full_name, onboarding_completed, avatar_url')
     .eq('id', user.id)
     .single()
 
@@ -34,9 +34,20 @@ export default async function HomePage() {
           <p className="text-[20px] font-bold">Olá, {firstName}</p>
           <p className="text-[13px] text-muted">Tenha controle e aumente seu lucro.</p>
         </div>
-        <button className="rounded-pill border border-line bg-bg p-2.5 text-ink" aria-label="Notificações">
-          <Bell className="h-5 w-5" />
-        </button>
+        <Link href="/menu?profile=1" aria-label="Perfil" className="shrink-0">
+          {profile?.avatar_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={profile.avatar_url}
+              alt={firstName}
+              className="h-11 w-11 rounded-pill object-cover"
+            />
+          ) : (
+            <span className="flex h-11 w-11 items-center justify-center rounded-pill bg-ink text-[15px] font-bold text-white">
+              {initials(profile?.full_name)}
+            </span>
+          )}
+        </Link>
       </header>
 
       <Suspense fallback={<HomeSkeleton />}>
