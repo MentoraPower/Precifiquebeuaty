@@ -179,7 +179,12 @@ export type Database = {
       campaign_items: Table<CampaignItemRow>
     }
     Views: Record<string, never>
-    Functions: Record<string, never>
+    Functions: {
+      email_has_account: {
+        Args: { p_email: string }
+        Returns: boolean
+      }
+    }
     Enums: Record<string, never>
     CompositeTypes: Record<string, never>
   }

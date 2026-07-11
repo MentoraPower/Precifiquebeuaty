@@ -55,6 +55,14 @@ export default function AuthPage() {
     if (!email.trim()) return setError('Informe seu e-mail.')
     setLoading(true)
     try {
+      // só envia se o e-mail tiver conta na plataforma
+      const { data: exists, error: checkErr } = await supabase.rpc('email_has_account', { p_email: email })
+      if (checkErr) throw checkErr
+      if (!exists) {
+        setError('Não encontramos uma conta com esse e-mail.')
+        setLoading(false)
+        return
+      }
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth`,
       })
