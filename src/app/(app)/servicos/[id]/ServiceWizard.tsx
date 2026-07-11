@@ -23,6 +23,7 @@ import { BottomSheet } from '@/components/ui/BottomSheet'
 import { Card, DarkCard } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/misc'
 import { SaveStatus, type SaveState } from '@/components/ui/SaveStatus'
+import { useConfirm } from '@/components/ConfirmProvider'
 
 interface LocalInput {
   id: string
@@ -56,6 +57,7 @@ export function ServiceWizard({
 }) {
   const router = useRouter()
   const supabase = createClient()
+  const confirm = useConfirm()
   const isNew = !service
 
   const [step, setStep] = useState(0)
@@ -407,6 +409,14 @@ export function ServiceWizard({
   }
 
   async function removeInput(input: LocalInput) {
+    const p = productMap.get(input.product_id)
+    const ok = await confirm({
+      title: 'Remover insumo',
+      message: `Remover "${p?.name ?? 'este insumo'}" deste serviço?`,
+      confirmLabel: 'Remover',
+      danger: true,
+    })
+    if (!ok) return
     setInputs((prev) => prev.filter((x) => x.id !== input.id))
     await supabase.from('service_inputs').delete().eq('id', input.id)
   }

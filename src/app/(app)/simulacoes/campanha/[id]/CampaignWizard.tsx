@@ -17,6 +17,7 @@ import { BottomSheet } from '@/components/ui/BottomSheet'
 import { Card, DarkCard } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/misc'
 import { SaveStatus, type SaveState } from '@/components/ui/SaveStatus'
+import { useConfirm } from '@/components/ConfirmProvider'
 
 export interface OfferService {
   id: string
@@ -45,6 +46,7 @@ export function CampaignWizard({
 }) {
   const router = useRouter()
   const supabase = createClient()
+  const confirm = useConfirm()
   const isNew = !campaign
   const [step, setStep] = useState(0)
   const [name, setName] = useState(campaign?.name ?? '')
@@ -318,6 +320,8 @@ export function CampaignWizard({
   }
 
   async function removeExpense(e: CampaignExpenseRow) {
+    const ok = await confirm({ title: 'Remover gasto', message: `Remover "${e.name}"?`, confirmLabel: 'Remover', danger: true })
+    if (!ok) return
     setExpenses((prev) => prev.filter((x) => x.id !== e.id))
     await supabase.from('campaign_expenses').delete().eq('id', e.id)
   }
