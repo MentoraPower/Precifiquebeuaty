@@ -192,9 +192,9 @@ export function MenuClient({
   async function signOut() {
     const ok = await confirm({ title: 'Sair da conta', message: 'Deseja encerrar sua sessão?', confirmLabel: 'Sair' })
     if (!ok) return
-    await supabase.auth.signOut()
+    // logout local (sem ida à rede para revogar) — instantâneo
+    await supabase.auth.signOut({ scope: 'local' })
     router.replace('/auth')
-    router.refresh()
   }
 
   return (
