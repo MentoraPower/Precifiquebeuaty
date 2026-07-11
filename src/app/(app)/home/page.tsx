@@ -102,7 +102,7 @@ async function HomeBody() {
   const [ctx, counts] = await Promise.all([getBusinessContext(), getCounts()])
 
   return (
-    <div className="space-y-4 px-5 pt-6">
+    <div className="px-5 pt-6">
       {/* Números do negócio — pills (rolagem horizontal, edge-to-edge) */}
       <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5">
         <StatPill href="/servicos" value={counts.services} label="serviços" />
@@ -112,13 +112,13 @@ async function HomeBody() {
       </div>
 
       {/* Atalhos em 2 colunas */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="mt-4 grid grid-cols-2 gap-3">
         <ActionTile href="/servicos/novo" icon={Scissors} title="Precificar serviço" subtitle="Preço ideal com lucro" />
         <ActionTile href="/simulacoes/campanha/novo" icon={Megaphone} title="Analisar campanha" subtitle="Descubra o ROI" />
       </div>
 
       {/* Custo mensal */}
-      <Link href="/negocio">
+      <Link href="/negocio" className="mt-7 block">
         <Card className="flex items-center gap-3.5">
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-champagne text-gold">
             <TrendingUp className="h-5 w-5" />
