@@ -5,10 +5,6 @@ import { cn } from '@/lib/utils'
 export function Stepper({ steps, current }: { steps: string[]; current: number }) {
   return (
     <div>
-      <p className="mb-4 text-[12px] font-medium text-muted">
-        Etapa {current + 1} de {steps.length} · <span className="font-semibold text-ink">{steps[current]}</span>
-      </p>
-
       <div className="flex items-start">
         {steps.map((label, i) => {
           const done = i < current
