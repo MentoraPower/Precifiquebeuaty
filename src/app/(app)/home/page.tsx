@@ -30,7 +30,7 @@ export default async function HomePage() {
   return (
     <main>
       {/* Card preto full-width: saudação + avatar + custo da hora (só a base arredondada) */}
-      <section className="relative overflow-hidden rounded-b-[40px] bg-ink text-white">
+      <section className="relative overflow-hidden rounded-b-[40px] bg-ink text-white shadow-[0_14px_22px_-16px_rgba(17,17,17,0.22)]">
         <div className="pointer-events-none absolute inset-0 bg-[url('/hourly-bg.jpg')] bg-cover bg-center" />
         <div className="relative px-5 pb-6" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 18px)' }}>
           <div className="flex items-center justify-between">
