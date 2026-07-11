@@ -11,7 +11,7 @@ import { percentOfCents, roundCents, calculatePricing, BPS_DENOMINATOR } from '@
 import { AppHeader } from '@/components/layout/AppHeader'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { MoneyField, PercentField } from '@/components/ui/MoneyField'
+import { MoneyField, PercentField, DurationField } from '@/components/ui/MoneyField'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/misc'
 
@@ -146,7 +146,7 @@ export function SimulationForm({
           </>
         )}
         {type === 'time_reduction' && (
-          <Input label="Nova duração (min)" type="number" value={newDuration || ''} onChange={(e) => setNewDuration(Number(e.target.value))} suffix="min" />
+          <DurationField label="Nova duração" valueMinutes={newDuration} onChangeMinutes={setNewDuration} hint="Formato horas : minutos" />
         )}
         {type === 'combo' && (
           <PercentField label="Desconto do combo" valueBps={discountPct} onChangeBps={setDiscountPct} />

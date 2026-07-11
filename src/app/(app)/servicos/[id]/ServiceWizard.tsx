@@ -17,7 +17,7 @@ import type { ProductRow, ServiceInputRow, ServiceRow } from '@/lib/database.typ
 import { AppHeader } from '@/components/layout/AppHeader'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { MoneyField, PercentField } from '@/components/ui/MoneyField'
+import { MoneyField, PercentField, DurationField } from '@/components/ui/MoneyField'
 import { Stepper } from '@/components/ui/Stepper'
 import { BottomSheet } from '@/components/ui/BottomSheet'
 import { Card, DarkCard } from '@/components/ui/Card'
@@ -225,16 +225,14 @@ export function ServiceWizard({
               }}
               placeholder="Ex.: Design de sobrancelhas"
             />
-            <Input
-              label="Duração (minutos)"
-              type="number"
-              min={0}
-              value={duration || ''}
-              onChange={(e) => {
-                setDuration(Number(e.target.value))
-                persistFields({ duration_minutes: Number(e.target.value) })
+            <DurationField
+              label="Duração"
+              valueMinutes={duration}
+              onChangeMinutes={(v) => {
+                setDuration(v)
+                persistFields({ duration_minutes: v })
               }}
-              suffix="min"
+              hint="Formato horas : minutos (ex.: 01:30 = 1h30)"
             />
             <MoneyField
               label="Custos adicionais fixos (opcional)"
