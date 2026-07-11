@@ -72,7 +72,7 @@ export function NegocioClient({
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3.5">
       <div className="flex justify-end">
         <SaveStatus state={saveState} onRetry={() => persist(settings)} />
       </div>

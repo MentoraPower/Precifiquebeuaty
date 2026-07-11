@@ -159,7 +159,7 @@ export function CampaignWizard({
             <Button fullWidth variant="outline" onClick={() => setSheetOpen(true)}>
               <Plus className="h-5 w-5" /> Adicionar gasto
             </Button>
-            <div className="space-y-2">
+            <div className="space-y-3.5">
               {expenses.map((e) => (
                 <div key={e.id} className="flex items-center gap-3 rounded-card border border-line bg-bg px-4 py-3">
                   <span className="flex-1 text-[14px] font-medium">{e.name}</span>

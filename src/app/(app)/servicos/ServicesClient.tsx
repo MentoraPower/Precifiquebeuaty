@@ -96,7 +96,7 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
         </Chip>
       </div>
 
-      <div className="space-y-2 px-5 pt-2">
+      <div className="space-y-3.5 px-5 pt-2">
         {filtered.length === 0 ? (
           <EmptyState
             icon={<Scissors className="h-8 w-8" />}
