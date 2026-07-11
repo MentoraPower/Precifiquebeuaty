@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Wallet, CalendarDays, Clock, Receipt, TrendingDown, ChevronRight, Boxes, Info } from 'lucide-react'
+import { Wallet, CalendarDays, Clock, Receipt, ArrowUpDown, ChevronRight, Boxes, Info } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { formatCents } from '@/lib/format'
 import { DarkCard } from '@/components/ui/Card'
@@ -99,7 +99,7 @@ export function NegocioClient({
         <Row icon={Receipt} label="Custos fixos" value={`${formatCents(fixedTotalCents)}/mês`} asDiv />
       </Link>
       <Link href="/negocio/custos?type=variable" className="block">
-        <Row icon={TrendingDown} label="Custos variáveis" value={`${formatCents(variableTotalCents)}/mês`} asDiv />
+        <Row icon={ArrowUpDown} label="Custos variáveis" value={`${formatCents(variableTotalCents)}/mês`} asDiv />
       </Link>
       <Link href="/negocio/investimentos" className="block">
         <Row icon={Boxes} label="Investimentos (depreciação)" value={`${formatCents(depreciationCents)}/mês`} asDiv />

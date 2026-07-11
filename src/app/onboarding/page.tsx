@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Briefcase, CalendarDays, Clock, Wallet, Sparkles } from 'lucide-react'
+import { Briefcase, CalendarDays, Clock, Wallet, Calculator } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -80,7 +80,7 @@ export default function OnboardingPage() {
           <div className="flex flex-1 flex-col">
             <div className="flex flex-1 flex-col justify-center">
               <div className="mb-8 flex h-40 items-center justify-center rounded-card bg-champagne/50">
-                <Sparkles className="h-16 w-16 text-gold" strokeWidth={1.4} />
+                <Calculator className="h-16 w-16 text-gold" strokeWidth={1.4} />
               </div>
               <h1 className="text-[28px] font-bold leading-tight">Preço certo,{'\n'}lucro real</h1>
               <p className="mt-3 text-[15px] leading-relaxed text-muted">

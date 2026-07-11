@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Briefcase, Boxes, Receipt, LogOut, ChevronRight, User, Lock, Check, Camera, Loader2 } from 'lucide-react'
+import { Store, Boxes, Percent, LogOut, ChevronRight, User, Lock, Check, Camera, Loader2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { initials, formatBps } from '@/lib/format'
 import { Button } from '@/components/ui/Button'
@@ -199,7 +199,10 @@ export function MenuClient({
 
   return (
     <main>
-      <header className="safe-top px-5 pb-2 pt-5">
+      <header
+        className="px-5 pb-2"
+        style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 16px)' }}
+      >
         <h1 className="text-[22px] font-bold leading-tight">Menu</h1>
       </header>
 
@@ -225,9 +228,9 @@ export function MenuClient({
         </Section>
 
         <Section title="Negócio">
-          <Row icon={Briefcase} label="Meu negócio" href="/negocio" />
+          <Row icon={Store} label="Meu negócio" href="/negocio" />
           <Row icon={Boxes} label="Investimentos" href="/negocio/investimentos" />
-          <Row icon={Receipt} label="Impostos e taxas" hint={`Margem padrão ${formatBps(fees.marginBps)}`} onClick={() => setFeesOpen(true)} />
+          <Row icon={Percent} label="Impostos e taxas" hint={`Margem padrão ${formatBps(fees.marginBps)}`} onClick={() => setFeesOpen(true)} />
         </Section>
 
         <Section title="Aplicativo">
@@ -322,7 +325,7 @@ function Row({
   href,
   onClick,
 }: {
-  icon: typeof Briefcase
+  icon: typeof Store
   label: string
   hint?: string
   href?: string

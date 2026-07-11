@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
-import { ArrowRight, TrendingUp, Scissors, Megaphone, ChevronRight } from 'lucide-react'
+import { ArrowRight, Wallet, Scissors, Megaphone, ChevronRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { getSessionUser } from '@/lib/supabase/session'
 import { getBusinessContext } from '@/lib/queries'
@@ -121,7 +121,7 @@ async function HomeBody() {
       <Link href="/negocio" className="mt-4 block">
         <Card className="flex items-center gap-3.5">
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brown text-white">
-            <TrendingUp className="h-5 w-5" />
+            <Wallet className="h-5 w-5" />
           </span>
           <div className="min-w-0 flex-1">
             <p className="text-[13px] text-muted">Custo mensal do negócio</p>
