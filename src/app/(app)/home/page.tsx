@@ -103,12 +103,14 @@ async function HomeBody() {
 
   return (
     <div className="px-5 pt-6">
-      {/* Números do negócio — pills (rolagem horizontal, edge-to-edge) */}
-      <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5">
-        <StatPill href="/servicos" value={counts.services} label="serviços" />
-        <StatPill href="/negocio/insumos" value={counts.products} label="insumos" />
-        <StatPill href="/simulacoes" value={counts.simulations} label="simulações" />
-        <StatPill href="/simulacoes" value={counts.campaigns} label="campanhas" />
+      {/* Números do negócio — pills dentro de um fundo leve translúcido */}
+      <div className="overflow-hidden rounded-2xl bg-ink/[0.04] p-2">
+        <div className="no-scrollbar flex gap-2 overflow-x-auto">
+          <StatPill href="/servicos" value={counts.services} label="serviços" />
+          <StatPill href="/negocio/insumos" value={counts.products} label="insumos" />
+          <StatPill href="/simulacoes" value={counts.simulations} label="simulações" />
+          <StatPill href="/simulacoes" value={counts.campaigns} label="campanhas" />
+        </div>
       </div>
 
       {/* Atalhos em 2 colunas */}
