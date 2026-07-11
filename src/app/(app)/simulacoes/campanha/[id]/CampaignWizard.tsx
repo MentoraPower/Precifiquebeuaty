@@ -157,7 +157,7 @@ export function CampaignWizard({
         subtitle="Veja a viabilidade antes de investir."
         right={<SaveStatus state={saveState} onRetry={() => persist({ name })} />}
       />
-      <div className="px-5 pt-2">
+      <div className="px-5 pt-4 pb-1">
         <Stepper steps={STEPS} current={step} />
       </div>
 

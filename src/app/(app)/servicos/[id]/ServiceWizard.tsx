@@ -208,7 +208,7 @@ export function ServiceWizard({
         right={<SaveStatus state={saveState} onRetry={() => persistFields({ name })} />}
       />
 
-      <div className="px-5 pt-2">
+      <div className="px-5 pt-4 pb-1">
         <Stepper steps={STEPS} current={step} />
       </div>
 

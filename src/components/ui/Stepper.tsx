@@ -4,30 +4,53 @@ import { cn } from '@/lib/utils'
 /** Indicador de etapas do wizard (Básico, Insumos, Custos, Resultado). */
 export function Stepper({ steps, current }: { steps: string[]; current: number }) {
   return (
-    <div className="flex items-center justify-between">
-      {steps.map((label, i) => {
-        const done = i < current
-        const active = i === current
-        return (
-          <div key={label} className="flex flex-1 flex-col items-center gap-1.5">
-            <div className="flex w-full items-center">
-              {i > 0 && <div className={cn('h-0.5 flex-1', done || active ? 'bg-gold' : 'bg-line')} />}
-              <div
+    <div>
+      <p className="mb-4 text-[12px] font-medium text-muted">
+        Etapa {current + 1} de {steps.length} · <span className="font-semibold text-ink">{steps[current]}</span>
+      </p>
+
+      <div className="flex items-start">
+        {steps.map((label, i) => {
+          const done = i < current
+          const active = i === current
+          return (
+            <div key={label} className="flex flex-1 flex-col items-center">
+              <div className="flex w-full items-center">
+                <span
+                  className={cn(
+                    'h-[3px] flex-1 rounded-full',
+                    i === 0 ? 'opacity-0' : done || active ? 'bg-gold' : 'bg-line',
+                  )}
+                />
+                <span
+                  className={cn(
+                    'flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[14px] font-bold transition',
+                    done && 'bg-gold text-white',
+                    active && 'bg-gold text-white ring-4 ring-champagne',
+                    !done && !active && 'border border-line bg-bg text-subtle',
+                  )}
+                >
+                  {done ? <Check className="h-4 w-4" strokeWidth={3} /> : i + 1}
+                </span>
+                <span
+                  className={cn(
+                    'h-[3px] flex-1 rounded-full',
+                    i === steps.length - 1 ? 'opacity-0' : done ? 'bg-gold' : 'bg-line',
+                  )}
+                />
+              </div>
+              <span
                 className={cn(
-                  'flex h-7 w-7 shrink-0 items-center justify-center rounded-pill text-[12px] font-semibold',
-                  done && 'bg-gold text-white',
-                  active && 'bg-gold text-white',
-                  !done && !active && 'border border-line bg-bg text-subtle',
+                  'mt-2.5 text-center text-[12px] leading-tight',
+                  active ? 'font-semibold text-ink' : done ? 'text-muted' : 'text-subtle',
                 )}
               >
-                {done ? <Check className="h-3.5 w-3.5" /> : i + 1}
-              </div>
-              {i < steps.length - 1 && <div className={cn('h-0.5 flex-1', done ? 'bg-gold' : 'bg-line')} />}
+                {label}
+              </span>
             </div>
-            <span className={cn('text-[11px]', active ? 'font-medium text-ink' : 'text-subtle')}>{label}</span>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
     </div>
   )
 }
