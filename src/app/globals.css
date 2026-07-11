@@ -16,6 +16,21 @@ body {
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
+/* Sem contorno de foco no clique e sem realce de toque no mobile */
+button,
+a,
+[role='button'],
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+button:focus,
+a:focus,
+[role='button']:focus {
+  outline: none;
+}
+
 /* Esconde a scrollbar mantendo o scroll (chips horizontais) */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
