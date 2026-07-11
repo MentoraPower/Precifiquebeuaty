@@ -118,7 +118,7 @@ async function HomeBody() {
       </div>
 
       {/* Custo mensal */}
-      <Link href="/negocio" className="mt-7 block">
+      <Link href="/negocio" className="mt-4 block">
         <Card className="flex items-center gap-3.5">
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brown text-white">
             <TrendingUp className="h-5 w-5" />
