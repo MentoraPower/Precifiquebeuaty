@@ -33,8 +33,8 @@ export default function AuthPage() {
 
   return (
     <main className="flex min-h-screen flex-col justify-center px-6 py-12">
-      <div className="mb-6">
-        <h1 className="text-[26px] font-bold leading-tight">Entrar</h1>
+      <div className="mb-6 text-center">
+        <h1 className="text-[28px] font-medium leading-tight">Entrar</h1>
         <p className="mt-1 text-[14px] text-muted">Acesse sua conta para continuar.</p>
       </div>
 
