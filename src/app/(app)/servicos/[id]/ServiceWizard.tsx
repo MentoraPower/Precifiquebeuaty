@@ -273,7 +273,7 @@ export function ServiceWizard({
                 <p className="text-[13px] text-muted">Sem insumos o custo considera apenas o tempo. Você pode seguir assim.</p>
               </Card>
             ) : (
-              <div className="space-y-3.5">
+              <div className="flex flex-col gap-4">
                 {inputs.map((i) => {
                   const p = productMap.get(i.product_id)
                   if (!p) return null

@@ -118,7 +118,7 @@ export function InvestmentsClient({ initial }: { initial: InvestmentRow[] }) {
         />
       ) : (
         <>
-          <div className="space-y-3.5">
+          <div className="flex flex-col gap-4">
             {items.map((i) => {
               const dep = calculateMonthlyDepreciation([
                 {
