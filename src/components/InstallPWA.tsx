@@ -48,7 +48,7 @@ export function InstallPWARow() {
   return (
     <>
       <button onClick={() => setOpen(true)} className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition hover:bg-surface">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-pill bg-champagne text-gold">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-pill bg-brown text-white">
           <Download className="h-[18px] w-[18px]" />
         </span>
         <span className="flex-1 text-[14px] font-medium">Instalar app</span>
@@ -57,7 +57,7 @@ export function InstallPWARow() {
 
       <Modal open={open} onClose={() => setOpen(false)} title="Instalar o app" subtitle="Tenha o W Calculadora na tela de início.">
         <div className="flex flex-col items-center text-center">
-          <span className="mb-4 flex h-16 w-16 items-center justify-center rounded-[20px] bg-champagne text-gold">
+          <span className="mb-4 flex h-16 w-16 items-center justify-center rounded-[20px] bg-brown text-white">
             <Smartphone className="h-8 w-8" />
           </span>
 

@@ -70,7 +70,7 @@ export function BottomNav() {
                       i > 0 && 'mt-0.5',
                     )}
                   >
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-champagne text-gold">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brown text-white">
                       <a.icon className="h-[18px] w-[18px]" />
                     </span>
                     <span className="min-w-0 flex-1">

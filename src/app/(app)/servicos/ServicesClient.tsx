@@ -114,7 +114,7 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
             return (
               <div key={s.id} className="flex h-[76px] items-center gap-3 rounded-card border border-line bg-bg px-4">
                 <Link href={`/servicos/${s.id}`} className="flex h-full flex-1 items-center gap-3">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-card bg-champagne text-gold">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-card bg-brown text-white">
                     <Scissors className="h-5 w-5" />
                   </span>
                   <div className="min-w-0 flex-1">

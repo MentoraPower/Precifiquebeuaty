@@ -58,7 +58,7 @@ export function SimulacoesClient({ initial }: { initial: SimItem[] }) {
       {items.map((item) => (
         <div key={`${item.kind}-${item.id}`} className="flex items-center gap-3 rounded-card border border-line bg-bg px-4 py-3.5">
           <Link href={item.href} className="flex min-w-0 flex-1 items-center gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-pill bg-champagne text-gold">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-pill bg-brown text-white">
               {item.kind === 'campaign' ? <Megaphone className="h-5 w-5" /> : <LineChart className="h-5 w-5" />}
             </span>
             <div className="min-w-0 flex-1">

@@ -156,7 +156,7 @@ function StepShell({
 }) {
   return (
     <div className="flex flex-1 flex-col">
-      <span className="mb-6 flex h-12 w-12 items-center justify-center rounded-pill bg-champagne text-gold">
+      <span className="mb-6 flex h-12 w-12 items-center justify-center rounded-pill bg-brown text-white">
         <Icon className="h-6 w-6" />
       </span>
       <h1 className="text-[24px] font-bold leading-tight">{title}</h1>

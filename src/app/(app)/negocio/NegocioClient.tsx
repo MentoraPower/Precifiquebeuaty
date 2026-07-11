@@ -182,7 +182,7 @@ function Row({
 }) {
   const inner = (
     <>
-      <span className="flex h-10 w-10 items-center justify-center rounded-pill bg-champagne text-gold">
+      <span className="flex h-10 w-10 items-center justify-center rounded-pill bg-brown text-white">
         <Icon className="h-5 w-5" />
       </span>
       <div className="flex-1">

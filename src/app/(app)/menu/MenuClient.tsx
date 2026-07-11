@@ -330,7 +330,7 @@ function Row({
 }) {
   const inner = (
     <>
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-pill bg-champagne text-gold">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-pill bg-brown text-white">
         <Icon className="h-[18px] w-[18px]" />
       </span>
       <div className="min-w-0 flex-1">

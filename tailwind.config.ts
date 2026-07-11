@@ -16,6 +16,7 @@ const config: Config = {
         subtle: '#9A968E',
         gold: '#D3A13B',
         champagne: '#F3E7CE',
+        brown: '#4E3A18',
         line: '#EAE7E1',
         success: '#2E9E5B',
         danger: '#D1483A',

@@ -120,7 +120,7 @@ async function HomeBody() {
       {/* Custo mensal */}
       <Link href="/negocio" className="mt-7 block">
         <Card className="flex items-center gap-3.5">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-champagne text-gold">
+          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brown text-white">
             <TrendingUp className="h-5 w-5" />
           </span>
           <div className="min-w-0 flex-1">
@@ -162,7 +162,7 @@ function ActionTile({
       href={href}
       className="flex h-full flex-col gap-3 rounded-[20px] border border-line bg-bg p-4 transition hover:border-ink/20 active:scale-[0.99]"
     >
-      <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-champagne text-gold">
+      <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brown text-white">
         <Icon className="h-[22px] w-[22px]" />
       </span>
       <div>
