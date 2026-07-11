@@ -75,7 +75,7 @@ export default async function SimulacoesPage() {
         </Link>
       </div>
 
-      <div className="space-y-5 px-5 pt-4">
+      <div className="flex flex-col gap-4 px-5 pt-4">
         {items.length === 0 ? (
           <EmptyState
             icon={<LineChart className="h-8 w-8" />}
