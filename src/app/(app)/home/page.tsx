@@ -29,22 +29,35 @@ export default async function HomePage() {
 
   return (
     <main>
-      <header
-        className="flex items-center justify-between px-5 pb-2"
-        style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 16px)' }}
-      >
-        <h1 className="text-[26px] font-bold leading-tight">Olá, {firstName}</h1>
-        <Link href="/menu?profile=1" aria-label="Perfil" className="shrink-0">
-          {profile?.avatar_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={profile.avatar_url} alt={firstName} className="h-12 w-12 rounded-pill object-cover" />
-          ) : (
-            <span className="flex h-12 w-12 items-center justify-center rounded-pill bg-ink text-[15px] font-bold text-white">
-              {initials(profile?.full_name)}
-            </span>
-          )}
-        </Link>
-      </header>
+      {/* Card preto full-width: saudação + avatar + custo da hora (só a base arredondada) */}
+      <section className="relative overflow-hidden rounded-b-[28px] bg-ink text-white">
+        <div className="pointer-events-none absolute inset-0 bg-[url('/hourly-bg.jpg')] bg-cover bg-center" />
+        <div className="relative px-5 pb-6" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 18px)' }}>
+          <div className="flex items-center justify-between">
+            <h1 className="text-[24px] font-bold leading-tight">Olá, {firstName}</h1>
+            <Link href="/menu?profile=1" aria-label="Perfil" className="shrink-0">
+              {profile?.avatar_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={profile.avatar_url}
+                  alt={firstName}
+                  className="h-11 w-11 rounded-pill object-cover ring-2 ring-white/20"
+                />
+              ) : (
+                <span className="flex h-11 w-11 items-center justify-center rounded-pill bg-white/15 text-[15px] font-bold text-white ring-2 ring-white/20">
+                  {initials(profile?.full_name)}
+                </span>
+              )}
+            </Link>
+          </div>
+
+          <Link href="/negocio" className="mt-8 block">
+            <Suspense fallback={<HourlySkeleton />}>
+              <HourlyValue />
+            </Suspense>
+          </Link>
+        </div>
+      </section>
 
       <Suspense fallback={<HomeSkeleton />}>
         <HomeBody />
@@ -53,36 +66,43 @@ export default async function HomePage() {
   )
 }
 
+async function HourlyValue() {
+  const ctx = await getBusinessContext()
+  return (
+    <div className="flex items-end justify-between">
+      <div>
+        <span className="rounded-pill bg-white/10 px-3 py-1 text-[12px] font-medium text-white/80">Custo da sua hora</span>
+        {ctx.hourlyCostCents != null ? (
+          <>
+            <p className="mt-4 text-[40px] font-bold leading-none">{formatCents(ctx.hourlyCostCents)}</p>
+            <p className="mt-2.5 text-[12px] text-white/45">Atualizado em {formatDateBR(ctx.settings?.updated_at)}</p>
+          </>
+        ) : (
+          <p className="mt-4 text-[17px] font-semibold text-gold">Configure seu negócio →</p>
+        )}
+      </div>
+      <span className="mb-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-pill bg-white/10">
+        <ArrowRight className="h-4 w-4 text-white/70" />
+      </span>
+    </div>
+  )
+}
+
+function HourlySkeleton() {
+  return (
+    <div>
+      <div className="h-6 w-32 rounded-pill bg-white/10" />
+      <div className="mt-4 h-10 w-48 rounded-xl bg-white/10" />
+      <div className="mt-3 h-3 w-28 rounded bg-white/10" />
+    </div>
+  )
+}
+
 async function HomeBody() {
   const [ctx, counts] = await Promise.all([getBusinessContext(), getCounts()])
 
   return (
-    <div className="space-y-7 px-5 pt-4">
-      {/* Hero — custo da hora */}
-      <Link href="/negocio">
-        <div className="relative overflow-hidden rounded-[26px] bg-ink p-6 text-white">
-          <div className="pointer-events-none absolute inset-0 bg-[url('/hourly-bg.jpg')] bg-cover bg-center" />
-          <div className="relative">
-            <div className="flex items-center justify-between">
-              <span className="rounded-pill bg-white/10 px-3 py-1 text-[12px] font-medium text-white/80">
-                Custo da sua hora
-              </span>
-              <span className="flex h-8 w-8 items-center justify-center rounded-pill bg-white/10">
-                <ArrowRight className="h-4 w-4 text-white/70" />
-              </span>
-            </div>
-            {ctx.hourlyCostCents != null ? (
-              <>
-                <p className="mt-5 text-[38px] font-bold leading-none">{formatCents(ctx.hourlyCostCents)}</p>
-                <p className="mt-2.5 text-[12px] text-white/45">Atualizado em {formatDateBR(ctx.settings?.updated_at)}</p>
-              </>
-            ) : (
-              <p className="mt-5 text-[17px] font-semibold text-gold">Configure seu negócio →</p>
-            )}
-          </div>
-        </div>
-      </Link>
-
+    <div className="space-y-7 px-5 pt-6">
       {/* Números do negócio — pills (rolagem horizontal, edge-to-edge) */}
       <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5">
         <StatPill href="/servicos" value={counts.services} label="serviços" />
@@ -95,18 +115,8 @@ async function HomeBody() {
       <section>
         <h2 className="mb-3 text-[17px] font-bold">Atalhos</h2>
         <div className="flex flex-col gap-3">
-          <ActionCard
-            href="/servicos/novo"
-            icon={Scissors}
-            title="Precificar um serviço"
-            subtitle="Descubra o preço ideal com lucro"
-          />
-          <ActionCard
-            href="/simulacoes/campanha/novo"
-            icon={Megaphone}
-            title="Analisar uma campanha"
-            subtitle="Veja se o investimento vale (ROI)"
-          />
+          <ActionCard href="/servicos/novo" icon={Scissors} title="Precificar um serviço" subtitle="Descubra o preço ideal com lucro" />
+          <ActionCard href="/simulacoes/campanha/novo" icon={Megaphone} title="Analisar uma campanha" subtitle="Veja se o investimento vale (ROI)" />
         </div>
       </section>
 
@@ -174,9 +184,8 @@ function ActionCard({
 
 function HomeSkeleton() {
   return (
-    <div className="space-y-7 px-5 pt-4">
+    <div className="space-y-7 px-5 pt-6">
       <TopLoadingBar />
-      <Skeleton className="h-32 w-full rounded-[26px]" />
       <div className="flex gap-2">
         <Skeleton className="h-11 w-28 rounded-pill" />
         <Skeleton className="h-11 w-28 rounded-pill" />
