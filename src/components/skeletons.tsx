@@ -29,7 +29,7 @@ export function ListScreenSkeleton({
         {subtitle && <p className="mt-0.5 text-[13px] text-muted">{subtitle}</p>}
       </header>
 
-      <div className="flex flex-col gap-4 px-5 pt-3">
+      <div className="flex flex-col gap-3 px-5 pt-3">
         {withButton && <Skeleton className="h-12 w-full" />}
         {withChips && (
           <div className="flex gap-2">

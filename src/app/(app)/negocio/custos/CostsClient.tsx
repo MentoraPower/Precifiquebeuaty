@@ -120,7 +120,7 @@ export function CostsClient({ type, initial }: { type: 'fixed' | 'variable'; ini
         />
       ) : (
         <>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {items.map((item) => (
               <div
                 key={item.id}

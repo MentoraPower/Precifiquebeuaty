@@ -113,7 +113,7 @@ export function ProductsClient({ initial }: { initial: ProductRow[] }) {
           description="Cadastre produtos com preço da embalagem e rendimento. Usamos no cálculo por atendimento."
         />
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           {items.map((p) => {
             const unit = roundCents(calculateProductUnitCost(toProduct(p)))
             return (

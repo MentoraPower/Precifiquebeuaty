@@ -95,7 +95,7 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
         </Chip>
       </div>
 
-      <div className="flex flex-col gap-4 px-5 pt-2">
+      <div className="flex flex-col gap-3 px-5 pt-2">
         {filtered.length === 0 ? (
           <EmptyState
             icon={<Scissors className="h-8 w-8" />}
