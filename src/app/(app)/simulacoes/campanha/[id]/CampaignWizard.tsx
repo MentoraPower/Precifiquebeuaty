@@ -418,12 +418,14 @@ function ExpenseSheet({ open, onClose, onAdd }: { open: boolean; onClose: () => 
         <Input autoFocus label="Nome do gasto" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ex.: Tráfego pago" />
         <div>
           <label className="label">Categoria</label>
-          <div className="flex flex-wrap gap-2">
+          <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5">
             {cats.map((c) => (
               <button
                 key={c.id}
                 onClick={() => setCategory(c.id)}
-                className={`rounded-pill px-3 py-1.5 text-[13px] ${category === c.id ? 'bg-ink text-white' : 'border border-line text-muted'}`}
+                className={`shrink-0 rounded-pill px-4 py-2 text-[13px] transition ${
+                  category === c.id ? 'bg-ink text-white' : 'border border-line text-muted'
+                }`}
               >
                 {c.label}
               </button>
