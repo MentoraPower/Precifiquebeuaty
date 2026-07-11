@@ -29,7 +29,10 @@ export default async function HomePage() {
 
   return (
     <main>
-      <header className="safe-top flex items-center justify-between px-5 pb-2 pt-5">
+      <header
+        className="flex items-center justify-between px-5 pb-2"
+        style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 16px)' }}
+      >
         <h1 className="text-[26px] font-bold leading-tight">Olá, {firstName}</h1>
         <Link href="/menu?profile=1" aria-label="Perfil" className="shrink-0">
           {profile?.avatar_url ? (
@@ -58,6 +61,7 @@ async function HomeBody() {
       {/* Hero — custo da hora */}
       <Link href="/negocio">
         <div className="relative overflow-hidden rounded-[26px] bg-ink p-6 text-white">
+          <div className="pointer-events-none absolute inset-0 bg-[url('/hourly-bg.jpg')] bg-cover bg-center" />
           <div className="relative">
             <div className="flex items-center justify-between">
               <span className="rounded-pill bg-white/10 px-3 py-1 text-[12px] font-medium text-white/80">
