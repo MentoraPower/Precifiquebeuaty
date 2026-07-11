@@ -110,7 +110,7 @@ export function MenuClient({
           </span>
         </button>
 
-        <div className="space-y-3.5">
+        <div className="space-y-5">
           <Link href="/negocio">
             <Row icon={Briefcase} label="Meu negócio" />
           </Link>
