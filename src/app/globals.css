@@ -30,7 +30,7 @@ body {
   padding-bottom: max(env(safe-area-inset-bottom), 0px);
 }
 .safe-top {
-  padding-top: max(env(safe-area-inset-top), 14px);
+  padding-top: calc(max(env(safe-area-inset-top), 0px) + 32px);
 }
 
 /* Barra de carregamento no topo (indeterminada) */

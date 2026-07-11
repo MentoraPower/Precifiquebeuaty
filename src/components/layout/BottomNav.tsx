@@ -28,7 +28,7 @@ export function BottomNav() {
   return (
     <>
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-line bg-bg/95 backdrop-blur">
-        <div className="mx-auto grid max-w-app grid-cols-5 items-center px-2 py-1.5">
+        <div className="mx-auto grid max-w-app grid-cols-5 items-center px-2 py-3">
           <NavItem {...items[0]} active={pathname.startsWith(items[0].href)} />
           <NavItem {...items[1]} active={pathname.startsWith('/servicos')} />
           <div className="flex justify-center">
