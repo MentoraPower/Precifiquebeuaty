@@ -174,7 +174,7 @@ export function SimulationForm({
         )}
       </div>
 
-      <div className="safe-bottom fixed inset-x-0 bottom-16 z-30 mx-auto max-w-app border-t border-line bg-bg/95 px-5 py-3 backdrop-blur">
+      <div className="fixed inset-x-0 bottom-[calc(80px_+_env(safe-area-inset-bottom,0px))] z-30 mx-auto max-w-app border-t border-line bg-bg/95 px-5 py-3 backdrop-blur">
         <Button fullWidth size="lg" onClick={save} loading={saving} disabled={!view || (multi ? comboServices.length === 0 : !single)}>
           Salvar simulação
         </Button>

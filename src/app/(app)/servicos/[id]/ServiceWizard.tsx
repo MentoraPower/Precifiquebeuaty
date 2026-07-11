@@ -353,7 +353,7 @@ export function ServiceWizard({
       </div>
 
       {/* Navegação do wizard */}
-      <div className="safe-bottom fixed inset-x-0 bottom-16 z-30 mx-auto max-w-app border-t border-line bg-bg/95 px-5 py-3 backdrop-blur">
+      <div className="fixed inset-x-0 bottom-[calc(80px_+_env(safe-area-inset-bottom,0px))] z-30 mx-auto max-w-app border-t border-line bg-bg/95 px-5 py-3 backdrop-blur">
         <div className="flex gap-3">
           {step > 0 ? (
             <Button variant="outline" className="flex-1" onClick={() => setStep((s) => s - 1)}>
@@ -377,7 +377,7 @@ export function ServiceWizard({
           )}
         </div>
       </div>
-      <div className="h-16" />
+      <div className="h-24" />
 
       <AddInputSheet
         open={sheetOpen}
