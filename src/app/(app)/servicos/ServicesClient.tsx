@@ -71,28 +71,25 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
 
   return (
     <main>
-      <AppHeader
-        title="Serviços"
-        subtitle="Gerencie seus serviços e preços."
-        right={
-          <Link href="/servicos/novo">
-            <Button size="sm" variant="outline">
-              <Plus className="h-4 w-4" /> Novo
-            </Button>
-          </Link>
-        }
-      />
+      <AppHeader center title="Serviços" subtitle="Gerencie seus serviços e preços." />
 
-      <div className="no-scrollbar flex gap-2 overflow-x-auto px-5 pb-1 pt-3">
-        <Chip active={filter === 'all'} onClick={() => setFilter('all')}>
-          Todos
-        </Chip>
-        <Chip active={filter === 'active'} onClick={() => setFilter('active')}>
-          Ativos
-        </Chip>
-        <Chip active={filter === 'inactive'} onClick={() => setFilter('inactive')}>
-          Inativos
-        </Chip>
+      <div className="flex items-center gap-2 px-5 pb-1 pt-3">
+        <div className="no-scrollbar flex flex-1 gap-2 overflow-x-auto">
+          <Chip active={filter === 'all'} onClick={() => setFilter('all')}>
+            Todos
+          </Chip>
+          <Chip active={filter === 'active'} onClick={() => setFilter('active')}>
+            Ativos
+          </Chip>
+          <Chip active={filter === 'inactive'} onClick={() => setFilter('inactive')}>
+            Inativos
+          </Chip>
+        </div>
+        <Link href="/servicos/novo" className="shrink-0">
+          <Button size="sm">
+            <Plus className="h-4 w-4" /> Novo
+          </Button>
+        </Link>
       </div>
 
       <div className="flex flex-col gap-3 px-5 pt-2">

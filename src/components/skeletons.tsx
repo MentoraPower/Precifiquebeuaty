@@ -13,6 +13,7 @@ export function ListScreenSkeleton({
   rowHeight = 'h-16',
   withButton = false,
   withChips = false,
+  center = false,
 }: {
   title: string
   subtitle?: string
@@ -20,13 +21,14 @@ export function ListScreenSkeleton({
   rowHeight?: string
   withButton?: boolean
   withChips?: boolean
+  center?: boolean
 }) {
   return (
     <main>
       <TopLoadingBar />
-      <header className="safe-top px-5 pb-2 pt-5">
-        <h1 className="text-[22px] font-bold leading-tight">{title}</h1>
-        {subtitle && <p className="mt-0.5 text-[13px] text-muted">{subtitle}</p>}
+      <header className={`safe-top px-5 pb-2 pt-5 ${center ? 'text-center' : ''}`}>
+        <h1 className={`${center ? 'text-[26px]' : 'text-[22px]'} font-bold leading-tight`}>{title}</h1>
+        {subtitle && <p className={`mt-1 text-[13px] text-muted ${center ? 'mx-auto max-w-[300px]' : ''}`}>{subtitle}</p>}
       </header>
 
       <div className="flex flex-col gap-3 px-5 pt-3">

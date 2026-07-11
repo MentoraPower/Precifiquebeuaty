@@ -54,7 +54,7 @@ export default async function SimulacoesPage() {
 
   return (
     <main>
-      <AppHeader title="Simulações" subtitle="Compare cenários e encontre o melhor resultado." />
+      <AppHeader center title="Simulações" subtitle="Compare cenários e encontre o melhor resultado." />
       <div className="px-5 pt-3">
         <Link href="/simulacoes/novo">
           <Button fullWidth variant="outline" size="lg">
