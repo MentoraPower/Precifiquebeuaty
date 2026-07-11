@@ -1,6 +1,6 @@
-/* Service worker mínimo — app shell offline. Dados vêm do Supabase (online). */
-const CACHE = 'w-calc-v1'
-const APP_SHELL = ['/', '/manifest.webmanifest', '/icons/icon.svg']
+/* Service worker — só cacheia estáticos com hash; conteúdo dinâmico é sempre da rede. */
+const CACHE = 'w-calc-v3'
+const APP_SHELL = ['/manifest.webmanifest', '/icons/icon.svg']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((c) => c.addAll(APP_SHELL)).catch(() => {}))
@@ -18,23 +18,33 @@ self.addEventListener('fetch', (event) => {
   const { request } = event
   if (request.method !== 'GET') return
   const url = new URL(request.url)
-  // Nunca cachear chamadas de API/Supabase.
   if (url.origin !== self.location.origin) return
 
-  // Navegações: network-first com fallback ao shell.
-  if (request.mode === 'navigate') {
+  // Somente assets imutáveis (URLs com hash) usam cache-first.
+  const isImmutable =
+    url.pathname.startsWith('/_next/static/') ||
+    url.pathname.startsWith('/icons/') ||
+    url.pathname === '/manifest.webmanifest'
+
+  if (isImmutable) {
     event.respondWith(
-      fetch(request).catch(() => caches.match('/').then((r) => r || Response.error())),
+      caches.match(request).then(
+        (cached) =>
+          cached ||
+          fetch(request).then((res) => {
+            const copy = res.clone()
+            caches.open(CACHE).then((c) => c.put(request, copy)).catch(() => {})
+            return res
+          }),
+      ),
     )
     return
   }
 
-  // Assets estáticos: cache-first.
+  // Navegações, RSC (dados do App Router) e tudo mais: SEMPRE rede (fallback offline mínimo).
   event.respondWith(
-    caches.match(request).then((cached) => cached || fetch(request).then((res) => {
-      const copy = res.clone()
-      caches.open(CACHE).then((c) => c.put(request, copy)).catch(() => {})
-      return res
-    }).catch(() => cached)),
+    fetch(request).catch(() =>
+      request.mode === 'navigate' ? caches.match('/manifest.webmanifest').then(() => Response.error()) : Response.error(),
+    ),
   )
 })
