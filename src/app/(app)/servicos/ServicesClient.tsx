@@ -115,23 +115,23 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
           filtered.map((s) => {
             const price = displayPrice(s)
             return (
-              <div key={s.id} className="flex items-center gap-3 rounded-card border border-line bg-bg px-4 py-3">
-                <Link href={`/servicos/${s.id}`} className="flex flex-1 items-center gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-card bg-champagne text-gold">
+              <div key={s.id} className="flex h-[76px] items-center gap-3 rounded-card border border-line bg-bg px-4">
+                <Link href={`/servicos/${s.id}`} className="flex h-full flex-1 items-center gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-card bg-champagne text-gold">
                     <Scissors className="h-5 w-5" />
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <p className="truncate text-[14px] font-medium">{s.name}</p>
+                      <p className="truncate text-[14px] font-medium">{s.name || 'Sem nome'}</p>
                       {s.status === 'draft' && <StatusTag label="Rascunho" tone="draft" />}
                       {s.status === 'inactive' && <StatusTag label="Inativo" tone="inactive" />}
                     </div>
-                    <p className="flex items-center gap-1 text-[12px] text-muted">
+                    <p className="mt-0.5 flex items-center gap-1 text-[12px] text-muted">
                       <Clock className="h-3 w-3" /> {s.duration_minutes} min
                     </p>
                   </div>
                 </Link>
-                <span className="text-[15px] font-semibold">{price != null ? formatCents(price) : '—'}</span>
+                <span className="shrink-0 text-[15px] font-semibold">{price != null ? formatCents(price) : '—'}</span>
                 <KebabMenu
                   items={[
                     { label: 'Editar', icon: Pencil, onClick: () => router.push(`/servicos/${s.id}`) },
