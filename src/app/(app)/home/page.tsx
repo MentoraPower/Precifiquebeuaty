@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 import { Bell, LayoutGrid, Package, LineChart, Layers, ArrowRight, TrendingUp } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { getSessionUser } from '@/lib/supabase/session'
 import { getBusinessContext } from '@/lib/queries'
 import { formatCents, formatDateBR } from '@/lib/format'
 import { Card, DarkCard } from '@/components/ui/Card'
+import { Skeleton } from '@/components/ui/misc'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,12 +17,13 @@ export default async function HomePage() {
   const user = await getSessionUser(supabase)
   if (!user) redirect('/auth')
 
-  const [{ data: profile }, ctx, counts] = await Promise.all([
-    supabase.from('profiles').select('full_name').eq('id', user.id).single(),
-    getBusinessContext(),
-    getCounts(),
-  ])
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('full_name, onboarding_completed')
+    .eq('id', user.id)
+    .single()
 
+  if (profile && !profile.onboarding_completed) redirect('/onboarding')
   const firstName = profile?.full_name?.split(' ')[0] ?? 'Bem-vinda'
 
   return (
@@ -35,55 +38,76 @@ export default async function HomePage() {
         </button>
       </header>
 
-      <div className="space-y-4 px-5 pt-3">
-        {/* Custo da hora */}
-        <Link href="/negocio">
-          <DarkCard className="flex items-center justify-between">
-            <div>
-              <p className="text-[13px] text-white/70">Custo da sua hora</p>
-              {ctx.hourlyCostCents != null ? (
-                <>
-                  <p className="mt-1 text-[32px] font-bold leading-none">{formatCents(ctx.hourlyCostCents)}</p>
-                  <p className="mt-1.5 text-[12px] text-white/50">
-                    Atualizado em {formatDateBR(ctx.settings?.updated_at)}
-                  </p>
-                </>
-              ) : (
-                <p className="mt-2 text-[16px] font-medium text-gold">Configure seu negócio →</p>
-              )}
-            </div>
-            <ArrowRight className="h-5 w-5 text-white/40" />
-          </DarkCard>
-        </Link>
-
-        {/* Métricas */}
-        <div className="grid grid-cols-2 gap-3">
-          <MetricCard href="/servicos" icon={LayoutGrid} label="Serviços" value={counts.services} caption="cadastrados" />
-          <MetricCard href="/negocio/insumos" icon={Package} label="Insumos" value={counts.products} caption="cadastrados" />
-          <MetricCard href="/simulacoes" icon={LineChart} label="Simulações" value={counts.simulations} caption="realizadas" />
-          <MetricCard href="/simulacoes" icon={Layers} label="Campanhas" value={counts.campaigns} caption="criadas" />
-        </div>
-
-        {/* Resumo rápido */}
-        <div>
-          <div className="mb-2 flex items-center justify-between">
-            <h2 className="text-[15px] font-semibold">Resumo rápido</h2>
-            <Link href="/negocio" className="text-[13px] font-medium text-gold">
-              Ver tudo
-            </Link>
-          </div>
-          <Card className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-pill bg-champagne text-gold">
-              <TrendingUp className="h-5 w-5" />
-            </span>
-            <div className="flex-1">
-              <p className="text-[13px] text-muted">Custo mensal do negócio</p>
-              <p className="text-[16px] font-semibold">{formatCents(ctx.monthlyCostCents)}</p>
-            </div>
-          </Card>
-        </div>
-      </div>
+      <Suspense fallback={<HomeSkeleton />}>
+        <HomeBody />
+      </Suspense>
     </main>
+  )
+}
+
+// Corpo com os dados pesados — carregado em streaming para o cabeçalho aparecer na hora.
+async function HomeBody() {
+  const [ctx, counts] = await Promise.all([getBusinessContext(), getCounts()])
+
+  return (
+    <div className="space-y-4 px-5 pt-3">
+      <Link href="/negocio">
+        <DarkCard className="flex items-center justify-between">
+          <div>
+            <p className="text-[13px] text-white/70">Custo da sua hora</p>
+            {ctx.hourlyCostCents != null ? (
+              <>
+                <p className="mt-1 text-[32px] font-bold leading-none">{formatCents(ctx.hourlyCostCents)}</p>
+                <p className="mt-1.5 text-[12px] text-white/50">Atualizado em {formatDateBR(ctx.settings?.updated_at)}</p>
+              </>
+            ) : (
+              <p className="mt-2 text-[16px] font-medium text-gold">Configure seu negócio →</p>
+            )}
+          </div>
+          <ArrowRight className="h-5 w-5 text-white/40" />
+        </DarkCard>
+      </Link>
+
+      <div className="grid grid-cols-2 gap-3">
+        <MetricCard href="/servicos" icon={LayoutGrid} label="Serviços" value={counts.services} caption="cadastrados" />
+        <MetricCard href="/negocio/insumos" icon={Package} label="Insumos" value={counts.products} caption="cadastrados" />
+        <MetricCard href="/simulacoes" icon={LineChart} label="Simulações" value={counts.simulations} caption="realizadas" />
+        <MetricCard href="/simulacoes" icon={Layers} label="Campanhas" value={counts.campaigns} caption="criadas" />
+      </div>
+
+      <div>
+        <div className="mb-2 flex items-center justify-between">
+          <h2 className="text-[15px] font-semibold">Resumo rápido</h2>
+          <Link href="/negocio" className="text-[13px] font-medium text-gold">
+            Ver tudo
+          </Link>
+        </div>
+        <Card className="flex items-center gap-3">
+          <span className="flex h-10 w-10 items-center justify-center rounded-pill bg-champagne text-gold">
+            <TrendingUp className="h-5 w-5" />
+          </span>
+          <div className="flex-1">
+            <p className="text-[13px] text-muted">Custo mensal do negócio</p>
+            <p className="text-[16px] font-semibold">{formatCents(ctx.monthlyCostCents)}</p>
+          </div>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
+function HomeSkeleton() {
+  return (
+    <div className="space-y-4 px-5 pt-3">
+      <Skeleton className="h-24 w-full" />
+      <div className="grid grid-cols-2 gap-3">
+        <Skeleton className="h-24" />
+        <Skeleton className="h-24" />
+        <Skeleton className="h-24" />
+        <Skeleton className="h-24" />
+      </div>
+      <Skeleton className="h-16 w-full" />
+    </div>
   )
 }
 

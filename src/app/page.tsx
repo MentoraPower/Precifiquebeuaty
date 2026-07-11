@@ -1,17 +1,12 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { getSessionUser } from '@/lib/supabase/session'
 
 export const dynamic = 'force-dynamic'
 
-// Entrada do app — sem splash: encaminha direto para o destino certo.
+// Entrada do app — decide o destino pela sessão local (sem ida à rede).
 export default async function IndexPage() {
   const supabase = createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) redirect('/auth')
-
-  const { data: profile } = await supabase.from('profiles').select('onboarding_completed').eq('id', user.id).single()
-  redirect(profile?.onboarding_completed ? '/home' : '/onboarding')
+  const user = await getSessionUser(supabase)
+  redirect(user ? '/home' : '/auth')
 }
