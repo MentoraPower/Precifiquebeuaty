@@ -34,8 +34,8 @@ export default function AuthPage() {
   return (
     <main className="flex min-h-screen flex-col justify-center px-6 py-12">
       <div className="mb-6 text-center">
-        <h1 className="text-[28px] font-medium leading-tight">Entrar</h1>
-        <p className="mt-1 text-[14px] text-muted">Acesse sua conta para continuar.</p>
+        <h1 className="text-[32px] font-medium leading-tight">Acessar sua conta</h1>
+        <p className="mt-1.5 text-[14px] text-muted">Entre com seu e-mail e senha para continuar.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
