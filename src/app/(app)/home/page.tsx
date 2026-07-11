@@ -58,7 +58,6 @@ async function HomeBody() {
       {/* Hero — custo da hora */}
       <Link href="/negocio">
         <div className="relative overflow-hidden rounded-[26px] bg-ink p-6 text-white">
-          <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gold/25 blur-2xl" />
           <div className="relative">
             <div className="flex items-center justify-between">
               <span className="rounded-pill bg-white/10 px-3 py-1 text-[12px] font-medium text-white/80">
