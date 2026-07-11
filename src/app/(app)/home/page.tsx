@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
-import { ArrowRight, TrendingUp, Scissors, Megaphone, ChevronRight, LayoutGrid, Package, LineChart } from 'lucide-react'
+import { ArrowRight, TrendingUp, Scissors, Megaphone, ChevronRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { getSessionUser } from '@/lib/supabase/session'
 import { getBusinessContext } from '@/lib/queries'
@@ -79,12 +79,12 @@ async function HomeBody() {
         </div>
       </Link>
 
-      {/* Números do negócio — stat cards (rolagem horizontal, edge-to-edge) */}
-      <div className="no-scrollbar -mx-5 flex gap-3 overflow-x-auto px-5">
-        <StatCard href="/servicos" icon={LayoutGrid} value={counts.services} label="serviços" />
-        <StatCard href="/negocio/insumos" icon={Package} value={counts.products} label="insumos" />
-        <StatCard href="/simulacoes" icon={LineChart} value={counts.simulations} label="simulações" />
-        <StatCard href="/simulacoes" icon={Megaphone} value={counts.campaigns} label="campanhas" />
+      {/* Números do negócio — pills (rolagem horizontal, edge-to-edge) */}
+      <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5">
+        <StatPill href="/servicos" value={counts.services} label="serviços" />
+        <StatPill href="/negocio/insumos" value={counts.products} label="insumos" />
+        <StatPill href="/simulacoes" value={counts.simulations} label="simulações" />
+        <StatPill href="/simulacoes" value={counts.campaigns} label="campanhas" />
       </div>
 
       {/* Atalhos */}
@@ -128,29 +128,14 @@ async function HomeBody() {
   )
 }
 
-function StatCard({
-  href,
-  icon: Icon,
-  value,
-  label,
-}: {
-  href: string
-  icon: typeof LayoutGrid
-  value: number
-  label: string
-}) {
+function StatPill({ href, value, label }: { href: string; value: number; label: string }) {
   return (
     <Link
       href={href}
-      className="flex min-w-[110px] shrink-0 flex-col gap-3 rounded-2xl border border-line bg-bg p-4 transition hover:border-ink/20 active:scale-[0.99]"
+      className="flex shrink-0 items-center gap-1.5 rounded-pill border border-line bg-bg px-4 py-2.5 text-[14px] transition hover:border-ink/20"
     >
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-champagne text-gold">
-        <Icon className="h-[18px] w-[18px]" />
-      </span>
-      <div>
-        <p className="text-[24px] font-bold leading-none">{value}</p>
-        <p className="mt-1 text-[12px] text-muted">{label}</p>
-      </div>
+      <span className="font-bold">{value}</span>
+      <span className="text-muted">{label}</span>
     </Link>
   )
 }
@@ -188,10 +173,10 @@ function HomeSkeleton() {
     <div className="space-y-7 px-5 pt-4">
       <TopLoadingBar />
       <Skeleton className="h-32 w-full rounded-[26px]" />
-      <div className="flex gap-3">
-        <Skeleton className="h-[104px] w-[110px] rounded-2xl" />
-        <Skeleton className="h-[104px] w-[110px] rounded-2xl" />
-        <Skeleton className="h-[104px] w-[110px] rounded-2xl" />
+      <div className="flex gap-2">
+        <Skeleton className="h-11 w-28 rounded-pill" />
+        <Skeleton className="h-11 w-28 rounded-pill" />
+        <Skeleton className="h-11 w-28 rounded-pill" />
       </div>
       <div className="space-y-3">
         <Skeleton className="h-20 w-full rounded-[20px]" />
