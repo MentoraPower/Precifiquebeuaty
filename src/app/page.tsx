@@ -4,6 +4,8 @@ import { createClient } from '@/lib/supabase/server'
 import { Logo } from '@/components/Logo'
 import { Button } from '@/components/ui/Button'
 
+export const dynamic = 'force-dynamic'
+
 // Tela 01 — Splash e entrada.
 export default async function SplashPage() {
   const supabase = createClient()
