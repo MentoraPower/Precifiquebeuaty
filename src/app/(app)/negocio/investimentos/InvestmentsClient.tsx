@@ -12,10 +12,12 @@ import { BottomSheet } from '@/components/ui/BottomSheet'
 import { Input } from '@/components/ui/Input'
 import { MoneyField } from '@/components/ui/MoneyField'
 import { EmptyState, TotalRow } from '@/components/ui/misc'
+import { useConfirm } from '@/components/ConfirmProvider'
 
 export function InvestmentsClient({ initial }: { initial: InvestmentRow[] }) {
   const router = useRouter()
   const supabase = createClient()
+  const confirm = useConfirm()
   const [items, setItems] = useState(initial)
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState<InvestmentRow | null>(null)
@@ -95,7 +97,8 @@ export function InvestmentsClient({ initial }: { initial: InvestmentRow[] }) {
   }
 
   async function remove(i: InvestmentRow) {
-    if (!confirm(`Remover "${i.name}"?`)) return
+    const ok = await confirm({ title: 'Remover investimento', message: `Deseja remover "${i.name}"?`, confirmLabel: 'Remover', danger: true })
+    if (!ok) return
     setItems((p) => p.filter((x) => x.id !== i.id))
     await supabase.from('investments').delete().eq('id', i.id)
     router.refresh()

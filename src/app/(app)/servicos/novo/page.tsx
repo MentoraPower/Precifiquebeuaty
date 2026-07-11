@@ -1,35 +1,39 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getSessionUser } from '@/lib/supabase/session'
+import { getBusinessContext } from '@/lib/queries'
+import { ServiceWizard } from '../[id]/ServiceWizard'
 
 export const dynamic = 'force-dynamic'
 
-// Cria um rascunho de serviço com as taxas padrão e abre o wizard/editor.
+// Abre o wizard de novo serviço SEM criar rascunho — a linha só nasce ao preencher.
 export default async function NovoServicoPage() {
   const supabase = createClient()
   const user = await getSessionUser(supabase)
   if (!user) redirect('/auth')
 
-  const { data: settings } = await supabase
-    .from('business_settings')
-    .select('default_card_fee_bps, default_tax_bps, default_commission_bps, default_margin_bps')
-    .maybeSingle()
+  const [{ data: settings }, { data: products }, ctx] = await Promise.all([
+    supabase
+      .from('business_settings')
+      .select('default_card_fee_bps, default_tax_bps, default_commission_bps, default_margin_bps')
+      .maybeSingle(),
+    supabase.from('products').select('*').order('created_at', { ascending: false }),
+    getBusinessContext(),
+  ])
 
-  const { data: service } = await supabase
-    .from('services')
-    .insert({
-      user_id: user.id,
-      name: '',
-      duration_minutes: 60,
-      status: 'draft',
-      card_fee_bps: settings?.default_card_fee_bps ?? 0,
-      tax_bps: settings?.default_tax_bps ?? 0,
-      partner_commission_bps: settings?.default_commission_bps ?? 0,
-      desired_margin_bps: settings?.default_margin_bps ?? 5000,
-    })
-    .select('id')
-    .single()
-
-  if (!service) redirect('/servicos')
-  redirect(`/servicos/${service.id}?new=1`)
+  return (
+    <ServiceWizard
+      service={null}
+      userId={user.id}
+      defaults={{
+        cardFeeBps: settings?.default_card_fee_bps ?? 0,
+        taxBps: settings?.default_tax_bps ?? 0,
+        commissionBps: settings?.default_commission_bps ?? 0,
+        marginBps: settings?.default_margin_bps ?? 5000,
+      }}
+      initialInputs={[]}
+      products={products ?? []}
+      hourlyCostCents={ctx.hourlyCostCents}
+    />
+  )
 }

@@ -11,12 +11,14 @@ import { AppHeader } from '@/components/layout/AppHeader'
 import { Button } from '@/components/ui/Button'
 import { Chip, EmptyState } from '@/components/ui/misc'
 import { KebabMenu } from '@/components/ui/KebabMenu'
+import { useConfirm } from '@/components/ConfirmProvider'
 
 type Filter = 'all' | 'active' | 'inactive'
 
 export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   const router = useRouter()
   const supabase = createClient()
+  const confirm = useConfirm()
   const [items, setItems] = useState(initial)
   const [filter, setFilter] = useState<Filter>('all')
 
@@ -60,7 +62,8 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   }
 
   async function archive(s: ServiceRow) {
-    if (!confirm(`Excluir "${s.name}"?`)) return
+    const ok = await confirm({ title: 'Excluir serviço', message: `Deseja excluir "${s.name || 'este serviço'}"?`, confirmLabel: 'Excluir', danger: true })
+    if (!ok) return
     setItems((p) => p.filter((x) => x.id !== s.id))
     await supabase.from('services').update({ deleted_at: new Date().toISOString() }).eq('id', s.id)
     router.refresh()

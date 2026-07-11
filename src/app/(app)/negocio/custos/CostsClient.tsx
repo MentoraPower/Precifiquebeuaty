@@ -11,10 +11,12 @@ import { BottomSheet } from '@/components/ui/BottomSheet'
 import { Input } from '@/components/ui/Input'
 import { MoneyField } from '@/components/ui/MoneyField'
 import { EmptyState, TotalRow } from '@/components/ui/misc'
+import { useConfirm } from '@/components/ConfirmProvider'
 
 export function CostsClient({ type, initial }: { type: 'fixed' | 'variable'; initial: BusinessCostRow[] }) {
   const router = useRouter()
   const supabase = createClient()
+  const confirm = useConfirm()
   const params = useSearchParams()
   const [items, setItems] = useState(initial)
   const [open, setOpen] = useState(false)
@@ -88,7 +90,13 @@ export function CostsClient({ type, initial }: { type: 'fixed' | 'variable'; ini
   }
 
   async function remove(item: BusinessCostRow) {
-    if (!confirm(`Remover "${item.name}"?`)) return
+    const ok = await confirm({
+      title: 'Remover custo',
+      message: `Deseja remover "${item.name}"? Isso recalcula o custo da sua hora.`,
+      confirmLabel: 'Remover',
+      danger: true,
+    })
+    if (!ok) return
     setItems((prev) => prev.filter((i) => i.id !== item.id))
     await supabase.from('business_costs').update({ active: false }).eq('id', item.id)
     router.refresh()

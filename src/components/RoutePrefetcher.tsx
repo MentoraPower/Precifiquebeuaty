@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation'
 
 // Telas principais pré-carregadas ao entrar no app (código + dados via servidor).
 // Com o cache de rotas dinâmicas (staleTimes), clicar abre na hora.
+// Obs.: rotas que CRIAM registros (ex.: /servicos/novo, campanha/novo) não entram
+// aqui — o prefetch as executaria e geraria rascunhos vazios.
 const ROUTES = [
   '/home',
   '/servicos',
-  '/servicos/novo',
   '/simulacoes',
   '/simulacoes/novo',
   '/negocio',

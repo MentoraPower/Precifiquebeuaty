@@ -33,6 +33,35 @@ body {
   padding-top: max(env(safe-area-inset-top), 14px);
 }
 
+/* Barra de carregamento no topo (indeterminada) */
+.progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  overflow: hidden;
+  background: rgba(211, 161, 59, 0.15);
+  z-index: 100;
+}
+.progress-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  border-radius: 999px;
+  background: #d3a13b;
+  animation: indeterminate 1.05s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+}
+@keyframes indeterminate {
+  0% {
+    left: -42%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
 @layer components {
   .field {
     @apply w-full rounded-btn border border-line bg-bg px-4 py-3 text-[15px] text-ink outline-none transition

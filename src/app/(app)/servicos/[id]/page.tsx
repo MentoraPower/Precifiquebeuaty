@@ -7,13 +7,7 @@ import { ServiceWizard } from './ServiceWizard'
 export const dynamic = 'force-dynamic'
 
 // Telas 08 e 09 — Wizard/editor de serviço + resultado.
-export default async function ServicoEditorPage({
-  params,
-  searchParams,
-}: {
-  params: { id: string }
-  searchParams: { new?: string }
-}) {
+export default async function ServicoEditorPage({ params }: { params: { id: string } }) {
   const supabase = createClient()
   const user = await getSessionUser(supabase)
   if (!user) redirect('/auth')
@@ -30,10 +24,16 @@ export default async function ServicoEditorPage({
   return (
     <ServiceWizard
       service={service}
+      userId={service.user_id}
+      defaults={{
+        cardFeeBps: service.card_fee_bps,
+        taxBps: service.tax_bps,
+        commissionBps: service.partner_commission_bps,
+        marginBps: service.desired_margin_bps,
+      }}
       initialInputs={inputs ?? []}
       products={products ?? []}
       hourlyCostCents={ctx.hourlyCostCents}
-      isNew={searchParams.new === '1'}
     />
   )
 }

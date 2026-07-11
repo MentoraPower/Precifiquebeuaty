@@ -14,6 +14,7 @@ import { PercentField } from '@/components/ui/MoneyField'
 import { Input } from '@/components/ui/Input'
 import { SaveStatus, type SaveState } from '@/components/ui/SaveStatus'
 import { InstallPWA } from '@/components/InstallPWA'
+import { useConfirm } from '@/components/ConfirmProvider'
 
 interface Defaults {
   cardFeeBps: number
@@ -37,6 +38,7 @@ export function MenuClient({
 }) {
   const router = useRouter()
   const supabase = createClient()
+  const confirm = useConfirm()
   const [feesOpen, setFeesOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
@@ -83,7 +85,8 @@ export function MenuClient({
   }
 
   async function signOut() {
-    if (!confirm('Deseja sair da conta?')) return
+    const ok = await confirm({ title: 'Sair da conta', message: 'Deseja encerrar sua sessão?', confirmLabel: 'Sair' })
+    if (!ok) return
     await supabase.auth.signOut()
     router.replace('/auth')
     router.refresh()

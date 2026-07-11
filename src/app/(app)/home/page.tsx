@@ -8,6 +8,7 @@ import { getBusinessContext } from '@/lib/queries'
 import { formatCents, formatDateBR } from '@/lib/format'
 import { Card, DarkCard } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/misc'
+import { TopLoadingBar } from '@/components/TopLoadingBar'
 
 export const dynamic = 'force-dynamic'
 
@@ -99,6 +100,7 @@ async function HomeBody() {
 function HomeSkeleton() {
   return (
     <div className="space-y-4 px-5 pt-3">
+      <TopLoadingBar />
       <Skeleton className="h-24 w-full" />
       <div className="grid grid-cols-2 gap-3">
         <Skeleton className="h-24" />

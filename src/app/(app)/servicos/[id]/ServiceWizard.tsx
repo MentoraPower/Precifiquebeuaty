@@ -32,30 +32,40 @@ interface LocalInput {
 
 const STEPS = ['Básico', 'Insumos', 'Custos', 'Resultado']
 
+interface Defaults {
+  cardFeeBps: number
+  taxBps: number
+  commissionBps: number
+  marginBps: number
+}
+
 export function ServiceWizard({
   service,
+  userId,
+  defaults,
   initialInputs,
   products,
   hourlyCostCents,
-  isNew,
 }: {
-  service: ServiceRow
+  service: ServiceRow | null
+  userId: string
+  defaults: Defaults
   initialInputs: ServiceInputRow[]
   products: ProductRow[]
   hourlyCostCents: number | null
-  isNew: boolean
 }) {
   const router = useRouter()
   const supabase = createClient()
+  const isNew = !service
 
   const [step, setStep] = useState(0)
-  const [name, setName] = useState(service.name)
-  const [duration, setDuration] = useState(service.duration_minutes)
-  const [additional, setAdditional] = useState(service.additional_cost_cents)
-  const [cardFee, setCardFee] = useState(service.card_fee_bps)
-  const [tax, setTax] = useState(service.tax_bps)
-  const [commission, setCommission] = useState(service.partner_commission_bps)
-  const [margin, setMargin] = useState(service.desired_margin_bps)
+  const [name, setName] = useState(service?.name ?? '')
+  const [duration, setDuration] = useState(service?.duration_minutes ?? 60)
+  const [additional, setAdditional] = useState(service?.additional_cost_cents ?? 0)
+  const [cardFee, setCardFee] = useState(service?.card_fee_bps ?? defaults.cardFeeBps)
+  const [tax, setTax] = useState(service?.tax_bps ?? defaults.taxBps)
+  const [commission, setCommission] = useState(service?.partner_commission_bps ?? defaults.commissionBps)
+  const [margin, setMargin] = useState(service?.desired_margin_bps ?? defaults.marginBps)
   const [inputs, setInputs] = useState<LocalInput[]>(
     initialInputs.map((i) => ({ id: i.id, product_id: i.product_id, quantity_used: i.quantity_used })),
   )
@@ -64,6 +74,37 @@ export function ServiceWizard({
   const [sheetOpen, setSheetOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   const debounce = useRef<ReturnType<typeof setTimeout>>()
+  const idRef = useRef<string | null>(service?.id ?? null)
+  const creatingRef = useRef<Promise<string> | null>(null)
+
+  // Cria a linha do serviço só quando o usuário realmente começa a preencher,
+  // evitando rascunhos vazios ao abrir "Novo" e voltar.
+  async function ensureId(): Promise<string> {
+    if (idRef.current) return idRef.current
+    if (creatingRef.current) return creatingRef.current
+    creatingRef.current = (async () => {
+      const { data, error } = await supabase
+        .from('services')
+        .insert({
+          user_id: userId,
+          name: name.trim(),
+          duration_minutes: duration,
+          additional_cost_cents: additional,
+          card_fee_bps: cardFee,
+          tax_bps: tax,
+          partner_commission_bps: commission,
+          desired_margin_bps: margin,
+          status: 'draft',
+        })
+        .select('id')
+        .single()
+      if (error || !data) throw error ?? new Error('insert falhou')
+      idRef.current = data.id
+      window.history.replaceState(null, '', `/servicos/${data.id}`)
+      return data.id
+    })()
+    return creatingRef.current
+  }
 
   const productMap = useMemo(() => new Map(localProducts.map((p) => [p.id, p])), [localProducts])
 
@@ -97,10 +138,15 @@ export function ServiceWizard({
     setSaveState('saving')
     clearTimeout(debounce.current)
     debounce.current = setTimeout(async () => {
-      const { error } = await supabase.from('services').update(patch).eq('id', service.id)
-      if (error) return setSaveState('error')
-      setSaveState('saved')
-      setTimeout(() => setSaveState('idle'), 1400)
+      try {
+        const id = await ensureId()
+        const { error } = await supabase.from('services').update(patch).eq('id', id)
+        if (error) return setSaveState('error')
+        setSaveState('saved')
+        setTimeout(() => setSaveState('idle'), 1400)
+      } catch {
+        setSaveState('error')
+      }
     }, 700)
   }
 
@@ -123,23 +169,30 @@ export function ServiceWizard({
       inputsCostCents,
       calculatedAt: new Date().toISOString(),
     }
-    const { error } = await supabase
-      .from('services')
-      .update({
-        name: name.trim(),
-        duration_minutes: duration,
-        additional_cost_cents: additional,
-        card_fee_bps: cardFee,
-        tax_bps: tax,
-        partner_commission_bps: commission,
-        desired_margin_bps: margin,
-        base_cost_cents: pricing.baseCostCents,
-        suggested_price_cents: pricing.suggestedPriceCents,
-        saved_price_cents: pricing.suggestedPriceCents,
-        result_snapshot_json: snapshot,
-        status: 'active',
-      })
-      .eq('id', service.id)
+    let error: unknown = null
+    try {
+      const id = await ensureId()
+      const res = await supabase
+        .from('services')
+        .update({
+          name: name.trim(),
+          duration_minutes: duration,
+          additional_cost_cents: additional,
+          card_fee_bps: cardFee,
+          tax_bps: tax,
+          partner_commission_bps: commission,
+          desired_margin_bps: margin,
+          base_cost_cents: pricing.baseCostCents,
+          suggested_price_cents: pricing.suggestedPriceCents,
+          saved_price_cents: pricing.suggestedPriceCents,
+          result_snapshot_json: snapshot,
+          status: 'active',
+        })
+        .eq('id', id)
+      error = res.error
+    } catch (e) {
+      error = e
+    }
     setSaving(false)
     if (!error) {
       router.push('/servicos')
@@ -338,9 +391,10 @@ export function ServiceWizard({
 
   async function addInput(productId: string, qty: number) {
     setSheetOpen(false)
+    const id = await ensureId()
     const { data } = await supabase
       .from('service_inputs')
-      .insert({ service_id: service.id, product_id: productId, quantity_used: qty })
+      .insert({ service_id: id, product_id: productId, quantity_used: qty })
       .select()
       .single()
     if (data) setInputs((prev) => [...prev, { id: data.id, product_id: productId, quantity_used: qty }])

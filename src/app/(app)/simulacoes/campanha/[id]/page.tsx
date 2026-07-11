@@ -6,13 +6,7 @@ import { CampaignWizard, type OfferService } from './CampaignWizard'
 export const dynamic = 'force-dynamic'
 
 // Telas 10B e 10C — Nova campanha (configuração + resultado).
-export default async function CampanhaPage({
-  params,
-  searchParams,
-}: {
-  params: { id: string }
-  searchParams: { new?: string }
-}) {
+export default async function CampanhaPage({ params }: { params: { id: string } }) {
   const supabase = createClient()
   const user = await getSessionUser(supabase)
   if (!user) redirect('/auth')
@@ -45,10 +39,10 @@ export default async function CampanhaPage({
   return (
     <CampaignWizard
       campaign={campaign}
+      userId={campaign.user_id}
       initialExpenses={expenses ?? []}
       initialItem={items?.[0] ?? null}
       offerServices={offerServices}
-      isNew={searchParams.new === '1'}
     />
   )
 }

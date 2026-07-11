@@ -14,10 +14,12 @@ import { BottomSheet } from '@/components/ui/BottomSheet'
 import { Input } from '@/components/ui/Input'
 import { MoneyField, PercentField } from '@/components/ui/MoneyField'
 import { EmptyState } from '@/components/ui/misc'
+import { useConfirm } from '@/components/ConfirmProvider'
 
 export function ProductsClient({ initial }: { initial: ProductRow[] }) {
   const router = useRouter()
   const supabase = createClient()
+  const confirm = useConfirm()
   const params = useSearchParams()
   const [items, setItems] = useState(initial)
   const [open, setOpen] = useState(false)
@@ -87,9 +89,13 @@ export function ProductsClient({ initial }: { initial: ProductRow[] }) {
   }
 
   async function remove(p: ProductRow) {
-    if (!confirm(`Remover "${p.name}"?`)) return
+    const ok = await confirm({ title: 'Remover insumo', message: `Deseja remover "${p.name}"?`, confirmLabel: 'Remover', danger: true })
+    if (!ok) return
     const { error } = await supabase.from('products').delete().eq('id', p.id)
-    if (error) return alert('Não é possível remover: este insumo está em uso em algum serviço.')
+    if (error) {
+      await confirm({ title: 'Não foi possível remover', message: 'Este insumo está em uso em algum serviço.', confirmLabel: 'Entendi', cancelLabel: 'Fechar' })
+      return
+    }
     setItems((prev) => prev.filter((x) => x.id !== p.id))
     router.refresh()
   }

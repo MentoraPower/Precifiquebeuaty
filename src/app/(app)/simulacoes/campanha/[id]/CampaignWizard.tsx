@@ -32,29 +32,50 @@ const STEPS = ['Informações', 'Gastos', 'Oferta', 'Resultado']
 
 export function CampaignWizard({
   campaign,
+  userId,
   initialExpenses,
   initialItem,
   offerServices,
-  isNew,
 }: {
-  campaign: CampaignRow
+  campaign: CampaignRow | null
+  userId: string
   initialExpenses: CampaignExpenseRow[]
   initialItem: CampaignItemRow | null
   offerServices: OfferService[]
-  isNew: boolean
 }) {
   const router = useRouter()
   const supabase = createClient()
+  const isNew = !campaign
   const [step, setStep] = useState(0)
-  const [name, setName] = useState(campaign.name)
+  const [name, setName] = useState(campaign?.name ?? '')
   const [expenses, setExpenses] = useState(initialExpenses)
   const [serviceId, setServiceId] = useState(initialItem?.service_id ?? offerServices[0]?.id ?? '')
-  const [expectedSales, setExpectedSales] = useState(campaign.expected_sales || 0)
-  const [promoCents, setPromoCents] = useState(campaign.promotional_price_cents ?? 0)
+  const [expectedSales, setExpectedSales] = useState(campaign?.expected_sales || 0)
+  const [promoCents, setPromoCents] = useState(campaign?.promotional_price_cents ?? 0)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [saveState, setSaveState] = useState<SaveState>('idle')
   const [saving, setSaving] = useState(false)
   const debounce = useRef<ReturnType<typeof setTimeout>>()
+  const idRef = useRef<string | null>(campaign?.id ?? null)
+  const creatingRef = useRef<Promise<string> | null>(null)
+
+  // Cria a campanha só quando o usuário começa a preencher (evita rascunho vazio).
+  async function ensureId(): Promise<string> {
+    if (idRef.current) return idRef.current
+    if (creatingRef.current) return creatingRef.current
+    creatingRef.current = (async () => {
+      const { data, error } = await supabase
+        .from('campaigns')
+        .insert({ user_id: userId, name: name.trim(), expected_sales: expectedSales, status: 'draft' })
+        .select('id')
+        .single()
+      if (error || !data) throw error ?? new Error('insert falhou')
+      idRef.current = data.id
+      window.history.replaceState(null, '', `/simulacoes/campanha/${data.id}`)
+      return data.id
+    })()
+    return creatingRef.current
+  }
 
   const offer = offerServices.find((s) => s.id === serviceId) ?? null
   const investmentCents = expenses.reduce((s, e) => s + e.amount_cents, 0)
@@ -77,45 +98,54 @@ export function CampaignWizard({
     setSaveState('saving')
     clearTimeout(debounce.current)
     debounce.current = setTimeout(async () => {
-      const { error } = await supabase.from('campaigns').update(patch).eq('id', campaign.id)
-      if (error) return setSaveState('error')
-      setSaveState('saved')
-      setTimeout(() => setSaveState('idle'), 1400)
+      try {
+        const id = await ensureId()
+        const { error } = await supabase.from('campaigns').update(patch).eq('id', id)
+        if (error) return setSaveState('error')
+        setSaveState('saved')
+        setTimeout(() => setSaveState('idle'), 1400)
+      } catch {
+        setSaveState('error')
+      }
     }, 700)
   }
 
   async function saveCampaign() {
     if (!offer || !result) return
     setSaving(true)
-    const feeSnapshot = { cardFeeBps: offer.cardFeeBps, taxBps: offer.taxBps, commissionBps: offer.commissionBps }
+    try {
+      const id = await ensureId()
+      const feeSnapshot = { cardFeeBps: offer.cardFeeBps, taxBps: offer.taxBps, commissionBps: offer.commissionBps }
 
-    // grava o item (offer) — substitui o existente
-    await supabase.from('campaign_items').delete().eq('campaign_id', campaign.id)
-    await supabase.from('campaign_items').insert({
-      campaign_id: campaign.id,
-      item_type: 'service',
-      service_id: offer.id,
-      quantity: 1,
-      price_snapshot_cents: salePriceCents,
-      base_cost_snapshot_cents: offer.baseCostCents,
-      fee_snapshot_json: feeSnapshot,
-    })
-
-    const { error } = await supabase
-      .from('campaigns')
-      .update({
-        name: name.trim() || 'Campanha',
-        expected_sales: expectedSales,
-        promotional_price_cents: promoCents > 0 ? promoCents : null,
-        status: 'active',
-        result_snapshot_json: { ...result, calculatedAt: new Date().toISOString(), salePriceCents },
+      // grava o item (offer) — substitui o existente
+      await supabase.from('campaign_items').delete().eq('campaign_id', id)
+      await supabase.from('campaign_items').insert({
+        campaign_id: id,
+        item_type: 'service',
+        service_id: offer.id,
+        quantity: 1,
+        price_snapshot_cents: salePriceCents,
+        base_cost_snapshot_cents: offer.baseCostCents,
+        fee_snapshot_json: feeSnapshot,
       })
-      .eq('id', campaign.id)
 
-    setSaving(false)
-    if (!error) {
+      const { error } = await supabase
+        .from('campaigns')
+        .update({
+          name: name.trim() || 'Campanha',
+          expected_sales: expectedSales,
+          promotional_price_cents: promoCents > 0 ? promoCents : null,
+          status: 'active',
+          result_snapshot_json: { ...result, calculatedAt: new Date().toISOString(), salePriceCents },
+        })
+        .eq('id', id)
+      if (error) throw error
       router.push('/simulacoes')
       router.refresh()
+    } catch {
+      // mantém na tela; SaveStatus/estado já refletem
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -278,9 +308,10 @@ export function CampaignWizard({
 
   async function addExpense(name: string, category: string, amount: number) {
     setSheetOpen(false)
+    const id = await ensureId()
     const { data } = await supabase
       .from('campaign_expenses')
-      .insert({ campaign_id: campaign.id, name, category, amount_cents: amount })
+      .insert({ campaign_id: id, name, category, amount_cents: amount })
       .select()
       .single()
     if (data) setExpenses((prev) => [...prev, data])
