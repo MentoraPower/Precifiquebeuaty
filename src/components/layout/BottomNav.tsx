@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { Home, LayoutGrid, Plus, LineChart, Menu as MenuIcon, Scissors, Package, Receipt, Sparkles } from 'lucide-react'
+import { Home, LayoutGrid, Plus, LineChart, Menu as MenuIcon, Scissors, Package, Receipt } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const items = [
@@ -17,7 +17,7 @@ const quickActions = [
   { href: '/servicos/novo', label: 'Novo serviço', desc: 'Precifique um atendimento', icon: Scissors },
   { href: '/negocio/insumos?add=1', label: 'Novo insumo', desc: 'Produto ou material', icon: Package },
   { href: '/negocio/custos?type=fixed&add=1', label: 'Novo custo', desc: 'Despesa fixa ou variável', icon: Receipt },
-  { href: '/simulacoes/novo', label: 'Nova simulação', desc: 'Campanha, desconto, meta…', icon: Sparkles },
+  { href: '/simulacoes/novo', label: 'Nova simulação', desc: 'Campanha, desconto, meta…', icon: LineChart },
 ]
 
 export function BottomNav() {

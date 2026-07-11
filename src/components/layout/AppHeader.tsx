@@ -26,7 +26,7 @@ export function AppHeader({ title, subtitle, back, right, center }: AppHeaderPro
             <ChevronLeft className="h-5 w-5" />
           </button>
         )}
-        {title && <h1 className="text-[26px] font-bold leading-tight">{title}</h1>}
+        {title && <h1 className="text-[30px] font-medium leading-tight">{title}</h1>}
         {subtitle && <p className="mx-auto mt-1 max-w-[300px] text-[13px] text-muted">{subtitle}</p>}
       </header>
     )
