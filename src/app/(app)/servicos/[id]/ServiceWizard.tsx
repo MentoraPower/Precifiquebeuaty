@@ -553,17 +553,21 @@ function AddInputSheet({
           {products.length === 0 ? (
             <p className="text-[13px] text-muted">Você ainda não tem insumos cadastrados.</p>
           ) : (
-            <div className="max-h-52 space-y-1.5 overflow-y-auto">
+            <div className="max-h-52 space-y-2 overflow-y-auto py-0.5">
               {products.map((p) => (
                 <button
                   key={p.id}
                   onClick={() => setProductId(p.id)}
-                  className={`flex w-full items-center justify-between rounded-btn border px-3 py-2.5 text-left text-[14px] ${
-                    productId === p.id ? 'border-ink bg-surface' : 'border-line'
+                  className={`flex w-full items-center justify-between gap-3 rounded-pill border px-4 py-3 text-left text-[14px] transition ${
+                    productId === p.id
+                      ? 'border-gold bg-champagne/50 font-medium'
+                      : 'border-line hover:border-ink/20'
                   }`}
                 >
-                  <span>{p.name}</span>
-                  <span className="text-[12px] text-muted">{p.package_quantity} {p.unit}</span>
+                  <span className="truncate">{p.name}</span>
+                  <span className="shrink-0 text-[12px] text-muted">
+                    {p.package_quantity} {p.unit}
+                  </span>
                 </button>
               ))}
             </div>

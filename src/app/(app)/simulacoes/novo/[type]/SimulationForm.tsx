@@ -110,7 +110,7 @@ export function SimulationForm({
       <div className="space-y-4 px-5 pb-28 pt-4">
         <div>
           <label className="label">{multi ? 'Serviços do combo' : 'Serviço'}</label>
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             {services.map((s) => {
               const active = selected.includes(s.id)
               return (
@@ -121,12 +121,12 @@ export function SimulationForm({
                       ? setSelected((prev) => (active ? prev.filter((x) => x !== s.id) : [...prev, s.id]))
                       : (setSelected([s.id]), setNewPriceCents(s.priceCents), setNewDuration(s.durationMinutes))
                   }
-                  className={`flex w-full items-center justify-between rounded-btn border px-3 py-2.5 text-left ${
-                    active ? 'border-ink bg-surface' : 'border-line'
+                  className={`flex w-full items-center justify-between gap-3 rounded-pill border px-4 py-3 text-left transition ${
+                    active ? 'border-gold bg-champagne/50' : 'border-line hover:border-ink/20'
                   }`}
                 >
-                  <span className="text-[14px]">{s.name}</span>
-                  <span className="text-[13px] font-medium">{formatCents(s.priceCents)}</span>
+                  <span className="truncate text-[14px]">{s.name}</span>
+                  <span className="shrink-0 text-[13px] font-medium">{formatCents(s.priceCents)}</span>
                 </button>
               )
             })}

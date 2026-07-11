@@ -226,17 +226,17 @@ export function CampaignWizard({
               <>
                 <div>
                   <label className="label">Serviço divulgado</label>
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     {offerServices.map((s) => (
                       <button
                         key={s.id}
                         onClick={() => setServiceId(s.id)}
-                        className={`flex w-full items-center justify-between rounded-btn border px-3 py-2.5 text-left ${
-                          serviceId === s.id ? 'border-ink bg-surface' : 'border-line'
+                        className={`flex w-full items-center justify-between gap-3 rounded-pill border px-4 py-3 text-left transition ${
+                          serviceId === s.id ? 'border-gold bg-champagne/50' : 'border-line hover:border-ink/20'
                         }`}
                       >
-                        <span className="text-[14px]">{s.name}</span>
-                        <span className="text-[13px] font-medium">{formatCents(s.salePriceCents)}</span>
+                        <span className="truncate text-[14px]">{s.name}</span>
+                        <span className="shrink-0 text-[13px] font-medium">{formatCents(s.salePriceCents)}</span>
                       </button>
                     ))}
                   </div>
