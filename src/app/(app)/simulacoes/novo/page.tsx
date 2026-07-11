@@ -23,7 +23,7 @@ export default function NovaSimulacaoPage() {
   return (
     <main>
       <AppHeader back title="Nova simulação" subtitle="Escolha o tipo de análise que deseja realizar." />
-      <div className="space-y-6 px-5 pt-4">
+      <div className="space-y-8 px-5 pt-4">
         {TYPES.map((t) => (
           <Link key={t.type} href={t.href}>
             <div className="flex items-center gap-3 rounded-card border border-line bg-bg px-4 py-3.5 transition hover:border-ink/20">

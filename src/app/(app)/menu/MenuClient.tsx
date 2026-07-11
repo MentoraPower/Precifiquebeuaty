@@ -183,7 +183,7 @@ export function MenuClient({
 
 function Row({ icon: Icon, label, hint }: { icon: typeof Briefcase; label: string; hint?: string }) {
   return (
-    <Card className="flex items-center gap-3">
+    <Card className="flex w-full items-center gap-3 text-left">
       <span className="flex h-9 w-9 items-center justify-center rounded-pill bg-surface text-muted">
         <Icon className="h-5 w-5" />
       </span>
