@@ -7,7 +7,6 @@ import {
   Briefcase,
   Boxes,
   Receipt,
-  HelpCircle,
   Info,
   LogOut,
   ChevronRight,
@@ -168,7 +167,6 @@ export function MenuClient({
 
         <Section title="Aplicativo">
           <InstallPWARow />
-          <Row icon={HelpCircle} label="Ajuda e suporte" href="mailto:contato@mentorabeautyacademy.com.br" external />
           <Row icon={Info} label="Sobre o app" onClick={() => setAboutOpen(true)} />
         </Section>
 
