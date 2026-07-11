@@ -13,6 +13,7 @@ import { BottomSheet } from '@/components/ui/BottomSheet'
 import { PercentField } from '@/components/ui/MoneyField'
 import { Input } from '@/components/ui/Input'
 import { SaveStatus, type SaveState } from '@/components/ui/SaveStatus'
+import { InstallPWA } from '@/components/InstallPWA'
 
 interface Defaults {
   cardFeeBps: number
@@ -126,6 +127,8 @@ export function MenuClient({
             <Row icon={Info} label="Sobre o app" />
           </button>
         </div>
+
+        <InstallPWA />
 
         <Button variant="outline" fullWidth size="lg" onClick={signOut}>
           <LogOut className="h-4 w-4" /> Sair da conta
