@@ -3,6 +3,7 @@ import { Instrument_Sans } from 'next/font/google'
 import './globals.css'
 import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
 import { DismissKeyboard } from '@/components/DismissKeyboard'
+import { ThemeColor } from '@/components/ThemeColor'
 
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="mx-auto min-h-screen max-w-app bg-surface">{children}</div>
         <ServiceWorkerRegister />
         <DismissKeyboard />
+        <ThemeColor />
       </body>
     </html>
   )
