@@ -274,8 +274,8 @@ export function CampaignWizard({
         )}
       </div>
 
-      <div className="safe-bottom fixed inset-x-0 bottom-0 z-30 mx-auto max-w-app border-t border-line bg-bg/95 px-5 py-3 backdrop-blur">
-        <div className="flex gap-3">
+      <div className="fixed inset-x-0 bottom-0 z-30 mx-auto max-w-app px-4 pb-[calc(env(safe-area-inset-bottom,0px)+14px)]">
+        <div className="flex gap-3 rounded-[20px] border border-line bg-bg/95 p-3 shadow-float backdrop-blur">
           {step > 0 ? (
             <Button variant="outline" className="flex-1" onClick={() => setStep((s) => s - 1)}>
               Voltar
