@@ -102,7 +102,7 @@ async function HomeBody() {
   const [ctx, counts] = await Promise.all([getBusinessContext(), getCounts()])
 
   return (
-    <div className="space-y-7 px-5 pt-6">
+    <div className="space-y-4 px-5 pt-6">
       {/* Números do negócio — pills (rolagem horizontal, edge-to-edge) */}
       <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5">
         <StatPill href="/servicos" value={counts.services} label="serviços" />
@@ -111,33 +111,25 @@ async function HomeBody() {
         <StatPill href="/simulacoes" value={counts.campaigns} label="campanhas" />
       </div>
 
-      {/* Atalhos */}
-      <section>
-        <h2 className="mb-3 text-[17px] font-bold">Atalhos</h2>
-        <div className="flex flex-col gap-3">
-          <ActionCard href="/servicos/novo" icon={Scissors} title="Precificar um serviço" subtitle="Descubra o preço ideal com lucro" />
-          <ActionCard href="/simulacoes/campanha/novo" icon={Megaphone} title="Analisar uma campanha" subtitle="Veja se o investimento vale (ROI)" />
-        </div>
-      </section>
+      {/* Atalhos em 2 colunas */}
+      <div className="grid grid-cols-2 gap-3">
+        <ActionTile href="/servicos/novo" icon={Scissors} title="Precificar serviço" subtitle="Preço ideal com lucro" />
+        <ActionTile href="/simulacoes/campanha/novo" icon={Megaphone} title="Analisar campanha" subtitle="Descubra o ROI" />
+      </div>
 
-      {/* Resumo */}
-      <section>
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-[17px] font-bold">Resumo</h2>
-          <Link href="/negocio" className="text-[13px] font-medium text-gold">
-            Ver tudo
-          </Link>
-        </div>
+      {/* Custo mensal */}
+      <Link href="/negocio">
         <Card className="flex items-center gap-3.5">
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-champagne text-gold">
             <TrendingUp className="h-5 w-5" />
           </span>
-          <div className="flex-1">
+          <div className="min-w-0 flex-1">
             <p className="text-[13px] text-muted">Custo mensal do negócio</p>
             <p className="text-[17px] font-bold">{formatCents(ctx.monthlyCostCents)}</p>
           </div>
+          <ChevronRight className="h-5 w-5 shrink-0 text-subtle" />
         </Card>
-      </section>
+      </Link>
     </div>
   )
 }
@@ -154,7 +146,7 @@ function StatPill({ href, value, label }: { href: string; value: number; label: 
   )
 }
 
-function ActionCard({
+function ActionTile({
   href,
   icon: Icon,
   title,
@@ -168,33 +160,33 @@ function ActionCard({
   return (
     <Link
       href={href}
-      className="flex items-center gap-3.5 rounded-[20px] border border-line bg-bg p-4 transition hover:border-ink/20 active:scale-[0.99]"
+      className="flex h-full flex-col gap-3 rounded-[20px] border border-line bg-bg p-4 transition hover:border-ink/20 active:scale-[0.99]"
     >
-      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-champagne text-gold">
-        <Icon className="h-6 w-6" />
+      <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-champagne text-gold">
+        <Icon className="h-[22px] w-[22px]" />
       </span>
-      <div className="min-w-0 flex-1">
-        <p className="text-[15px] font-semibold">{title}</p>
-        <p className="text-[12px] text-muted">{subtitle}</p>
+      <div>
+        <p className="text-[14px] font-semibold leading-tight">{title}</p>
+        <p className="mt-0.5 text-[12px] text-muted">{subtitle}</p>
       </div>
-      <ChevronRight className="h-5 w-5 shrink-0 text-subtle" />
     </Link>
   )
 }
 
 function HomeSkeleton() {
   return (
-    <div className="space-y-7 px-5 pt-6">
+    <div className="space-y-4 px-5 pt-6">
       <TopLoadingBar />
       <div className="flex gap-2">
         <Skeleton className="h-11 w-28 rounded-pill" />
         <Skeleton className="h-11 w-28 rounded-pill" />
         <Skeleton className="h-11 w-28 rounded-pill" />
       </div>
-      <div className="space-y-3">
-        <Skeleton className="h-20 w-full rounded-[20px]" />
-        <Skeleton className="h-20 w-full rounded-[20px]" />
+      <div className="grid grid-cols-2 gap-3">
+        <Skeleton className="h-28 rounded-[20px]" />
+        <Skeleton className="h-28 rounded-[20px]" />
       </div>
+      <Skeleton className="h-[70px] w-full rounded-card" />
     </div>
   )
 }
