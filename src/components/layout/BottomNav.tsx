@@ -37,7 +37,7 @@ export function BottomNav() {
               aria-label="Ações rápidas"
               aria-expanded={open}
               className={cn(
-                'flex h-16 w-16 -translate-y-1/2 items-center justify-center rounded-pill bg-gradient-to-b from-[#4a3320] to-brown text-white shadow-float ring-4 ring-bg transition active:scale-95',
+                'flex h-16 w-16 -translate-y-1/3 items-center justify-center rounded-pill bg-gradient-to-b from-[#4a3320] to-brown text-white shadow-float ring-4 ring-bg transition active:scale-95',
                 open && 'rotate-45',
               )}
             >
@@ -56,7 +56,7 @@ export function BottomNav() {
 
           {/* dropdown ancorado acima do botão + */}
           <div className="safe-bottom pointer-events-none fixed inset-x-0 bottom-0 z-50 mx-auto max-w-app">
-            <div className="relative mb-[68px] flex justify-center">
+            <div className="relative mb-[96px] flex justify-center">
               <div className="pointer-events-auto w-[248px] overflow-hidden rounded-2xl border border-line bg-bg p-1.5 shadow-float">
                 {quickActions.map((a, i) => (
                   <button
