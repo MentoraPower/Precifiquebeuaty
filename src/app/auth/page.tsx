@@ -32,13 +32,19 @@ export default function AuthPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col justify-center px-6 py-12">
-      <div className="mb-6 text-center">
+    <main className="relative flex min-h-screen flex-col justify-center px-6 py-12">
+      {/* gradiente marrom subindo do rodapé, esvaindo em transparente */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 h-80 bg-gradient-to-t from-brown/30 via-brown/10 to-transparent" />
+
+      <div className="relative mb-6 text-center">
         <h1 className="text-[32px] font-medium leading-tight">Acessar sua conta</h1>
         <p className="mt-1.5 text-[14px] text-muted">Entre com seu e-mail e senha para continuar.</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      <form
+        onSubmit={handleSubmit}
+        className="relative flex flex-col gap-3 rounded-[24px] border border-line bg-bg p-5 shadow-card"
+      >
         <Input
           type="email"
           autoComplete="email"
@@ -69,7 +75,7 @@ export default function AuthPage() {
 
         {error && <p className="text-[13px] text-danger">{error}</p>}
 
-        <Button type="submit" size="lg" fullWidth loading={loading} className="mt-3">
+        <Button type="submit" size="lg" fullWidth loading={loading} className="mt-3 rounded-pill">
           Entrar
         </Button>
       </form>
