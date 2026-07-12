@@ -99,7 +99,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== SOLUÇÃO ===== */}
-      <section id="como-funciona" className="bg-bg py-16 md:py-24">
+      <section id="como-funciona" className="bg-[#F0ECE6] py-16 md:py-24">
         <Container className="grid items-center gap-12 md:grid-cols-2">
           <div className="order-2 flex justify-center md:order-1">
             <Phone src={SCREENS[1].src} alt={SCREENS[1].alt} />
@@ -133,9 +133,9 @@ export default function LandingPage() {
       </section>
 
       {/* ===== TRANSFORMAÇÃO ===== */}
-      <section className="bg-bg py-10 md:py-16">
+      <section className="bg-[#F0ECE6] py-10 md:py-16">
         <Container>
-          <div className="rounded-[40px] bg-ink px-6 py-16 text-center text-white md:px-14 md:py-20">
+          <div className="rounded-[40px] bg-[#705336] px-6 py-16 text-center text-white md:px-14 md:py-20">
             <p className="text-[13px] font-semibold uppercase tracking-wide text-gold">Resultados</p>
             <h2 className="mt-3 text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">O que muda quando você precifica certo</h2>
             <p className="mx-auto mt-4 max-w-[560px] text-[16px] leading-relaxed text-white/60">
@@ -209,7 +209,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== SHOWCASE DE TELAS ===== */}
-      <section className="bg-bg py-16 md:py-24">
+      <section className="bg-[#F0ECE6] py-16 md:py-24">
         <Container>
           <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Veja por dentro</h2>
         </Container>
@@ -226,9 +226,9 @@ export default function LandingPage() {
       </section>
 
       {/* ===== PLANOS ===== */}
-      <section id="planos" className="bg-bg py-10 md:py-16">
+      <section id="planos" className="bg-[#F0ECE6] py-10 md:py-16">
         <Container>
-          <div className="rounded-[40px] bg-ink px-6 py-16 text-white md:px-14 md:py-20">
+          <div className="rounded-[40px] bg-[#705336] px-6 py-16 text-white md:px-14 md:py-20">
           <div className="mx-auto max-w-md text-center">
             <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">Um plano, tudo liberado</h2>
             <p className="mt-3 text-[15px] text-white/60">
@@ -336,7 +336,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== CTA FINAL ===== */}
-      <section className="bg-bg py-16 md:py-24">
+      <section className="bg-[#F0ECE6] py-16 md:py-24">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-[30px] font-semibold leading-tight [text-wrap:balance] md:text-[36px]">
@@ -358,7 +358,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== RODAPÉ ===== */}
-      <footer className="bg-bg border-t border-line py-8">
+      <footer className="bg-[#F0ECE6] border-t border-line py-8">
         <Container className="text-center text-[12px] text-subtle">
           © {new Date().getFullYear()} Precifica Beauty · Feito para profissionais da beleza.
         </Container>
