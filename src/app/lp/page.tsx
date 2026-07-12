@@ -6,7 +6,7 @@ import {
   LineChart,
   Wallet,
   MessagesSquare,
-  Check,
+  CircleCheck,
   ShieldCheck,
   Zap,
   Lock,
@@ -83,34 +83,38 @@ export default function LandingPage() {
         </Container>
       </section>
 
-      {/* ===== SOLUÇÃO ===== */}
+      {/* ===== DESTAQUES (texto + imagem) ===== */}
       <section id="como-funciona" className="py-12 md:py-16">
-        <Container>
-          <div className="max-w-[680px]">
-            <p className="text-[13px] font-bold uppercase tracking-wide text-brown">A solução</p>
-            <h2 className="mt-3 text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">
-              Um cálculo feito pra realidade do salão, não pra planilha complicada.
-            </h2>
-            <p className="mt-4 text-[16px] leading-relaxed text-muted">
-              Você cadastra seus custos uma vez e o app faz o resto. Ele considera custos fixos, os insumos que cada
-              serviço realmente gasta, a taxa da maquininha, impostos, comissão de parceiro e a margem de lucro que
-              você definir, e devolve o preço ideal, redondo, pronto pra cobrar.
-            </p>
-          </div>
-          <ul className="mt-8 grid gap-3 sm:grid-cols-3">
-            {[
-              'Custo da sua hora calculado automaticamente',
-              'Preço sugerido com o lucro que você escolhe',
-              'Insumos vinculados a cada serviço, sem retrabalho',
-            ].map((t) => (
-              <li key={t} className="flex items-start gap-3 text-[15px]">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-brown text-white">
-                  <Check className="h-3.5 w-3.5" />
-                </span>
-                {t}
-              </li>
-            ))}
-          </ul>
+        <Container className="space-y-5 md:space-y-6">
+          {[
+            {
+              eyebrow: 'Recurso 01',
+              title: 'O preço ideal, no automático',
+              desc: 'Você informa seus custos uma vez e o app calcula o preço de cada serviço já com maquininha, impostos, comissão e a margem de lucro que você escolher. Nada de planilha.',
+              img: '/lp/screen-servicos.webp',
+            },
+            {
+              eyebrow: 'Recurso 02',
+              title: 'Teste a promoção antes de fazer',
+              desc: 'Simule campanhas, descontos, combos e metas de faturamento e veja na hora se o resultado fecha no azul, sem arriscar no escuro e sem se enganar com o desconto.',
+              img: '/lp/screen-simulacoes.webp',
+            },
+          ].map((b) => (
+            <div
+              key={b.eyebrow}
+              className="grid items-center gap-6 rounded-[28px] border border-line bg-bg p-5 md:grid-cols-2 md:gap-10 md:p-9"
+            >
+              <div className="md:pl-3">
+                <p className="text-[13px] font-semibold uppercase tracking-wide text-brown">{b.eyebrow}</p>
+                <h3 className="mt-2 text-[24px] font-semibold leading-tight [text-wrap:balance] md:text-[30px]">{b.title}</h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-muted">{b.desc}</p>
+              </div>
+              <div className="aspect-[4/3] overflow-hidden rounded-[20px] bg-ink">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={b.img} alt="" loading="lazy" className="h-full w-full object-cover object-top" />
+              </div>
+            </div>
+          ))}
         </Container>
       </section>
 
@@ -134,9 +138,7 @@ export default function LandingPage() {
               'Decide campanhas e combos com número, não com achismo',
             ].map((t) => (
               <div key={t} className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-brown text-white">
-                  <Check className="h-3.5 w-3.5" />
-                </span>
+                <CircleCheck className="mt-0.5 h-[22px] w-[22px] shrink-0 text-brown" />
                 <span className="text-[15px] leading-snug text-ink/80">{t}</span>
               </div>
             ))}
@@ -162,9 +164,7 @@ export default function LandingPage() {
               ['Estúdios e salões', 'Vários profissionais, um preço certo'],
             ].map(([title, desc]) => (
               <div key={title} className="flex items-start gap-3">
-                <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-pill bg-brown/10 text-brown">
-                  <Check className="h-3 w-3" />
-                </span>
+                <CircleCheck className="mt-0.5 h-[22px] w-[22px] shrink-0 text-brown" />
                 <div>
                   <p className="text-[16px] font-bold">{title}</p>
                   <p className="mt-0.5 text-[13px] text-muted">{desc}</p>
@@ -222,7 +222,7 @@ export default function LandingPage() {
                   'Atualizações incluídas durante o plano',
                 ].map((t) => (
                   <li key={t} className="flex items-center gap-2.5 text-[14px] text-ink/80">
-                    <Check className="h-4 w-4 shrink-0 text-brown" /> {t}
+                    <CircleCheck className="h-[18px] w-[18px] shrink-0 text-brown" /> {t}
                   </li>
                 ))}
               </ul>
