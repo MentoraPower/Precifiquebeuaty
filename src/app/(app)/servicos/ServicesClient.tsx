@@ -21,11 +21,16 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   const confirm = useConfirm()
   const [items, setItems] = useState(initial)
   const [statuses, setStatuses] = useState<StatusFilter[]>([]) // vazio = Todos
-  const [sort, setSort] = useState<Sort>('recent')
+  const [sort, setSort] = useState<Sort | null>(null) // null = padrão (mais recentes)
 
   // Multi-seleção: alterna o status; se ficar vazio, volta pra "Todos" automaticamente.
   function toggleStatusFilter(s: StatusFilter) {
     setStatuses((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]))
+  }
+
+  // Ordenação como chip normal: clica marca, clica de novo desmarca.
+  function toggleSort(s: Sort) {
+    setSort((prev) => (prev === s ? null : s))
   }
 
   const filtered = items
@@ -33,7 +38,7 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
     .sort((a, b) => {
       const da = new Date(a.created_at).getTime()
       const db = new Date(b.created_at).getTime()
-      return sort === 'recent' ? db - da : da - db
+      return (sort ?? 'recent') === 'recent' ? db - da : da - db
     })
 
   function displayPrice(s: ServiceRow) {
@@ -107,10 +112,10 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
         <Chip active={statuses.includes('inactive')} onClick={() => toggleStatusFilter('inactive')}>
           Inativos
         </Chip>
-        <Chip active={sort === 'recent'} onClick={() => setSort('recent')}>
+        <Chip active={sort === 'recent'} onClick={() => toggleSort('recent')}>
           Mais recentes
         </Chip>
-        <Chip active={sort === 'old'} onClick={() => setSort('old')}>
+        <Chip active={sort === 'old'} onClick={() => toggleSort('old')}>
           Antigos
         </Chip>
       </div>
