@@ -19,7 +19,7 @@ export function Greeting({ name }: { name: string }) {
   }, [])
 
   return (
-    <h1 className="text-[24px] font-bold leading-tight">
+    <h1 className="text-[22px] font-semibold leading-tight">
       {prefix ? `${prefix}, ${name}` : name}
     </h1>
   )
