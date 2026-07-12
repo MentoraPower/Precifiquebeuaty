@@ -10,7 +10,6 @@ import {
   ShieldCheck,
   Zap,
   Lock,
-  ArrowRight,
 } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -51,12 +50,14 @@ export default function LandingPage() {
             <p className="mt-5 max-w-[440px] text-[16px] leading-relaxed text-muted md:text-[17px]">
               Calcule o custo da sua hora e o preço ideal com lucro, direto no celular.
             </p>
-            <a
-              href={CHECKOUT_URL}
-              className="mt-8 inline-flex items-center justify-center gap-2 rounded-pill bg-brown px-7 py-4 text-[15px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(44,30,22,0.7)] transition hover:brightness-110"
-            >
-              Quero precificar com lucro <ArrowRight className="h-4 w-4" />
-            </a>
+            <div className="mt-8 inline-flex rounded-pill border border-brown/25 p-1.5">
+              <a
+                href={CHECKOUT_URL}
+                className="rounded-pill bg-brown px-10 py-[18px] text-[16px] font-semibold text-white transition hover:brightness-110"
+              >
+                Quero precificar com lucro
+              </a>
+            </div>
             <p className="mt-5 text-[13px] text-muted">
               Acesso imediato · Compra segura · Garantia de 7 dias
             </p>
@@ -259,12 +260,14 @@ export default function LandingPage() {
                 ))}
               </ul>
 
-              <a
-                href={CHECKOUT_URL}
-                className="mt-8 flex items-center justify-center gap-2 rounded-pill bg-gold px-6 py-4 text-[15px] font-bold text-ink transition hover:brightness-105"
-              >
-                Começar agora <ArrowRight className="h-4 w-4" />
-              </a>
+              <div className="mt-8 rounded-pill border border-white/20 p-1.5">
+                <a
+                  href={CHECKOUT_URL}
+                  className="flex items-center justify-center rounded-pill bg-gold px-6 py-[18px] text-[16px] font-bold text-ink transition hover:brightness-105"
+                >
+                  Começar agora
+                </a>
+              </div>
               <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-1 text-[12px] text-white/50">
                 <Trust icon={Zap} label="Acesso imediato" light />
                 <Trust icon={Lock} label="Compra segura" light />
@@ -342,12 +345,14 @@ export default function LandingPage() {
             <p className="mx-auto mt-4 max-w-[480px] text-[16px] leading-relaxed text-muted">
               Comece hoje a cobrar o preço certo, com lucro, clareza e segurança pra crescer.
             </p>
-            <a
-              href={CHECKOUT_URL}
-              className="mt-8 inline-flex items-center justify-center gap-2 rounded-pill bg-brown px-8 py-4 text-[15px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(44,30,22,0.7)] transition hover:brightness-110"
-            >
-              Quero começar agora <ArrowRight className="h-4 w-4" />
-            </a>
+            <div className="mt-8 inline-flex rounded-pill border border-brown/25 p-1.5">
+              <a
+                href={CHECKOUT_URL}
+                className="rounded-pill bg-brown px-10 py-[18px] text-[16px] font-semibold text-white transition hover:brightness-110"
+              >
+                Quero começar agora
+              </a>
+            </div>
           </div>
         </Container>
       </section>
