@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   Zap,
   Lock,
+  ArrowRight,
 } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -69,32 +70,29 @@ export default function LandingPage() {
       </header>
 
       {/* ===== PROBLEMA ===== */}
-      <section className="relative z-10 rounded-b-[40px] bg-surface py-16 shadow-[0_22px_28px_-24px_rgba(44,30,22,0.3)] md:py-20">
+      <section className="bg-surface py-16 md:py-24">
         <Container>
-          <h2 className="max-w-3xl text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">
-            Se você cobra “no olho”, provavelmente está deixando dinheiro na mesa.
+          <h2 className="mx-auto max-w-[520px] text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">
+            Reconhece algum desses sinais no seu negócio?
           </h2>
-          <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-muted">
-            A maioria das profissionais define preço olhando a concorrente ou chutando um número que “parece justo”. Aí
-            no fim do mês o caixa não bate, e ninguém entende por quê. Reconhece alguma dessas?
-          </p>
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto mt-12 grid max-w-4xl gap-x-12 sm:grid-cols-2 lg:grid-cols-3 [&>div]:flex [&>div]:items-start [&>div]:gap-4 [&>div]:border-b [&>div]:border-line [&>div]:py-6 [&>div:last-child]:border-b-0 sm:[&>div:nth-last-child(-n+2)]:border-b-0 lg:[&>div:nth-last-child(-n+3)]:border-b-0">
             {[
-              'Copiar o preço da concorrente sem saber o custo dela',
-              'Não fazer ideia de quanto custa a sua hora de trabalho',
-              'Dar desconto que, no fim, come todo o lucro',
-              'Nunca separar o seu pró-labore do dinheiro do negócio',
-              'Montar combo e acabar saindo no prejuízo',
-              'Ter medo de aumentar o preço e perder cliente',
+              'Clientes que fazem um procedimento e somem, sem virar recorrência.',
+              'Cancelamentos de última hora que deixam buracos na sua agenda.',
+              'Dificuldade de aumentar o preço sem medo de perder cliente.',
+              'Sensação de estar trabalhando muito mais do que ganhando.',
+              'Concorrência te forçando a baixar o preço só pra competir.',
+              'Combos e promoções que, no fim, acabam saindo no prejuízo.',
             ].map((t) => (
-              <li key={t} className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-4">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-pill bg-danger/12 text-[12px] font-bold text-danger">
-                  ✕
-                </span>
-                <span className="text-[14px] leading-snug">{t}</span>
-              </li>
+              <div key={t}>
+                <ArrowRight className="mt-0.5 h-5 w-5 shrink-0 text-brown" />
+                <p className="text-[15px] leading-relaxed text-ink/80">{t}</p>
+              </div>
             ))}
-          </ul>
+          </div>
+          <p className="mx-auto mt-12 max-w-[440px] text-center text-[15px] leading-relaxed text-muted">
+            Se você se identificou com pelo menos 3 desses sinais, preciso te contar uma coisa importante…
+          </p>
         </Container>
       </section>
 
@@ -136,7 +134,7 @@ export default function LandingPage() {
       <section className="bg-[#F0ECE6] py-10 md:py-16">
         <Container>
           <div className="rounded-[40px] bg-[#705336] px-6 py-16 text-center text-white md:px-14 md:py-20">
-            <p className="text-[13px] font-semibold uppercase tracking-wide text-gold">Resultados</p>
+            <p className="text-[13px] font-semibold uppercase tracking-wide text-white">Resultados</p>
             <h2 className="mt-3 text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">O que muda quando você precifica certo</h2>
             <p className="mx-auto mt-4 max-w-[560px] text-[16px] leading-relaxed text-white/60">
               Não é sobre cobrar mais caro. É sobre cobrar o que faz sentido, com clareza e segurança pra crescer.
@@ -151,7 +149,7 @@ export default function LandingPage() {
                 'Decide campanhas e combos com número, não com achismo',
               ].map((t) => (
                 <div key={t} className="flex items-start gap-3 rounded-2xl bg-white/[0.04] p-4">
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-gold text-ink">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-white text-[#705336]">
                     <Check className="h-3.5 w-3.5" />
                   </span>
                   <span className="text-[15px] leading-snug text-white/90">{t}</span>
@@ -236,7 +234,7 @@ export default function LandingPage() {
             </p>
 
             <div className="mt-8 rounded-[28px] border border-white/10 bg-white/[0.04] p-8 text-left">
-              <p className="text-[13px] font-semibold uppercase tracking-wide text-gold">Plano anual</p>
+              <p className="text-[13px] font-semibold uppercase tracking-wide text-white">Plano anual</p>
               <div className="mt-3 flex items-end gap-2">
                 <span className="text-[15px] text-white/50 line-through">R$ 497</span>
               </div>
@@ -255,7 +253,7 @@ export default function LandingPage() {
                   'Atualizações incluídas durante o plano',
                 ].map((t) => (
                   <li key={t} className="flex items-center gap-2.5 text-[14px] text-white/85">
-                    <Check className="h-4 w-4 shrink-0 text-gold" /> {t}
+                    <Check className="h-4 w-4 shrink-0 text-white" /> {t}
                   </li>
                 ))}
               </ul>
@@ -263,7 +261,7 @@ export default function LandingPage() {
               <div className="mt-8 rounded-pill border border-white/20 p-1.5">
                 <a
                   href={CHECKOUT_URL}
-                  className="flex items-center justify-center rounded-pill bg-gold px-6 py-[18px] text-[16px] font-bold text-ink transition hover:brightness-105"
+                  className="flex items-center justify-center rounded-pill bg-white px-6 py-[18px] text-[16px] font-bold text-[#705336] transition hover:brightness-105"
                 >
                   Começar agora
                 </a>
@@ -370,7 +368,7 @@ export default function LandingPage() {
 function Trust({ icon: Icon, label, light }: { icon: typeof Zap; label: string; light?: boolean }) {
   return (
     <span className="inline-flex items-center gap-1.5">
-      <Icon className={`h-4 w-4 ${light ? 'text-gold' : 'text-brown'}`} />
+      <Icon className={`h-4 w-4 ${light ? 'text-white' : 'text-brown'}`} />
       {label}
     </span>
   )
