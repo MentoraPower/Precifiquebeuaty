@@ -3,7 +3,6 @@ import { Instrument_Sans } from 'next/font/google'
 import './globals.css'
 import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
 import { DismissKeyboard } from '@/components/DismissKeyboard'
-import { ThemeColor } from '@/components/ThemeColor'
 
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
@@ -13,11 +12,11 @@ const instrumentSans = Instrument_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'W Calculadora',
+  title: 'Precifica Beauty',
   description: 'Precifique com clareza, calcule seu lucro e a viabilidade das suas campanhas.',
   manifest: '/manifest.webmanifest',
-  applicationName: 'W Calculadora',
-  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'W Calculadora' },
+  applicationName: 'Precifica Beauty',
+  appleWebApp: { capable: true, statusBarStyle: 'black', title: 'Precifica Beauty' },
   icons: {
     icon: [
       { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
@@ -43,7 +42,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="mx-auto min-h-screen max-w-app bg-surface">{children}</div>
         <ServiceWorkerRegister />
         <DismissKeyboard />
-        <ThemeColor />
       </body>
     </html>
   )
