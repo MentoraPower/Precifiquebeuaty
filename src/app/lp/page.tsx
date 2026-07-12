@@ -132,28 +132,31 @@ export default function LandingPage() {
       </section>
 
       {/* ===== TRANSFORMAÇÃO ===== */}
-      <section className="bg-ink py-16 text-white md:py-24">
-        <Container className="text-center">
-          <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">O que muda quando você precifica certo</h2>
-          <p className="mx-auto mt-4 max-w-[560px] text-[16px] leading-relaxed text-white/60">
-            Não é sobre cobrar mais caro. É sobre cobrar o que faz sentido, com clareza e segurança pra crescer.
-          </p>
-          <div className="mt-10 grid gap-4 text-left sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              'Você sabe, em segundos, se um serviço dá lucro ou prejuízo',
-              'Consegue dar desconto sem se enganar sobre o resultado',
-              'Para de subsidiar cliente com o próprio bolso',
-              'Aumenta o preço com argumento, não com medo',
-              'Enxerga quanto o negócio precisa faturar pra fechar no azul',
-              'Decide campanhas e combos com número, não com achismo',
-            ].map((t) => (
-              <div key={t} className="flex items-start gap-3 rounded-2xl bg-white/[0.04] p-4">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-gold text-ink">
-                  <Check className="h-3.5 w-3.5" />
-                </span>
-                <span className="text-[15px] leading-snug text-white/90">{t}</span>
-              </div>
-            ))}
+      <section className="py-10 md:py-16">
+        <Container>
+          <div className="rounded-[40px] bg-ink px-6 py-16 text-center text-white md:px-14 md:py-20">
+            <p className="text-[13px] font-semibold uppercase tracking-wide text-gold">Resultados</p>
+            <h2 className="mt-3 text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">O que muda quando você precifica certo</h2>
+            <p className="mx-auto mt-4 max-w-[560px] text-[16px] leading-relaxed text-white/60">
+              Não é sobre cobrar mais caro. É sobre cobrar o que faz sentido, com clareza e segurança pra crescer.
+            </p>
+            <div className="mt-10 grid gap-4 text-left sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                'Você sabe, em segundos, se um serviço dá lucro ou prejuízo',
+                'Consegue dar desconto sem se enganar sobre o resultado',
+                'Para de subsidiar cliente com o próprio bolso',
+                'Aumenta o preço com argumento, não com medo',
+                'Enxerga quanto o negócio precisa faturar pra fechar no azul',
+                'Decide campanhas e combos com número, não com achismo',
+              ].map((t) => (
+                <div key={t} className="flex items-start gap-3 rounded-2xl bg-white/[0.04] p-4">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-gold text-ink">
+                    <Check className="h-3.5 w-3.5" />
+                  </span>
+                  <span className="text-[15px] leading-snug text-white/90">{t}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </Container>
       </section>
@@ -162,6 +165,10 @@ export default function LandingPage() {
       <section className="py-16 md:py-20">
         <Container>
           <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Feito pra quem vive da beleza</h2>
+          <p className="mx-auto mt-3 max-w-[520px] text-center text-[16px] leading-relaxed text-muted">
+            Não importa a sua especialidade, se o seu trabalho é deixar o cliente mais bonito, dá pra precificar do jeito
+            certo aqui dentro.
+          </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
               ['Cabeleireiras', 'Corte, coloração, escova, tratamentos'],
@@ -204,19 +211,21 @@ export default function LandingPage() {
       <section className="py-16 md:py-24">
         <Container>
           <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Veja por dentro</h2>
-          <div className="no-scrollbar mt-10 flex snap-x gap-6 overflow-x-auto pb-4 md:justify-center">
-            {SCREENS.map((s) => (
-              <div key={s.src} className="snap-center">
-                <Phone src={s.src} alt={s.alt} small />
-              </div>
-            ))}
-          </div>
         </Container>
+        {/* full-bleed, sem limite lateral e sem sombra */}
+        <div className="no-scrollbar mt-10 flex snap-x gap-5 overflow-x-auto px-8 pb-2">
+          {SCREENS.map((s) => (
+            <div key={s.src} className="snap-center">
+              <Phone src={s.src} alt={s.alt} small shadow={false} />
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* ===== PLANOS ===== */}
-      <section id="planos" className="bg-ink py-16 text-white md:py-24">
+      <section id="planos" className="py-10 md:py-16">
         <Container>
+          <div className="rounded-[40px] bg-ink px-6 py-16 text-white md:px-14 md:py-20">
           <div className="mx-auto max-w-md text-center">
             <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">Um plano, tudo liberado</h2>
             <p className="mt-3 text-[15px] text-white/60">
@@ -259,6 +268,7 @@ export default function LandingPage() {
                 <Trust icon={Lock} label="Compra segura" light />
               </div>
             </div>
+          </div>
           </div>
         </Container>
       </section>
@@ -371,12 +381,18 @@ function Feature({ icon: Icon, title, desc }: { icon: typeof Clock; title: strin
   )
 }
 
-function Phone({ src, alt, small }: { src: string; alt: string; small?: boolean }) {
+function Phone({ src, alt, small, shadow = true }: { src: string; alt: string; small?: boolean; shadow?: boolean }) {
   return (
-    <div className={`shrink-0 ${small ? 'w-[210px]' : 'w-[260px]'}`}>
-      <div className="overflow-hidden rounded-[38px] border-[7px] border-ink bg-ink shadow-[0_24px_60px_-24px_rgba(17,17,17,0.55)]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={alt} loading="lazy" className="block w-full" />
+    <div className={`shrink-0 ${small ? 'w-[212px]' : 'w-[258px]'}`}>
+      <div
+        className={`rounded-[42px] bg-gradient-to-b from-[#3a291b] to-[#140f0a] p-[6px] ${
+          shadow ? 'shadow-[0_26px_60px_-28px_rgba(44,30,22,0.6)]' : ''
+        }`}
+      >
+        <div className="overflow-hidden rounded-[36px] bg-ink">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={src} alt={alt} loading="lazy" className="block w-full" />
+        </div>
       </div>
     </div>
   )
