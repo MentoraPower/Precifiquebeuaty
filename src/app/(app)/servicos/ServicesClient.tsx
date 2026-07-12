@@ -79,11 +79,13 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   return (
     <main>
       <div className="safe-top px-5 pt-5">
-        <Link href="/servicos/novo" className="block">
-          <Button fullWidth size="lg" className="rounded-pill">
-            <Plus className="h-5 w-5" /> Criar novo
-          </Button>
-        </Link>
+        <div className="flex justify-center">
+          <Link href="/servicos/novo">
+            <Button size="md" className="rounded-pill">
+              <Plus className="h-4 w-4" /> Criar novo
+            </Button>
+          </Link>
+        </div>
         <div className="mt-5 text-center">
           <h1 className="text-[34px] font-medium leading-tight">Gerenciar Serviços</h1>
           <p className="mx-auto mt-1.5 max-w-[290px] text-[14px] text-muted">
