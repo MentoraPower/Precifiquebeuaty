@@ -55,7 +55,7 @@ export function InstallPWARow() {
         <ChevronRight className="h-5 w-5 text-subtle" />
       </button>
 
-      <Modal open={open} onClose={() => setOpen(false)} title="Instalar o app" subtitle="Tenha o W Calculadora na tela de início.">
+      <Modal open={open} onClose={() => setOpen(false)} title="Instalar o app" subtitle="Tenha o Precifica Beauty na tela de início.">
         <div className="flex flex-col items-center text-center">
           <span className="mb-4 flex h-16 w-16 items-center justify-center rounded-[20px] bg-brown text-white">
             <Smartphone className="h-8 w-8" />
