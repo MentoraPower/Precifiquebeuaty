@@ -118,7 +118,7 @@ export default function AuthPage() {
           <Button type="submit" size="lg" fullWidth loading={loading} className="mt-3 rounded-pill">
             Entrar
           </Button>
-          <button type="button" onClick={() => reset('forgot')} className="mt-1 text-center text-[13px] font-medium text-gold">
+          <button type="button" onClick={() => reset('forgot')} className="mt-1 text-center text-[13px] font-semibold text-brown">
             Esqueceu a senha?
           </button>
         </form>
