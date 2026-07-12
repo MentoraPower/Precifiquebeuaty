@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Precifica Beauty — o preço certo de cada serviço, com lucro',
+  title: 'Precifica Beauty, o preço certo de cada serviço, com lucro',
   description:
     'App para profissionais da beleza calcularem o custo real da hora, o preço ideal de cada serviço e a viabilidade das promoções. Sem achismo.',
 }
@@ -42,7 +42,7 @@ export default function LandingPage() {
               App para profissionais da beleza
             </span>
             <h1 className="mt-5 text-[34px] font-bold leading-[1.08] md:text-[46px]">
-              Descubra o preço certo de cada serviço — e pare de trabalhar no vermelho.
+              Descubra o preço certo de cada serviço, e pare de trabalhar no vermelho.
             </h1>
             <p className="mt-5 max-w-[520px] text-[16px] leading-relaxed text-muted md:text-[17px]">
               O Precifica Beauty calcula o custo real da sua hora, o preço ideal com o lucro que você quer e mostra na
@@ -79,7 +79,7 @@ export default function LandingPage() {
           </h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted">
             A maioria das profissionais define preço olhando a concorrente ou chutando um número que “parece justo”. Aí
-            no fim do mês o caixa não bate — e ninguém entende por quê. Reconhece alguma dessas?
+            no fim do mês o caixa não bate, e ninguém entende por quê. Reconhece alguma dessas?
           </p>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2">
             {[
@@ -115,7 +115,7 @@ export default function LandingPage() {
             <p className="mt-4 text-[16px] leading-relaxed text-muted">
               Você cadastra seus custos uma vez e o app faz o resto. Ele considera custos fixos, os insumos que cada
               serviço realmente gasta, a taxa da maquininha, impostos, comissão de parceiro e a margem de lucro que
-              você definir — e devolve o preço ideal, redondo, pronto pra cobrar.
+              você definir, e devolve o preço ideal, redondo, pronto pra cobrar.
             </p>
             <ul className="mt-6 space-y-3">
               {[
@@ -140,7 +140,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <h2 className="text-[26px] font-bold leading-tight md:text-[34px]">O que muda quando você precifica certo</h2>
           <p className="mx-auto mt-4 max-w-[560px] text-[16px] leading-relaxed text-white/60">
-            Não é sobre cobrar mais caro. É sobre cobrar o que faz sentido — com clareza e segurança pra crescer.
+            Não é sobre cobrar mais caro. É sobre cobrar o que faz sentido, com clareza e segurança pra crescer.
           </p>
           <div className="mt-10 grid gap-4 text-left sm:grid-cols-2">
             {[
@@ -291,7 +291,7 @@ export default function LandingPage() {
               ],
               [
                 'Serve pro meu tipo de serviço?',
-                'Sim. Você cadastra seus próprios serviços, custos e insumos — funciona para sobrancelha, cílios, unhas, cabelo, estética e qualquer procedimento de beleza.',
+                'Sim. Você cadastra seus próprios serviços, custos e insumos, funciona para sobrancelha, cílios, unhas, cabelo, estética e qualquer procedimento de beleza.',
               ],
               [
                 'Sou iniciante e me perco com números. Vou conseguir usar?',
@@ -325,7 +325,7 @@ export default function LandingPage() {
             Chega de cobrar no escuro.
           </h2>
           <p className="mx-auto mt-4 max-w-[480px] text-[16px] leading-relaxed text-muted">
-            Comece hoje a cobrar o preço certo — com lucro, clareza e segurança pra crescer.
+            Comece hoje a cobrar o preço certo, com lucro, clareza e segurança pra crescer.
           </p>
           <a
             href={CHECKOUT_URL}
