@@ -15,6 +15,7 @@ export type Profile = {
   id: string
   full_name: string | null
   profession: string | null
+  phone: string | null
   avatar_url: string | null
   plan: string
   onboarding_started_at: string | null

@@ -1,15 +1,15 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { Store, Boxes, Percent, LogOut, ChevronRight, User, Lock, Check, Camera, Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Store, Boxes, Percent, LogOut, ChevronRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import { initials, formatBps } from '@/lib/format'
+import { formatBps } from '@/lib/format'
 import { Button } from '@/components/ui/Button'
 import { Modal } from '@/components/ui/Modal'
 import { PercentField } from '@/components/ui/MoneyField'
-import { Input } from '@/components/ui/Input'
+import { Avatar } from '@/components/Avatar'
 import { InstallPWARow } from '@/components/InstallPWA'
 import { useConfirm } from '@/components/ConfirmProvider'
 
@@ -20,51 +20,10 @@ interface Defaults {
   marginBps: number
 }
 
-// Redimensiona/recorta a imagem para um quadrado pequeno (JPEG leve).
-function resizeImage(file: File, size = 256): Promise<Blob> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onerror = () => reject(new Error('read'))
-    reader.onload = () => {
-      const img = new window.Image()
-      img.onerror = () => reject(new Error('img'))
-      img.onload = () => {
-        const canvas = document.createElement('canvas')
-        canvas.width = size
-        canvas.height = size
-        const ctx = canvas.getContext('2d')
-        if (!ctx) return reject(new Error('ctx'))
-        const min = Math.min(img.width, img.height)
-        const sx = (img.width - min) / 2
-        const sy = (img.height - min) / 2
-        ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size)
-        canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('blob'))), 'image/jpeg', 0.85)
-      }
-      img.src = reader.result as string
-    }
-    reader.readAsDataURL(file)
-  })
-}
-
-function Avatar({ url, name, size }: { url: string | null; name: string; size: number }) {
-  const cls = `flex shrink-0 items-center justify-center overflow-hidden rounded-pill bg-ink text-white font-bold`
-  if (url) {
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img src={url} alt={name} className={`${cls} object-cover`} style={{ width: size, height: size }} />
-  }
-  return (
-    <span className={cls} style={{ width: size, height: size, fontSize: size * 0.32 }}>
-      {initials(name)}
-    </span>
-  )
-}
-
 export function MenuClient({
   email,
   fullName,
-  profession,
-  plan,
-  avatarUrl: initialAvatarUrl,
+  avatarUrl,
   defaults,
 }: {
   email: string
@@ -77,95 +36,10 @@ export function MenuClient({
   const router = useRouter()
   const supabase = createClient()
   const confirm = useConfirm()
-  const params = useSearchParams()
-  const fileRef = useRef<HTMLInputElement>(null)
 
-  const [profileOpen, setProfileOpen] = useState(false)
-  const [passwordOpen, setPasswordOpen] = useState(false)
   const [feesOpen, setFeesOpen] = useState(false)
-
-  const [name, setName] = useState(fullName)
-  const [prof, setProf] = useState(profession)
-  const [displayName, setDisplayName] = useState(fullName)
-  const [displayProf, setDisplayProf] = useState(profession)
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(initialAvatarUrl)
   const [fees, setFees] = useState(defaults)
-
-  const [savingProfile, setSavingProfile] = useState(false)
   const [savingFees, setSavingFees] = useState(false)
-  const [uploading, setUploading] = useState(false)
-
-  const [pw1, setPw1] = useState('')
-  const [pw2, setPw2] = useState('')
-  const [pwSaving, setPwSaving] = useState(false)
-  const [pwError, setPwError] = useState<string | null>(null)
-  const [pwDone, setPwDone] = useState(false)
-
-  // abre o perfil automaticamente quando vem da Home (?profile=1)
-  useEffect(() => {
-    if (params.get('profile')) setProfileOpen(true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (fileRef.current) fileRef.current.value = ''
-    if (!file) return
-    setUploading(true)
-    try {
-      const blob = await resizeImage(file, 256)
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-      if (!user) return
-      const path = `${user.id}/avatar.jpg`
-      const { error: upErr } = await supabase.storage
-        .from('avatars')
-        .upload(path, blob, { upsert: true, contentType: 'image/jpeg' })
-      if (upErr) throw upErr
-      const { data } = supabase.storage.from('avatars').getPublicUrl(path)
-      const url = `${data.publicUrl}?t=${Date.now()}`
-      await supabase.from('profiles').update({ avatar_url: url }).eq('id', user.id)
-      setAvatarUrl(url)
-      router.refresh()
-    } catch {
-      await confirm({ title: 'Não foi possível enviar a foto', message: 'Tente novamente com outra imagem.', confirmLabel: 'Ok', cancelLabel: 'Fechar' })
-    } finally {
-      setUploading(false)
-    }
-  }
-
-  async function saveProfile() {
-    setSavingProfile(true)
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    if (user) {
-      await supabase.from('profiles').update({ full_name: name, profession: prof }).eq('id', user.id)
-      setDisplayName(name)
-      setDisplayProf(prof)
-    }
-    setSavingProfile(false)
-    setProfileOpen(false)
-    router.refresh()
-  }
-
-  async function changePassword() {
-    setPwError(null)
-    if (pw1.length < 6) return setPwError('A senha precisa de ao menos 6 caracteres.')
-    if (pw1 !== pw2) return setPwError('As senhas não coincidem.')
-    setPwSaving(true)
-    const { error } = await supabase.auth.updateUser({ password: pw1 })
-    setPwSaving(false)
-    if (error) return setPwError('Não foi possível alterar a senha.')
-    setPwDone(true)
-    setPw1('')
-    setPw2('')
-    setTimeout(() => {
-      setPwDone(false)
-      setPasswordOpen(false)
-    }, 1200)
-  }
 
   async function saveFees() {
     setSavingFees(true)
@@ -192,40 +66,28 @@ export function MenuClient({
   async function signOut() {
     const ok = await confirm({ title: 'Sair da conta', message: 'Deseja encerrar sua sessão?', confirmLabel: 'Sair' })
     if (!ok) return
-    // logout local (sem ida à rede para revogar) — instantâneo
     await supabase.auth.signOut({ scope: 'local' })
     router.replace('/auth')
   }
 
   return (
     <main>
-      <header
-        className="px-5 pb-2"
-        style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 16px)' }}
+      <div
+        className="space-y-6 px-5"
+        style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 18px)' }}
       >
-        <h1 className="text-[22px] font-bold leading-tight">Menu</h1>
-      </header>
-
-      <div className="space-y-6 px-5 pt-2">
-        {/* Perfil */}
-        <button
-          onClick={() => setProfileOpen(true)}
-          className="flex w-full items-center gap-4 rounded-card border border-line bg-bg p-4 text-left transition hover:border-ink/20"
+        {/* Perfil → abre a página de perfil */}
+        <Link
+          href="/perfil"
+          className="flex w-full items-center gap-4 rounded-card border border-line bg-bg p-4 transition hover:border-ink/20"
         >
-          <Avatar url={avatarUrl} name={displayName} size={56} />
+          <Avatar url={avatarUrl} name={fullName} size={56} />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[17px] font-bold">{displayName || 'Sua conta'}</p>
+            <p className="truncate text-[17px] font-bold">{fullName || 'Sua conta'}</p>
             <p className="truncate text-[13px] text-muted">{email}</p>
           </div>
-          <span className="shrink-0 rounded-pill bg-champagne px-3 py-1 text-[11px] font-semibold capitalize text-[#8a6a1e]">
-            {plan}
-          </span>
-        </button>
-
-        <Section title="Conta">
-          <Row icon={User} label="Editar perfil" hint={displayProf || 'Nome, foto e profissão'} onClick={() => setProfileOpen(true)} />
-          <Row icon={Lock} label="Trocar senha" onClick={() => setPasswordOpen(true)} />
-        </Section>
+          <ChevronRight className="h-5 w-5 shrink-0 text-subtle" />
+        </Link>
 
         <Section title="Negócio">
           <Row icon={Store} label="Meu negócio" href="/negocio" />
@@ -241,57 +103,6 @@ export function MenuClient({
           <LogOut className="h-4 w-4" /> Sair da conta
         </Button>
       </div>
-
-      <input ref={fileRef} type="file" accept="image/*" hidden onChange={handleFile} />
-
-      {/* Editar perfil */}
-      <Modal open={profileOpen} onClose={() => setProfileOpen(false)} title="Editar perfil">
-        <div className="space-y-5">
-          <div className="flex flex-col items-center">
-            <div className="relative">
-              <Avatar url={avatarUrl} name={name} size={88} />
-              <button
-                onClick={() => fileRef.current?.click()}
-                disabled={uploading}
-                aria-label="Trocar foto"
-                className="absolute -bottom-1 -right-1 flex h-9 w-9 items-center justify-center rounded-pill border-[3px] border-bg bg-ink text-white transition active:scale-95"
-              >
-                {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
-              </button>
-            </div>
-            <button onClick={() => fileRef.current?.click()} className="mt-3 text-[13px] font-medium text-gold" disabled={uploading}>
-              {uploading ? 'Enviando…' : 'Trocar foto'}
-            </button>
-          </div>
-          <Input label="Nome" value={name} onChange={(e) => setName(e.target.value)} placeholder="Seu nome" />
-          <Input label="Profissão" value={prof} onChange={(e) => setProf(e.target.value)} placeholder="Ex.: Designer de sobrancelhas" />
-          <Input label="E-mail" value={email} disabled hint="O e-mail de acesso não pode ser alterado por aqui." />
-          <Button fullWidth size="lg" loading={savingProfile} onClick={saveProfile}>
-            Salvar
-          </Button>
-        </div>
-      </Modal>
-
-      {/* Trocar senha */}
-      <Modal open={passwordOpen} onClose={() => setPasswordOpen(false)} title="Trocar senha" subtitle="Defina uma nova senha de acesso.">
-        {pwDone ? (
-          <div className="flex flex-col items-center py-4 text-center">
-            <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-pill bg-success/12 text-success">
-              <Check className="h-7 w-7" />
-            </span>
-            <p className="text-[15px] font-semibold">Senha alterada!</p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <Input label="Nova senha" type="password" value={pw1} onChange={(e) => setPw1(e.target.value)} placeholder="Mínimo 6 caracteres" />
-            <Input label="Confirmar nova senha" type="password" value={pw2} onChange={(e) => setPw2(e.target.value)} placeholder="Repita a senha" />
-            {pwError && <p className="text-[13px] text-danger">{pwError}</p>}
-            <Button fullWidth size="lg" loading={pwSaving} onClick={changePassword}>
-              Salvar nova senha
-            </Button>
-          </div>
-        )}
-      </Modal>
 
       {/* Impostos e taxas */}
       <Modal open={feesOpen} onClose={() => setFeesOpen(false)} title="Impostos e taxas padrão" subtitle="Copiados para novos serviços; não altera os já criados.">
