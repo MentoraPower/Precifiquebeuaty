@@ -94,7 +94,7 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
         </div>
       </div>
 
-      <div className="no-scrollbar flex justify-center gap-2 overflow-x-auto px-5 pb-1 pt-4">
+      <div className="no-scrollbar flex gap-2 overflow-x-auto px-5 pb-1 pt-4">
         <Chip active={filter === 'all'} onClick={() => setFilter('all')}>
           Todos
         </Chip>
