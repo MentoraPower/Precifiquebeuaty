@@ -30,12 +30,17 @@ const SCREENS = [
   { src: '/lp/screen-menu.webp', alt: 'Menu e configurações do negócio' },
 ]
 
+// Container único: 2rem de lateral no mobile, máx. 1280px no desktop.
+function Container({ className = '', children }: { className?: string; children: React.ReactNode }) {
+  return <div className={`mx-auto w-full max-w-[1280px] px-8 ${className}`}>{children}</div>
+}
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-surface text-ink">
       {/* ===== HERO ===== */}
       <header className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 pb-16 pt-14 md:grid-cols-2 md:gap-8 md:pb-24 md:pt-20">
+        <Container className="grid items-center gap-12 pb-16 pt-14 md:grid-cols-2 md:gap-8 md:pb-24 md:pt-20">
           <div>
             <span className="inline-flex items-center gap-2 rounded-pill border border-brown/15 bg-bg px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-wide text-brown">
               App para profissionais da beleza
@@ -67,20 +72,20 @@ export default function LandingPage() {
           <div className="relative flex justify-center md:justify-end">
             <Phone src={SCREENS[0].src} alt={SCREENS[0].alt} />
           </div>
-        </div>
+        </Container>
       </header>
 
       {/* ===== PROBLEMA ===== */}
       <section className="bg-bg py-16 md:py-20">
-        <div className="mx-auto max-w-3xl px-6">
-          <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">
+        <Container>
+          <h2 className="max-w-3xl text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">
             Se você cobra “no olho”, provavelmente está deixando dinheiro na mesa.
           </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+          <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-muted">
             A maioria das profissionais define preço olhando a concorrente ou chutando um número que “parece justo”. Aí
             no fim do mês o caixa não bate, e ninguém entende por quê. Reconhece alguma dessas?
           </p>
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
               'Copiar o preço da concorrente sem saber o custo dela',
               'Não fazer ideia de quanto custa a sua hora de trabalho',
@@ -97,12 +102,12 @@ export default function LandingPage() {
               </li>
             ))}
           </ul>
-        </div>
+        </Container>
       </section>
 
       {/* ===== SOLUÇÃO ===== */}
       <section id="como-funciona" className="py-16 md:py-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-2">
+        <Container className="grid items-center gap-12 md:grid-cols-2">
           <div className="order-2 flex justify-center md:order-1">
             <Phone src={SCREENS[1].src} alt={SCREENS[1].alt} />
           </div>
@@ -131,17 +136,17 @@ export default function LandingPage() {
               ))}
             </ul>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* ===== TRANSFORMAÇÃO ===== */}
       <section className="bg-ink py-16 text-white md:py-24">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <Container className="text-center">
           <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">O que muda quando você precifica certo</h2>
           <p className="mx-auto mt-4 max-w-[560px] text-[16px] leading-relaxed text-white/60">
             Não é sobre cobrar mais caro. É sobre cobrar o que faz sentido, com clareza e segurança pra crescer.
           </p>
-          <div className="mt-10 grid gap-4 text-left sm:grid-cols-2">
+          <div className="mt-10 grid gap-4 text-left sm:grid-cols-2 lg:grid-cols-3">
             {[
               'Você sabe, em segundos, se um serviço dá lucro ou prejuízo',
               'Consegue dar desconto sem se enganar sobre o resultado',
@@ -158,12 +163,12 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* ===== PARA QUEM ===== */}
       <section className="py-16 md:py-20">
-        <div className="mx-auto max-w-5xl px-6">
+        <Container>
           <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Feito pra quem vive da beleza</h2>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
@@ -180,12 +185,12 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* ===== RECURSOS ===== */}
       <section className="bg-bg py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-6">
+        <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">Tudo o que você precisa num app só</h2>
             <p className="mt-4 text-[16px] leading-relaxed text-muted">
@@ -200,146 +205,154 @@ export default function LandingPage() {
             <Feature icon={Wallet} title="Custos e investimentos" desc="Controle despesas fixas, variáveis e a depreciação dos seus equipamentos." />
             <Feature icon={MessagesSquare} title="Comunidade" desc="Conteúdos e novidades exclusivas, direto no app, em tempo real." />
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* ===== SHOWCASE DE TELAS ===== */}
       <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-6">
+        <Container>
           <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Veja por dentro</h2>
-          <div className="no-scrollbar mt-10 flex snap-x gap-6 overflow-x-auto px-1 pb-4 md:justify-center">
+          <div className="no-scrollbar mt-10 flex snap-x gap-6 overflow-x-auto pb-4 md:justify-center">
             {SCREENS.map((s) => (
               <div key={s.src} className="snap-center">
                 <Phone src={s.src} alt={s.alt} small />
               </div>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* ===== PLANOS ===== */}
       <section id="planos" className="bg-ink py-16 text-white md:py-24">
-        <div className="mx-auto max-w-md px-6 text-center">
-          <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">Um plano, tudo liberado</h2>
-          <p className="mt-3 text-[15px] text-white/60">
-            Menos do que você perde em um único serviço mal precificado.
-          </p>
+        <Container>
+          <div className="mx-auto max-w-md text-center">
+            <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">Um plano, tudo liberado</h2>
+            <p className="mt-3 text-[15px] text-white/60">
+              Menos do que você perde em um único serviço mal precificado.
+            </p>
 
-          <div className="mt-8 rounded-[28px] border border-white/10 bg-white/[0.04] p-8 text-left">
-            <p className="text-[13px] font-semibold uppercase tracking-wide text-gold">Plano anual</p>
-            <div className="mt-3 flex items-end gap-2">
-              <span className="text-[15px] text-white/50 line-through">R$ 497</span>
-            </div>
-            <div className="flex items-end gap-1">
-              <span className="text-[44px] font-bold leading-none">R$ 297</span>
-              <span className="mb-1.5 text-[14px] text-white/60">/ano</span>
-            </div>
-            <p className="mt-1 text-[13px] text-white/50">ou 12x de R$ 29,70</p>
+            <div className="mt-8 rounded-[28px] border border-white/10 bg-white/[0.04] p-8 text-left">
+              <p className="text-[13px] font-semibold uppercase tracking-wide text-gold">Plano anual</p>
+              <div className="mt-3 flex items-end gap-2">
+                <span className="text-[15px] text-white/50 line-through">R$ 497</span>
+              </div>
+              <div className="flex items-end gap-1">
+                <span className="text-[44px] font-bold leading-none">R$ 297</span>
+                <span className="mb-1.5 text-[14px] text-white/60">/ano</span>
+              </div>
+              <p className="mt-1 text-[13px] text-white/50">ou 12x de R$ 29,70</p>
 
-            <ul className="mt-6 space-y-2.5">
-              {[
-                'Todas as ferramentas de precificação',
-                'Simulações de campanhas e combos',
-                'Custos, insumos e investimentos',
-                'Comunidade com conteúdos exclusivos',
-                'Atualizações incluídas durante o plano',
-              ].map((t) => (
-                <li key={t} className="flex items-center gap-2.5 text-[14px] text-white/85">
-                  <Check className="h-4 w-4 shrink-0 text-gold" /> {t}
-                </li>
-              ))}
-            </ul>
+              <ul className="mt-6 space-y-2.5">
+                {[
+                  'Todas as ferramentas de precificação',
+                  'Simulações de campanhas e combos',
+                  'Custos, insumos e investimentos',
+                  'Comunidade com conteúdos exclusivos',
+                  'Atualizações incluídas durante o plano',
+                ].map((t) => (
+                  <li key={t} className="flex items-center gap-2.5 text-[14px] text-white/85">
+                    <Check className="h-4 w-4 shrink-0 text-gold" /> {t}
+                  </li>
+                ))}
+              </ul>
 
-            <a
-              href={CHECKOUT_URL}
-              className="mt-8 flex items-center justify-center gap-2 rounded-pill bg-gold px-6 py-4 text-[15px] font-bold text-ink transition hover:brightness-105"
-            >
-              Começar agora <ArrowRight className="h-4 w-4" />
-            </a>
-            <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-1 text-[12px] text-white/50">
-              <Trust icon={Zap} label="Acesso imediato" light />
-              <Trust icon={Lock} label="Compra segura" light />
+              <a
+                href={CHECKOUT_URL}
+                className="mt-8 flex items-center justify-center gap-2 rounded-pill bg-gold px-6 py-4 text-[15px] font-bold text-ink transition hover:brightness-105"
+              >
+                Começar agora <ArrowRight className="h-4 w-4" />
+              </a>
+              <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-1 text-[12px] text-white/50">
+                <Trust icon={Zap} label="Acesso imediato" light />
+                <Trust icon={Lock} label="Compra segura" light />
+              </div>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* ===== GARANTIA ===== */}
       <section className="py-16 md:py-20">
-        <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 px-6 text-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-3xl bg-brown/10 text-brown">
-            <ShieldCheck className="h-8 w-8" />
-          </span>
-          <h2 className="text-[26px] font-semibold leading-tight [text-wrap:balance] md:text-[30px]">Risco zero por 7 dias</h2>
-          <p className="max-w-[520px] text-[16px] leading-relaxed text-muted">
-            Use o app, precifique seus serviços e veja o resultado. Se nos primeiros 7 dias você achar que não é pra
-            você, devolvemos 100% do valor. Sem letras miúdas.
-          </p>
-        </div>
+        <Container>
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
+            <span className="flex h-16 w-16 items-center justify-center rounded-3xl bg-brown/10 text-brown">
+              <ShieldCheck className="h-8 w-8" />
+            </span>
+            <h2 className="text-[26px] font-semibold leading-tight [text-wrap:balance] md:text-[30px]">Risco zero por 7 dias</h2>
+            <p className="max-w-[520px] text-[16px] leading-relaxed text-muted">
+              Use o app, precifique seus serviços e veja o resultado. Se nos primeiros 7 dias você achar que não é pra
+              você, devolvemos 100% do valor. Sem letras miúdas.
+            </p>
+          </div>
+        </Container>
       </section>
 
       {/* ===== FAQ ===== */}
       <section className="bg-bg py-16 md:py-20">
-        <div className="mx-auto max-w-2xl px-6">
-          <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Perguntas frequentes</h2>
-          <div className="mt-8 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
-            {[
-              [
-                'Preciso instalar alguma coisa?',
-                'Não. O Precifica Beauty roda direto no navegador do celular e ainda pode ser adicionado à tela inicial, funcionando como um app. É feito para uso no celular.',
-              ],
-              [
-                'Serve pro meu tipo de serviço?',
-                'Sim. Você cadastra seus próprios serviços, custos e insumos, funciona para sobrancelha, cílios, unhas, cabelo, estética e qualquer procedimento de beleza.',
-              ],
-              [
-                'Sou iniciante e me perco com números. Vou conseguir usar?',
-                'Vai. Você responde informações simples do seu dia a dia e o app faz todos os cálculos. Nada de fórmula ou planilha complicada.',
-              ],
-              [
-                'Como funciona o pagamento?',
-                'É um plano anual com acesso imediato após a confirmação. Você pode pagar à vista ou parcelar, e tem 7 dias de garantia.',
-              ],
-              [
-                'Meus dados ficam separados dos de outras pessoas?',
-                'Sim. Cada conta enxerga apenas os próprios serviços, custos e simulações. Seus números são só seus.',
-              ],
-            ].map(([q, a]) => (
-              <details key={q} className="group px-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">
-                  {q}
-                  <span className="shrink-0 text-brown transition group-open:rotate-45">＋</span>
-                </summary>
-                <p className="pb-4 text-[14px] leading-relaxed text-muted">{a}</p>
-              </details>
-            ))}
+        <Container>
+          <div className="mx-auto max-w-2xl">
+            <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Perguntas frequentes</h2>
+            <div className="mt-8 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
+              {[
+                [
+                  'Preciso instalar alguma coisa?',
+                  'Não. O Precifica Beauty roda direto no navegador do celular e ainda pode ser adicionado à tela inicial, funcionando como um app. É feito para uso no celular.',
+                ],
+                [
+                  'Serve pro meu tipo de serviço?',
+                  'Sim. Você cadastra seus próprios serviços, custos e insumos, funciona para sobrancelha, cílios, unhas, cabelo, estética e qualquer procedimento de beleza.',
+                ],
+                [
+                  'Sou iniciante e me perco com números. Vou conseguir usar?',
+                  'Vai. Você responde informações simples do seu dia a dia e o app faz todos os cálculos. Nada de fórmula ou planilha complicada.',
+                ],
+                [
+                  'Como funciona o pagamento?',
+                  'É um plano anual com acesso imediato após a confirmação. Você pode pagar à vista ou parcelar, e tem 7 dias de garantia.',
+                ],
+                [
+                  'Meus dados ficam separados dos de outras pessoas?',
+                  'Sim. Cada conta enxerga apenas os próprios serviços, custos e simulações. Seus números são só seus.',
+                ],
+              ].map(([q, a]) => (
+                <details key={q} className="group px-5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">
+                    {q}
+                    <span className="shrink-0 text-brown transition group-open:rotate-45">＋</span>
+                  </summary>
+                  <p className="pb-4 text-[14px] leading-relaxed text-muted">{a}</p>
+                </details>
+              ))}
+            </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* ===== CTA FINAL ===== */}
       <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-2xl px-6 text-center">
-          <h2 className="text-[30px] font-semibold leading-tight [text-wrap:balance] md:text-[36px]">
-            Chega de cobrar no escuro.
-          </h2>
-          <p className="mx-auto mt-4 max-w-[480px] text-[16px] leading-relaxed text-muted">
-            Comece hoje a cobrar o preço certo, com lucro, clareza e segurança pra crescer.
-          </p>
-          <a
-            href={CHECKOUT_URL}
-            className="mt-8 inline-flex items-center justify-center gap-2 rounded-pill bg-brown px-8 py-4 text-[15px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(44,30,22,0.7)] transition hover:brightness-110"
-          >
-            Quero começar agora <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-[30px] font-semibold leading-tight [text-wrap:balance] md:text-[36px]">
+              Chega de cobrar no escuro.
+            </h2>
+            <p className="mx-auto mt-4 max-w-[480px] text-[16px] leading-relaxed text-muted">
+              Comece hoje a cobrar o preço certo, com lucro, clareza e segurança pra crescer.
+            </p>
+            <a
+              href={CHECKOUT_URL}
+              className="mt-8 inline-flex items-center justify-center gap-2 rounded-pill bg-brown px-8 py-4 text-[15px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(44,30,22,0.7)] transition hover:brightness-110"
+            >
+              Quero começar agora <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </Container>
       </section>
 
       {/* ===== RODAPÉ ===== */}
       <footer className="border-t border-line py-8">
-        <div className="mx-auto max-w-6xl px-6 text-center text-[12px] text-subtle">
+        <Container className="text-center text-[12px] text-subtle">
           © {new Date().getFullYear()} Precifica Beauty · Feito para profissionais da beleza.
-        </div>
+        </Container>
       </footer>
     </div>
   )
