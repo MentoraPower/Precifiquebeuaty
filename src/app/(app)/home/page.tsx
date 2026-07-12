@@ -32,7 +32,7 @@ export default async function HomePage() {
       {/* Card preto full-width: saudação + avatar + custo da hora (só a base arredondada) */}
       <section className="relative overflow-hidden rounded-b-[40px] bg-ink text-white shadow-[0_9px_18px_-8px_rgba(17,17,17,0.38)]">
         <div className="pointer-events-none absolute inset-0 bg-[url('/hourly-bg.jpg')] bg-cover bg-center opacity-[0.90]" />
-        <div className="relative px-5 pb-6" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 18px)' }}>
+        <div className="relative px-5 pb-5" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 16px)' }}>
           <div className="flex items-center justify-between">
             <h1 className="text-[24px] font-bold leading-tight">Olá, {firstName}</h1>
             <Link href="/perfil" aria-label="Perfil" className="shrink-0">
@@ -51,7 +51,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <Link href="/negocio" className="mt-8 block">
+          <Link href="/negocio" className="mt-4 block">
             <Suspense fallback={<HourlySkeleton />}>
               <HourlyValue />
             </Suspense>
