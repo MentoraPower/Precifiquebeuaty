@@ -47,13 +47,18 @@ export function InstallPWARow() {
 
   return (
     <>
-      <button onClick={() => setOpen(true)} className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition hover:bg-surface">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-pill bg-brown text-white">
-          <Download className="h-[18px] w-[18px]" />
-        </span>
-        <span className="flex-1 text-[14px] font-medium">Instalar app</span>
-        <ChevronRight className="h-5 w-5 text-subtle" />
-      </button>
+      <div>
+        <p className="mb-2 px-1 text-[12px] font-semibold uppercase tracking-wide text-subtle">Aplicativo</p>
+        <div className="divide-y divide-line overflow-hidden rounded-card border border-line bg-bg">
+          <button onClick={() => setOpen(true)} className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition hover:bg-surface">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-pill bg-brown text-white">
+              <Download className="h-[18px] w-[18px]" />
+            </span>
+            <span className="flex-1 text-[14px] font-medium">Instalar app</span>
+            <ChevronRight className="h-5 w-5 text-subtle" />
+          </button>
+        </div>
+      </div>
 
       <Modal open={open} onClose={() => setOpen(false)} title="Instalar o app" subtitle="Tenha o Precifica Beauty na tela de início.">
         <div className="flex flex-col items-center text-center">

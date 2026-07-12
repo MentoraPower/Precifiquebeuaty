@@ -81,7 +81,7 @@ export function MenuClient({
           href="/perfil"
           className="flex w-full items-center gap-4 rounded-card border border-line bg-bg p-4 transition hover:border-ink/20"
         >
-          <Avatar url={avatarUrl} name={fullName} size={56} />
+          <Avatar url={avatarUrl} name={fullName} size={68} />
           <div className="min-w-0 flex-1">
             <p className="truncate text-[17px] font-bold">{fullName || 'Sua conta'}</p>
             <p className="truncate text-[13px] text-muted">{email}</p>
@@ -95,9 +95,7 @@ export function MenuClient({
           <Row icon={Percent} label="Impostos e taxas" hint={`Margem padrão ${formatBps(fees.marginBps)}`} onClick={() => setFeesOpen(true)} />
         </Section>
 
-        <Section title="Aplicativo">
-          <InstallPWARow />
-        </Section>
+        <InstallPWARow />
 
         <Button variant="outline" fullWidth size="lg" onClick={signOut} className="text-danger">
           <LogOut className="h-4 w-4" /> Sair da conta
