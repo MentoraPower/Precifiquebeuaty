@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ImagePlus, Send, Smile, MessagesSquare, X, Loader2, Trash2 } from 'lucide-react'
+import { ChevronLeft, ImagePlus, ArrowUp, Smile, MessagesSquare, X, Loader2, Trash2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useConfirm } from '@/components/ConfirmProvider'
 import type { CommunityPostRow, CommunityReactionRow } from '@/lib/database.types'
@@ -49,18 +49,17 @@ export function ComunidadeClient({
     bottomRef.current?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' })
   }, [])
 
-  useEffect(() => {
-    scrollToBottom(false)
-  }, [scrollToBottom])
-
   // --- Realtime ---
   useEffect(() => {
     const channel = supabase
       .channel('comunidade')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'community_posts' }, (payload) => {
         const post = payload.new as CommunityPostRow
+        // só acompanha o fim se o usuário já estava perto do fim (não puxa a tela dele)
+        const el = scrollRef.current
+        const nearBottom = el ? el.scrollHeight - el.scrollTop - el.clientHeight < 140 : false
         setPosts((prev) => (prev.some((p) => p.id === post.id) ? prev : [...prev, post]))
-        setTimeout(() => scrollToBottom(true), 60)
+        if (nearBottom) setTimeout(() => scrollToBottom(true), 60)
       })
       .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'community_posts' }, (payload) => {
         const old = payload.old as { id: string }
@@ -130,27 +129,28 @@ export function ComunidadeClient({
   }
 
   return (
-    <main className="flex h-[100dvh] flex-col bg-surface">
-      {/* Cabeçalho do canal */}
-      <header
-        className="flex shrink-0 items-center gap-3 border-b border-line bg-bg px-4 pb-3"
-        style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 12px)' }}
-      >
-        <button onClick={() => router.back()} aria-label="Voltar" className="-ml-1 rounded-pill p-1.5 text-ink hover:bg-line/50">
-          <ChevronLeft className="h-6 w-6" />
-        </button>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/icons/icon-192.png" alt="Precifica Beauty" className="h-11 w-11 rounded-2xl object-cover ring-1 ring-line" />
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-[16px] font-bold leading-tight">Comunidade Precifica</p>
-          <p className="text-[12px] text-muted">Novidades e conteúdos exclusivos</p>
-        </div>
-      </header>
+    <main className="fixed inset-x-0 top-0 z-40 mx-auto flex h-[100dvh] max-w-app flex-col bg-surface">
+      {/* Área de scroll: cabeçalho (rola junto) + feed */}
+      <div ref={scrollRef} className="flex-1 overflow-y-auto" onClick={() => setPickerFor(null)}>
+        {/* Cabeçalho do canal — rola com o conteúdo, não é fixo */}
+        <header
+          className="flex items-center gap-3 border-b border-line bg-bg px-4 pb-3"
+          style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 12px)' }}
+        >
+          <button onClick={() => router.back()} aria-label="Voltar" className="-ml-1 rounded-pill p-1.5 text-ink hover:bg-line/50">
+            <ChevronLeft className="h-6 w-6" />
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/icons/icon-192.png" alt="Precifica Beauty" className="h-11 w-11 rounded-2xl object-cover ring-1 ring-line" />
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[16px] font-bold leading-tight">Comunidade Precifica</p>
+            <p className="text-[12px] text-muted">Novidades e conteúdos exclusivos</p>
+          </div>
+        </header>
 
-      {/* Feed */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4" onClick={() => setPickerFor(null)}>
+        <div className="px-4 py-4">
         {posts.length === 0 ? (
-          <div className="flex h-full flex-col items-center justify-center text-center">
+          <div className="flex min-h-[55vh] flex-col items-center justify-center text-center">
             <span className="flex h-16 w-16 items-center justify-center rounded-3xl bg-brown/10 text-brown">
               <MessagesSquare className="h-7 w-7" />
             </span>
@@ -177,6 +177,7 @@ export function ComunidadeClient({
           </div>
         )}
         <div ref={bottomRef} />
+        </div>
       </div>
 
       {isAdmin ? (
@@ -396,7 +397,7 @@ function Composer({
           aria-label="Publicar"
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-pill bg-brown text-white transition active:scale-95 disabled:opacity-40"
         >
-          {sending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
+          {sending ? <Loader2 className="h-5 w-5 animate-spin" /> : <ArrowUp className="h-5 w-5" />}
         </button>
       </div>
 
