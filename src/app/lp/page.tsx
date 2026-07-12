@@ -35,7 +35,6 @@ export default function LandingPage() {
     <div className="min-h-screen bg-surface text-ink">
       {/* ===== HERO ===== */}
       <header className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full bg-champagne/40 blur-3xl" />
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 pb-16 pt-14 md:grid-cols-2 md:gap-8 md:pb-24 md:pt-20">
           <div>
             <span className="inline-flex items-center gap-2 rounded-pill border border-brown/15 bg-bg px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-wide text-brown">
@@ -74,7 +73,7 @@ export default function LandingPage() {
       {/* ===== PROBLEMA ===== */}
       <section className="bg-bg py-16 md:py-20">
         <div className="mx-auto max-w-3xl px-6">
-          <h2 className="text-[26px] font-bold leading-tight md:text-[32px]">
+          <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">
             Se você cobra “no olho”, provavelmente está deixando dinheiro na mesa.
           </h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted">
@@ -109,7 +108,7 @@ export default function LandingPage() {
           </div>
           <div className="order-1 md:order-2">
             <p className="text-[13px] font-bold uppercase tracking-wide text-brown">A solução</p>
-            <h2 className="mt-3 text-[26px] font-bold leading-tight md:text-[34px]">
+            <h2 className="mt-3 text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">
               Um cálculo feito pra realidade do salão, não pra planilha complicada.
             </h2>
             <p className="mt-4 text-[16px] leading-relaxed text-muted">
@@ -138,7 +137,7 @@ export default function LandingPage() {
       {/* ===== TRANSFORMAÇÃO ===== */}
       <section className="bg-ink py-16 text-white md:py-24">
         <div className="mx-auto max-w-4xl px-6 text-center">
-          <h2 className="text-[26px] font-bold leading-tight md:text-[34px]">O que muda quando você precifica certo</h2>
+          <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">O que muda quando você precifica certo</h2>
           <p className="mx-auto mt-4 max-w-[560px] text-[16px] leading-relaxed text-white/60">
             Não é sobre cobrar mais caro. É sobre cobrar o que faz sentido, com clareza e segurança pra crescer.
           </p>
@@ -165,7 +164,7 @@ export default function LandingPage() {
       {/* ===== PARA QUEM ===== */}
       <section className="py-16 md:py-20">
         <div className="mx-auto max-w-5xl px-6">
-          <h2 className="text-center text-[26px] font-bold leading-tight md:text-[32px]">Feito pra quem vive da beleza</h2>
+          <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Feito pra quem vive da beleza</h2>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
               ['Cabeleireiras', 'Corte, coloração, escova, tratamentos'],
@@ -188,7 +187,7 @@ export default function LandingPage() {
       <section className="bg-bg py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-[26px] font-bold leading-tight md:text-[34px]">Tudo o que você precisa num app só</h2>
+            <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">Tudo o que você precisa num app só</h2>
             <p className="mt-4 text-[16px] leading-relaxed text-muted">
               Simples de usar no dia a dia, completo o suficiente pra cuidar do seu negócio inteiro.
             </p>
@@ -207,7 +206,7 @@ export default function LandingPage() {
       {/* ===== SHOWCASE DE TELAS ===== */}
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <h2 className="text-center text-[26px] font-bold leading-tight md:text-[32px]">Veja por dentro</h2>
+          <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Veja por dentro</h2>
           <div className="no-scrollbar mt-10 flex snap-x gap-6 overflow-x-auto px-1 pb-4 md:justify-center">
             {SCREENS.map((s) => (
               <div key={s.src} className="snap-center">
@@ -221,7 +220,7 @@ export default function LandingPage() {
       {/* ===== PLANOS ===== */}
       <section id="planos" className="bg-ink py-16 text-white md:py-24">
         <div className="mx-auto max-w-md px-6 text-center">
-          <h2 className="text-[26px] font-bold leading-tight md:text-[34px]">Um plano, tudo liberado</h2>
+          <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">Um plano, tudo liberado</h2>
           <p className="mt-3 text-[15px] text-white/60">
             Menos do que você perde em um único serviço mal precificado.
           </p>
@@ -271,7 +270,7 @@ export default function LandingPage() {
           <span className="flex h-16 w-16 items-center justify-center rounded-3xl bg-brown/10 text-brown">
             <ShieldCheck className="h-8 w-8" />
           </span>
-          <h2 className="text-[24px] font-bold leading-tight md:text-[30px]">Risco zero por 7 dias</h2>
+          <h2 className="text-[26px] font-semibold leading-tight [text-wrap:balance] md:text-[30px]">Risco zero por 7 dias</h2>
           <p className="max-w-[520px] text-[16px] leading-relaxed text-muted">
             Use o app, precifique seus serviços e veja o resultado. Se nos primeiros 7 dias você achar que não é pra
             você, devolvemos 100% do valor. Sem letras miúdas.
@@ -282,7 +281,7 @@ export default function LandingPage() {
       {/* ===== FAQ ===== */}
       <section className="bg-bg py-16 md:py-20">
         <div className="mx-auto max-w-2xl px-6">
-          <h2 className="text-center text-[26px] font-bold leading-tight md:text-[32px]">Perguntas frequentes</h2>
+          <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Perguntas frequentes</h2>
           <div className="mt-8 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
             {[
               [
@@ -321,7 +320,7 @@ export default function LandingPage() {
       {/* ===== CTA FINAL ===== */}
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-2xl px-6 text-center">
-          <h2 className="text-[28px] font-bold leading-tight md:text-[36px]">
+          <h2 className="text-[30px] font-semibold leading-tight [text-wrap:balance] md:text-[36px]">
             Chega de cobrar no escuro.
           </h2>
           <p className="mx-auto mt-4 max-w-[480px] text-[16px] leading-relaxed text-muted">
