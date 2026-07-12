@@ -150,7 +150,7 @@ export default function AuthPage() {
           <Button type="submit" size="lg" fullWidth loading={loading} className="mt-3 rounded-pill">
             Redefinir senha
           </Button>
-          <button type="button" onClick={sendCode} className="text-center text-[13px] font-medium text-gold">
+          <button type="button" onClick={sendCode} className="text-center text-[13px] font-semibold text-brown">
             Reenviar código
           </button>
           <BackButton onClick={() => reset('login')} />
