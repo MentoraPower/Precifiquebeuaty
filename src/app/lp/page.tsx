@@ -128,7 +128,7 @@ export default function LandingPage() {
           <p className="mx-auto mt-4 max-w-[560px] text-[16px] leading-relaxed text-muted">
             Não é sobre cobrar mais caro. É sobre cobrar o que faz sentido, com clareza e segurança pra crescer.
           </p>
-          <div className="mt-10 grid gap-4 text-left sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-3xl gap-x-12 text-left sm:grid-cols-2 [&>div]:flex [&>div]:items-start [&>div]:gap-3 [&>div]:border-b [&>div]:border-ink/10 [&>div]:py-5 [&>div:last-child]:border-b-0 sm:[&>div:nth-last-child(-n+2)]:border-b-0">
             {[
               'Você sabe, em segundos, se um serviço dá lucro ou prejuízo',
               'Consegue dar desconto sem se enganar sobre o resultado',
@@ -137,7 +137,7 @@ export default function LandingPage() {
               'Enxerga quanto o negócio precisa faturar pra fechar no azul',
               'Decide campanhas e combos com número, não com achismo',
             ].map((t) => (
-              <div key={t} className="flex items-start gap-3">
+              <div key={t}>
                 <CircleCheck className="mt-0.5 h-[22px] w-[22px] shrink-0 text-brown" />
                 <span className="text-[15px] leading-snug text-ink/80">{t}</span>
               </div>
@@ -154,7 +154,7 @@ export default function LandingPage() {
             Não importa a sua especialidade, se o seu trabalho é deixar o cliente mais bonito, dá pra precificar do jeito
             certo aqui dentro.
           </p>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-3xl gap-x-12 sm:grid-cols-2 [&>div]:flex [&>div]:items-start [&>div]:gap-3 [&>div]:border-b [&>div]:border-ink/10 [&>div]:py-5 [&>div:last-child]:border-b-0 sm:[&>div:nth-last-child(-n+2)]:border-b-0">
             {[
               ['Cabeleireiras', 'Corte, coloração, escova, tratamentos'],
               ['Manicures e nail designers', 'Alongamento, blindagem, esmaltação'],
@@ -163,7 +163,7 @@ export default function LandingPage() {
               ['Esteticistas', 'Limpeza de pele, procedimentos corporais'],
               ['Estúdios e salões', 'Vários profissionais, um preço certo'],
             ].map(([title, desc]) => (
-              <div key={title} className="flex items-start gap-3">
+              <div key={title}>
                 <CircleCheck className="mt-0.5 h-[22px] w-[22px] shrink-0 text-brown" />
                 <div>
                   <p className="text-[16px] font-bold">{title}</p>
@@ -184,7 +184,7 @@ export default function LandingPage() {
               Simples de usar no dia a dia, completo o suficiente pra cuidar do seu negócio inteiro.
             </p>
           </div>
-          <div className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-5xl gap-x-10 gap-y-10 md:grid-cols-3">
             <Feature icon={Clock} title="Custo da sua hora" desc="O app calcula quanto vale cada hora do seu trabalho, considerando pró-labore, dias e horas trabalhadas." />
             <Feature icon={Scissors} title="Preço por serviço" desc="Preço ideal com a margem que você quer, já com maquininha, impostos e comissão embutidos." />
             <Feature icon={Package} title="Insumos por serviço" desc="Cadastre o que cada atendimento gasta de produto e veja o custo real, sem achismo." />
