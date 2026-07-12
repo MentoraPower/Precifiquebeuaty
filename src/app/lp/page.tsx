@@ -31,7 +31,7 @@ const SCREENS = [
 
 // Container único: 2rem de lateral no mobile, máx. 1280px no desktop.
 function Container({ className = '', children }: { className?: string; children: React.ReactNode }) {
-  return <div className={`mx-auto w-full max-w-[1280px] px-8 ${className}`}>{children}</div>
+  return <div className={`mx-auto w-full max-w-[1280px] px-[1.35rem] md:px-8 ${className}`}>{children}</div>
 }
 
 export default function LandingPage() {
@@ -69,7 +69,7 @@ export default function LandingPage() {
       </header>
 
       {/* ===== PROBLEMA ===== */}
-      <section className="bg-bg py-16 md:py-20">
+      <section className="relative z-10 rounded-b-[40px] bg-surface py-16 shadow-[0_22px_28px_-24px_rgba(44,30,22,0.3)] md:py-20">
         <Container>
           <h2 className="max-w-3xl text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">
             Se você cobra “no olho”, provavelmente está deixando dinheiro na mesa.
@@ -99,7 +99,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== SOLUÇÃO ===== */}
-      <section id="como-funciona" className="py-16 md:py-24">
+      <section id="como-funciona" className="bg-bg py-16 md:py-24">
         <Container className="grid items-center gap-12 md:grid-cols-2">
           <div className="order-2 flex justify-center md:order-1">
             <Phone src={SCREENS[1].src} alt={SCREENS[1].alt} />
@@ -133,7 +133,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== TRANSFORMAÇÃO ===== */}
-      <section className="py-10 md:py-16">
+      <section className="bg-bg py-10 md:py-16">
         <Container>
           <div className="rounded-[40px] bg-ink px-6 py-16 text-center text-white md:px-14 md:py-20">
             <p className="text-[13px] font-semibold uppercase tracking-wide text-gold">Resultados</p>
@@ -189,7 +189,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== RECURSOS ===== */}
-      <section className="bg-bg py-16 md:py-24">
+      <section className="py-16 md:py-24">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[34px]">Tudo o que você precisa num app só</h2>
@@ -209,14 +209,14 @@ export default function LandingPage() {
       </section>
 
       {/* ===== SHOWCASE DE TELAS ===== */}
-      <section className="py-16 md:py-24">
+      <section className="bg-bg py-16 md:py-24">
         <Container>
           <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Veja por dentro</h2>
         </Container>
-        {/* full-bleed, loop automático bem lento (marquee), sem sombra */}
-        <div className="mt-10 overflow-hidden">
-          <div className="flex w-max gap-5 pr-5 [animation:marquee_90s_linear_infinite]">
-            {[...SCREENS, ...SCREENS].map((s, i) => (
+        {/* full-bleed, vai-e-volta suave centralizado, sem sombra */}
+        <div className="mt-10 flex justify-center overflow-hidden">
+          <div className="flex w-max gap-5 [animation:sway_44s_ease-in-out_infinite_alternate]">
+            {[...SCREENS, ...SCREENS, ...SCREENS, ...SCREENS].map((s, i) => (
               <div key={`${s.src}-${i}`}>
                 <Phone src={s.src} alt={s.alt} small shadow={false} />
               </div>
@@ -226,7 +226,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== PLANOS ===== */}
-      <section id="planos" className="py-10 md:py-16">
+      <section id="planos" className="bg-bg py-10 md:py-16">
         <Container>
           <div className="rounded-[40px] bg-ink px-6 py-16 text-white md:px-14 md:py-20">
           <div className="mx-auto max-w-md text-center">
@@ -295,7 +295,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== FAQ ===== */}
-      <section className="bg-bg py-16 md:py-20">
+      <section className="py-16 md:py-20">
         <Container>
           <div className="mx-auto max-w-2xl">
             <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Perguntas frequentes</h2>
@@ -336,7 +336,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== CTA FINAL ===== */}
-      <section className="py-16 md:py-24">
+      <section className="bg-bg py-16 md:py-24">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-[30px] font-semibold leading-tight [text-wrap:balance] md:text-[36px]">
@@ -358,7 +358,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== RODAPÉ ===== */}
-      <footer className="border-t border-line py-8">
+      <footer className="bg-bg border-t border-line py-8">
         <Container className="text-center text-[12px] text-subtle">
           © {new Date().getFullYear()} Precifica Beauty · Feito para profissionais da beleza.
         </Container>
