@@ -77,12 +77,12 @@ export default function LandingPage() {
           </h2>
           <div className="mx-auto mt-12 grid max-w-4xl gap-x-12 sm:grid-cols-2 lg:grid-cols-3 [&>div]:flex [&>div]:items-start [&>div]:gap-4 [&>div]:border-b [&>div]:border-line [&>div]:py-6 [&>div:last-child]:border-b-0 sm:[&>div:nth-last-child(-n+2)]:border-b-0 lg:[&>div:nth-last-child(-n+3)]:border-b-0">
             {[
-              'Clientes que fazem um procedimento e somem, sem virar recorrência.',
-              'Cancelamentos de última hora que deixam buracos na sua agenda.',
-              'Dificuldade de aumentar o preço sem medo de perder cliente.',
-              'Sensação de estar trabalhando muito mais do que ganhando.',
-              'Concorrência te forçando a baixar o preço só pra competir.',
-              'Combos e promoções que, no fim, acabam saindo no prejuízo.',
+              'Você cobra copiando a concorrente, sem saber o seu custo real.',
+              'Não faz ideia de quanto custa a sua hora de trabalho.',
+              'Dá desconto e, no fim do mês, o lucro simplesmente some.',
+              'Mistura o dinheiro do negócio com o seu, sem pró-labore definido.',
+              'Monta combo ou promoção e acaba saindo no prejuízo.',
+              'Tem medo de aumentar o preço e acabar perdendo cliente.',
             ].map((t) => (
               <div key={t}>
                 <ArrowRight className="mt-0.5 h-5 w-5 shrink-0 text-brown" />
