@@ -234,7 +234,15 @@ function PostBubble({
           <img src={post.media_url} alt="" className="max-h-[420px] w-full object-cover" />
         )}
         {post.media_url && post.media_type === 'video' && (
-          <video src={post.media_url} controls playsInline className="max-h-[420px] w-full bg-black object-contain" />
+          <video
+            src={post.media_url}
+            controls
+            playsInline
+            controlsList="nodownload noplaybackrate"
+            disablePictureInPicture
+            onContextMenu={(e) => e.preventDefault()}
+            className="max-h-[420px] w-full bg-black object-contain"
+          />
         )}
 
         {post.body && <p className="whitespace-pre-wrap px-4 py-3 text-[14px] leading-relaxed text-ink">{post.body}</p>}

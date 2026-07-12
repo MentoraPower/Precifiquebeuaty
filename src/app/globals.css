@@ -31,6 +31,29 @@ a:focus,
   outline: none;
 }
 
+/* Proteção de conteúdo: bloqueia salvar/baixar imagens e seleção de texto.
+   (o app é só mobile — o foco é o long-press "Salvar imagem" no iOS/Android) */
+html {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* mantém digitação/seleção nos campos */
+input,
+textarea,
+[contenteditable='true'] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+img,
+video {
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 /* Esconde a scrollbar mantendo o scroll (chips horizontais) */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

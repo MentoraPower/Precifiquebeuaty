@@ -5,6 +5,7 @@ import QRCode from 'qrcode'
 import './globals.css'
 import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
 import { DismissKeyboard } from '@/components/DismissKeyboard'
+import { ContentProtection } from '@/components/ContentProtection'
 import { ConfirmProvider } from '@/components/ConfirmProvider'
 import { DesktopBlock } from '@/components/DesktopBlock'
 import { isMobileDevice } from '@/lib/device'
@@ -59,6 +60,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </ConfirmProvider>
             <ServiceWorkerRegister />
             <DismissKeyboard />
+            <ContentProtection />
           </>
         ) : (
           <DesktopBlock url={siteUrl} qrSvg={qrSvg} />
