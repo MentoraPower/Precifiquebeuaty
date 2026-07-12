@@ -5,7 +5,8 @@
   "buildCommand": "next build",
   "env": {
     "NEXT_PUBLIC_SUPABASE_URL": "https://xjrxkntfwfilxkyllkbq.supabase.co",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqcnhrbnRmd2ZpbHhreWxsa2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3ODk1MTksImV4cCI6MjA5OTM2NTUxOX0.CaXK4gsKau7b7yWt7--VUyC_tL1ImaQwhsFuzIjU64Y"
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqcnhrbnRmd2ZpbHhreWxsa2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3ODk1MTksImV4cCI6MjA5OTM2NTUxOX0.CaXK4gsKau7b7yWt7--VUyC_tL1ImaQwhsFuzIjU64Y",
+    "ADMIN_EMAILS": "patrickbergeh@gmail.com,jlucaslima1996@gmail.com"
   },
   "build": {
     "env": {

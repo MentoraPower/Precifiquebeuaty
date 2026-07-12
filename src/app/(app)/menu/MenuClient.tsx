@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Store, Boxes, Percent, LogOut, ChevronRight, User, Lock, Check, Camera, Loader2 } from 'lucide-react'
+import { Store, Boxes, Percent, LogOut, ChevronRight, User, Lock, Check, Camera, Loader2, Users } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { initials, formatBps } from '@/lib/format'
 import { Button } from '@/components/ui/Button'
@@ -65,6 +65,7 @@ export function MenuClient({
   profession,
   plan,
   avatarUrl: initialAvatarUrl,
+  isAdmin,
   defaults,
 }: {
   email: string
@@ -72,6 +73,7 @@ export function MenuClient({
   profession: string
   plan: string
   avatarUrl: string | null
+  isAdmin?: boolean
   defaults: Defaults
 }) {
   const router = useRouter()
@@ -236,6 +238,12 @@ export function MenuClient({
         <Section title="Aplicativo">
           <InstallPWARow />
         </Section>
+
+        {isAdmin && (
+          <Section title="Admin">
+            <Row icon={Users} label="Acessos" hint="Emails ativados / desativados" href="/admin" />
+          </Section>
+        )}
 
         <Button variant="outline" fullWidth size="lg" onClick={signOut} className="text-danger">
           <LogOut className="h-4 w-4" /> Sair da conta

@@ -74,7 +74,7 @@ async function HourlyValue() {
         <span className="rounded-pill bg-white/10 px-3 py-1 text-[12px] font-medium text-white/80">Custo da sua hora</span>
         {ctx.hourlyCostCents != null ? (
           <>
-            <p className="mt-4 text-[40px] font-bold leading-none">{formatCents(ctx.hourlyCostCents)}</p>
+            <p className="mt-4 text-[48px] font-medium leading-none">{formatCents(ctx.hourlyCostCents)}</p>
             <p className="mt-2.5 text-[12px] text-white/45">Atualizado em {formatDateBR(ctx.settings?.updated_at)}</p>
           </>
         ) : (
