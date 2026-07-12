@@ -155,7 +155,7 @@ function StatPill({ href, value, label }: { href: string; value: number; label: 
   return (
     <Link
       href={href}
-      className="flex shrink-0 items-center gap-1.5 rounded-pill bg-ink/15 px-4 py-2.5 text-[14px] text-ink backdrop-blur-[9px] transition active:scale-[0.99]"
+      className="flex shrink-0 items-center gap-1.5 rounded-pill bg-ink/15 px-4 py-2.5 text-[14px] text-ink transition active:scale-[0.99]"
     >
       <span className="font-bold">{value}</span>
       <span className="text-ink/60">{label}</span>
