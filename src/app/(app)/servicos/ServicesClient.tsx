@@ -7,7 +7,6 @@ import { Plus, Scissors, Clock, Pencil, Copy, Power, Trash2 } from 'lucide-react
 import { createClient } from '@/lib/supabase/client'
 import { formatCents } from '@/lib/format'
 import type { ServiceRow } from '@/lib/database.types'
-import { AppHeader } from '@/components/layout/AppHeader'
 import { Button } from '@/components/ui/Button'
 import { Chip, EmptyState } from '@/components/ui/misc'
 import { KebabMenu } from '@/components/ui/KebabMenu'
@@ -71,9 +70,21 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
 
   return (
     <main>
-      <AppHeader center title="Serviços" subtitle="Gerencie seus serviços e preços." />
+      <div className="safe-top px-5 pt-5">
+        <Link href="/servicos/novo" className="block">
+          <Button fullWidth size="lg" className="rounded-pill">
+            <Plus className="h-5 w-5" /> Criar novo
+          </Button>
+        </Link>
+        <div className="mt-5 text-center">
+          <h1 className="text-[34px] font-medium leading-tight">Gerenciar Serviços</h1>
+          <p className="mx-auto mt-1.5 max-w-[330px] text-[14px] text-muted">
+            Cadastre, precifique e organize todos os serviços do seu negócio.
+          </p>
+        </div>
+      </div>
 
-      <div className="flex items-center gap-2 px-5 pb-1 pt-3">
+      <div className="flex items-center gap-2 px-5 pb-1 pt-4">
         <div className="no-scrollbar flex flex-1 gap-2 overflow-x-auto">
           <Chip active={filter === 'all'} onClick={() => setFilter('all')}>
             Todos
@@ -85,11 +96,6 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
             Inativos
           </Chip>
         </div>
-        <Link href="/servicos/novo" className="shrink-0">
-          <Button size="sm">
-            <Plus className="h-4 w-4" /> Novo
-          </Button>
-        </Link>
       </div>
 
       <div className="flex flex-col gap-3 px-5 pt-2">
