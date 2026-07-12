@@ -42,32 +42,24 @@ export default function LandingPage() {
       <header className="relative overflow-hidden">
         <Container className="grid items-center gap-12 pb-16 pt-14 md:grid-cols-2 md:gap-8 md:pb-24 md:pt-20">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-pill border border-brown/15 bg-bg px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-wide text-brown">
+            <span className="text-[13px] font-semibold uppercase tracking-wide text-brown">
               App para profissionais da beleza
             </span>
-            <h1 className="mt-5 text-[34px] font-bold leading-[1.08] md:text-[46px]">
+            <h1 className="mt-4 text-[34px] font-bold leading-[1.08] md:text-[46px]">
               Descubra o preço certo de cada serviço, e pare de trabalhar no vermelho.
             </h1>
-            <p className="mt-5 max-w-[520px] text-[16px] leading-relaxed text-muted md:text-[17px]">
-              O Precifica Beauty calcula o custo real da sua hora, o preço ideal com o lucro que você quer e mostra na
-              hora se aquela promoção fecha a conta. Tudo no seu celular.
+            <p className="mt-5 max-w-[440px] text-[16px] leading-relaxed text-muted md:text-[17px]">
+              Calcule o custo da sua hora e o preço ideal com lucro, direto no celular.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
-                href={CHECKOUT_URL}
-                className="inline-flex items-center justify-center gap-2 rounded-pill bg-brown px-7 py-4 text-[15px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(44,30,22,0.7)] transition hover:brightness-110"
-              >
-                Quero precificar com lucro <ArrowRight className="h-4 w-4" />
-              </a>
-              <a href="#como-funciona" className="text-center text-[14px] font-semibold text-brown underline-offset-4 hover:underline">
-                Ver como funciona
-              </a>
-            </div>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-muted">
-              <Trust icon={Zap} label="Acesso imediato" />
-              <Trust icon={Lock} label="Compra segura" />
-              <Trust icon={ShieldCheck} label="Garantia de 7 dias" />
-            </div>
+            <a
+              href={CHECKOUT_URL}
+              className="mt-8 inline-flex items-center justify-center gap-2 rounded-pill bg-brown px-7 py-4 text-[15px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(44,30,22,0.7)] transition hover:brightness-110"
+            >
+              Quero precificar com lucro <ArrowRight className="h-4 w-4" />
+            </a>
+            <p className="mt-5 text-[13px] text-muted">
+              Acesso imediato · Compra segura · Garantia de 7 dias
+            </p>
           </div>
           <div className="relative flex justify-center md:justify-end">
             <Phone src={SCREENS[0].src} alt={SCREENS[0].alt} />
