@@ -79,11 +79,11 @@ export function MenuClient({
         {/* Perfil → abre a página de perfil */}
         <Link
           href="/perfil"
-          className="flex w-full items-center gap-4 rounded-card border border-line bg-bg p-4 transition hover:border-ink/20"
+          className="flex w-full items-center gap-4 rounded-card border border-line bg-bg p-5 transition hover:border-ink/20"
         >
-          <Avatar url={avatarUrl} name={fullName} size={68} />
+          <Avatar url={avatarUrl} name={fullName} size={84} />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[17px] font-bold">{fullName || 'Sua conta'}</p>
+            <p className="truncate text-[18px] font-bold">{fullName || 'Sua conta'}</p>
             <p className="truncate text-[13px] text-muted">{email}</p>
           </div>
           <ChevronRight className="h-5 w-5 shrink-0 text-subtle" />
