@@ -6,10 +6,7 @@ export function DesktopBlock({ url, qrSvg }: { url: string; qrSvg: string }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-ink px-6 text-white">
       <div className="w-full max-w-[440px] text-center">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/icons/icon-192.png" alt="Precifica Beauty" className="mx-auto h-16 w-16 rounded-2xl ring-1 ring-white/15" />
-
-        <div className="mx-auto mt-7 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
           <Smartphone className="h-6 w-6" />
         </div>
         <h1 className="mt-5 text-[26px] font-semibold leading-tight">Disponível apenas no celular</h1>
