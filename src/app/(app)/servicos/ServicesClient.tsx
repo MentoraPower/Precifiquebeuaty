@@ -13,6 +13,7 @@ import { KebabMenu } from '@/components/ui/KebabMenu'
 import { useConfirm } from '@/components/ConfirmProvider'
 
 type Filter = 'all' | 'active' | 'inactive'
+type Sort = 'recent' | 'old'
 
 export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   const router = useRouter()
@@ -20,10 +21,17 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   const confirm = useConfirm()
   const [items, setItems] = useState(initial)
   const [filter, setFilter] = useState<Filter>('all')
+  const [sort, setSort] = useState<Sort>('recent')
 
-  const filtered = items.filter((s) =>
-    filter === 'all' ? true : filter === 'active' ? s.status === 'active' : s.status === 'inactive',
-  )
+  const filtered = items
+    .filter((s) =>
+      filter === 'all' ? true : filter === 'active' ? s.status === 'active' : s.status === 'inactive',
+    )
+    .sort((a, b) => {
+      const da = new Date(a.created_at).getTime()
+      const db = new Date(b.created_at).getTime()
+      return sort === 'recent' ? db - da : da - db
+    })
 
   function displayPrice(s: ServiceRow) {
     return s.saved_price_cents ?? s.suggested_price_cents ?? s.current_price_cents ?? null
@@ -84,18 +92,22 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 px-5 pb-1 pt-4">
-        <div className="no-scrollbar flex flex-1 gap-2 overflow-x-auto">
-          <Chip active={filter === 'all'} onClick={() => setFilter('all')}>
-            Todos
-          </Chip>
-          <Chip active={filter === 'active'} onClick={() => setFilter('active')}>
-            Ativos
-          </Chip>
-          <Chip active={filter === 'inactive'} onClick={() => setFilter('inactive')}>
-            Inativos
-          </Chip>
-        </div>
+      <div className="no-scrollbar flex justify-center gap-2 overflow-x-auto px-5 pb-1 pt-4">
+        <Chip active={filter === 'all'} onClick={() => setFilter('all')}>
+          Todos
+        </Chip>
+        <Chip active={filter === 'active'} onClick={() => setFilter('active')}>
+          Ativos
+        </Chip>
+        <Chip active={filter === 'inactive'} onClick={() => setFilter('inactive')}>
+          Inativos
+        </Chip>
+        <Chip active={sort === 'recent'} onClick={() => setSort('recent')}>
+          Mais recentes
+        </Chip>
+        <Chip active={sort === 'old'} onClick={() => setSort('old')}>
+          Antigos
+        </Chip>
       </div>
 
       <div className="flex flex-col gap-3 px-5 pt-2">
