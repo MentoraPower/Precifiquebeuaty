@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Store, Boxes, Percent, LogOut, ChevronRight } from 'lucide-react'
+import { Store, Boxes, Percent, LogOut, ChevronRight, CreditCard } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { formatBps } from '@/lib/format'
 import { Button } from '@/components/ui/Button'
@@ -93,6 +93,10 @@ export function MenuClient({
           <Row icon={Store} label="Meu negócio" href="/negocio" />
           <Row icon={Boxes} label="Investimentos" href="/negocio/investimentos" />
           <Row icon={Percent} label="Impostos e taxas" hint={`Margem padrão ${formatBps(fees.marginBps)}`} onClick={() => setFeesOpen(true)} />
+        </Section>
+
+        <Section title="Assinatura">
+          <Row icon={CreditCard} label="Assinatura" hint="Pagamento e comprovante" href="/assinatura" />
         </Section>
 
         <InstallPWARow />

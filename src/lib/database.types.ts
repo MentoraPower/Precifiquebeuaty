@@ -209,6 +209,10 @@ export type Database = {
         Args: { p_email: string; p_active: boolean }
         Returns: undefined
       }
+      my_entitlement: {
+        Args: Record<string, never>
+        Returns: EntitlementRow[]
+      }
     }
     Enums: Record<string, never>
     CompositeTypes: Record<string, never>
