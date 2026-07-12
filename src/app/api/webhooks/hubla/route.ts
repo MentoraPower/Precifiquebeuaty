@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendEmail, accessGrantedEmail, accessRevokedEmail } from '@/lib/email'
 import type { Json } from '@/lib/database.types'
 
 export const dynamic = 'force-dynamic'
@@ -77,6 +78,9 @@ export async function POST(req: NextRequest) {
         .from('entitlements')
         .upsert({ ...baseRow, status: 'active', last_event: 'NewSale', refunded_at: null }, { onConflict: 'email' })
 
+      const granted = accessGrantedEmail(ev.userName)
+      await sendEmail(email, granted.subject, granted.html)
+
       return NextResponse.json({ ok: true, action: 'access_granted', email })
     }
 
@@ -87,6 +91,9 @@ export async function POST(req: NextRequest) {
         { ...baseRow, status: 'refunded', last_event: 'Refunded', refunded_at: ev.refundedAt ?? new Date().toISOString() },
         { onConflict: 'email' },
       )
+
+      const revoked = accessRevokedEmail(ev.userName)
+      await sendEmail(email, revoked.subject, revoked.html)
 
       return NextResponse.json({ ok: true, action: 'access_revoked', email })
     }
