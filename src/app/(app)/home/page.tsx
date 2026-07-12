@@ -35,7 +35,7 @@ export default async function HomePage() {
         <div className="relative px-5 pb-6" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 18px)' }}>
           <div className="flex items-center justify-between">
             <h1 className="text-[24px] font-bold leading-tight">Olá, {firstName}</h1>
-            <Link href="/menu?profile=1" aria-label="Perfil" className="shrink-0">
+            <Link href="/perfil" aria-label="Perfil" className="shrink-0">
               {profile?.avatar_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -154,10 +154,10 @@ function StatPill({ href, value, label }: { href: string; value: number; label: 
   return (
     <Link
       href={href}
-      className="flex shrink-0 items-center gap-1.5 rounded-pill border border-line bg-bg px-4 py-2.5 text-[14px] transition hover:border-ink/20"
+      className="flex shrink-0 items-center gap-1.5 rounded-pill bg-gradient-to-r from-[#4a3620] to-brown px-4 py-2.5 text-[14px] text-white transition active:scale-[0.99]"
     >
       <span className="font-bold">{value}</span>
-      <span className="text-muted">{label}</span>
+      <span className="text-white/70">{label}</span>
     </Link>
   )
 }
