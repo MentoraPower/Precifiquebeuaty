@@ -29,7 +29,8 @@ export function BottomNav() {
   const isWizard =
     pathname.startsWith('/servicos/') ||
     pathname.startsWith('/simulacoes/campanha/') ||
-    pathname.startsWith('/simulacoes/novo/')
+    pathname.startsWith('/simulacoes/novo/') ||
+    pathname.startsWith('/comunidade')
   if (isWizard) return null
 
   return (

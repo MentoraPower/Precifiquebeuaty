@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
-import { ArrowRight, Wallet, Scissors, Megaphone, ChevronRight, Boxes } from 'lucide-react'
+import { ArrowRight, Wallet, Scissors, Megaphone, ChevronRight, Boxes, MessagesSquare } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { getSessionUser } from '@/lib/supabase/session'
 import { getBusinessContext } from '@/lib/queries'
@@ -143,6 +143,20 @@ async function HomeBody() {
           <div className="min-w-0 flex-1">
             <p className="text-[13px] text-muted">Investimentos</p>
             <p className="text-[17px] font-bold">{formatCents(ctx.depreciationCents)}/mês</p>
+          </div>
+          <ChevronRight className="h-5 w-5 shrink-0 text-subtle" />
+        </Card>
+      </Link>
+
+      {/* Comunidade */}
+      <Link href="/comunidade" className="mt-3 block">
+        <Card className="flex items-center gap-3.5">
+          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brown text-white">
+            <MessagesSquare className="h-5 w-5" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[13px] text-muted">Comunidade</p>
+            <p className="text-[17px] font-bold">Novidades e conteúdos</p>
           </div>
           <ChevronRight className="h-5 w-5 shrink-0 text-subtle" />
         </Card>

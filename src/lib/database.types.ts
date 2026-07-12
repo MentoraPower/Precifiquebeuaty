@@ -181,6 +181,23 @@ export type EntitlementRow = {
   updated_at: string
 }
 
+export type CommunityPostRow = {
+  id: string
+  author_id: string
+  body: string | null
+  media_url: string | null
+  media_type: 'image' | 'video' | null
+  created_at: string
+}
+
+export type CommunityReactionRow = {
+  id: string
+  post_id: string
+  user_id: string
+  emoji: string
+  created_at: string
+}
+
 export type Database = {
   public: {
     Tables: {
@@ -198,6 +215,8 @@ export type Database = {
       campaigns: Table<CampaignRow>
       campaign_expenses: Table<CampaignExpenseRow>
       campaign_items: Table<CampaignItemRow>
+      community_posts: Table<CommunityPostRow>
+      community_reactions: Table<CommunityReactionRow>
     }
     Views: Record<string, never>
     Functions: {
@@ -212,6 +231,10 @@ export type Database = {
       my_entitlement: {
         Args: Record<string, never>
         Returns: EntitlementRow[]
+      }
+      is_community_admin: {
+        Args: Record<string, never>
+        Returns: boolean
       }
     }
     Enums: Record<string, never>
