@@ -161,9 +161,29 @@ export type CampaignItemRow = {
   fee_snapshot_json: Json
 }
 
+export type EntitlementRow = {
+  id: string
+  email: string
+  status: 'active' | 'refunded' | 'inactive'
+  hubla_user_id: string | null
+  user_name: string | null
+  user_phone: string | null
+  group_id: string | null
+  group_name: string | null
+  transaction_id: string | null
+  total_amount_cents: number | null
+  paid_at: string | null
+  refunded_at: string | null
+  last_event: string | null
+  raw: Json | null
+  created_at: string
+  updated_at: string
+}
+
 export type Database = {
   public: {
     Tables: {
+      entitlements: Table<EntitlementRow>
       profiles: Table<Profile>
       business_settings: Table<BusinessSettingsRow>
       business_costs: Table<BusinessCostRow>
@@ -183,6 +203,10 @@ export type Database = {
       email_has_account: {
         Args: { p_email: string }
         Returns: boolean
+      }
+      grant_access: {
+        Args: { p_email: string; p_active: boolean }
+        Returns: undefined
       }
     }
     Enums: Record<string, never>
