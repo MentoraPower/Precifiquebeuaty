@@ -5,17 +5,11 @@ import { MenuClient } from './MenuClient'
 
 export const dynamic = 'force-dynamic'
 
-const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? '')
-  .split(',')
-  .map((e) => e.trim().toLowerCase())
-  .filter(Boolean)
-
 // Tela 12 — Perfil e configurações.
 export default async function MenuPage() {
   const supabase = createClient()
   const user = await getSessionUser(supabase)
   if (!user) redirect('/auth')
-  const isAdmin = ADMIN_EMAILS.includes((user.email ?? '').toLowerCase())
 
   const [{ data: profile }, { data: settings }] = await Promise.all([
     supabase.from('profiles').select('full_name, profession, plan, avatar_url').eq('id', user.id).single(),
@@ -32,7 +26,6 @@ export default async function MenuPage() {
       profession={profile?.profession ?? ''}
       plan={profile?.plan ?? 'essencial'}
       avatarUrl={profile?.avatar_url ?? null}
-      isAdmin={isAdmin}
       defaults={{
         cardFeeBps: settings?.default_card_fee_bps ?? 0,
         taxBps: settings?.default_tax_bps ?? 0,
