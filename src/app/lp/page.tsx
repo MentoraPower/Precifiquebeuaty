@@ -103,7 +103,7 @@ export default function LandingPage() {
               'Preço sugerido com o lucro que você escolhe',
               'Insumos vinculados a cada serviço, sem retrabalho',
             ].map((t) => (
-              <li key={t} className="flex items-start gap-3 rounded-2xl border border-line bg-bg p-4 text-[15px]">
+              <li key={t} className="flex items-start gap-3 text-[15px]">
                 <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-brown text-white">
                   <Check className="h-3.5 w-3.5" />
                 </span>
@@ -133,7 +133,7 @@ export default function LandingPage() {
               'Enxerga quanto o negócio precisa faturar pra fechar no azul',
               'Decide campanhas e combos com número, não com achismo',
             ].map((t) => (
-              <div key={t} className="flex items-start gap-3 rounded-2xl border border-line bg-bg p-4">
+              <div key={t} className="flex items-start gap-3">
                 <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-brown text-white">
                   <Check className="h-3.5 w-3.5" />
                 </span>
@@ -161,9 +161,14 @@ export default function LandingPage() {
               ['Esteticistas', 'Limpeza de pele, procedimentos corporais'],
               ['Estúdios e salões', 'Vários profissionais, um preço certo'],
             ].map(([title, desc]) => (
-              <div key={title} className="rounded-2xl border border-line bg-bg p-5">
-                <p className="text-[16px] font-bold">{title}</p>
-                <p className="mt-1 text-[13px] text-muted">{desc}</p>
+              <div key={title} className="flex items-start gap-3">
+                <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-pill bg-brown/10 text-brown">
+                  <Check className="h-3 w-3" />
+                </span>
+                <div>
+                  <p className="text-[16px] font-bold">{title}</p>
+                  <p className="mt-0.5 text-[13px] text-muted">{desc}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -179,7 +184,7 @@ export default function LandingPage() {
               Simples de usar no dia a dia, completo o suficiente pra cuidar do seu negócio inteiro.
             </p>
           </div>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <div className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-3">
             <Feature icon={Clock} title="Custo da sua hora" desc="O app calcula quanto vale cada hora do seu trabalho, considerando pró-labore, dias e horas trabalhadas." />
             <Feature icon={Scissors} title="Preço por serviço" desc="Preço ideal com a margem que você quer, já com maquininha, impostos e comissão embutidos." />
             <Feature icon={Package} title="Insumos por serviço" desc="Cadastre o que cada atendimento gasta de produto e veja o custo real, sem achismo." />
@@ -337,7 +342,7 @@ function Trust({ icon: Icon, label }: { icon: typeof Zap; label: string }) {
 
 function Feature({ icon: Icon, title, desc }: { icon: typeof Clock; title: string; desc: string }) {
   return (
-    <div className="rounded-2xl border border-line bg-bg p-6">
+    <div>
       <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brown text-white">
         <Icon className="h-6 w-6" />
       </span>
