@@ -12,7 +12,7 @@ import { Chip, EmptyState } from '@/components/ui/misc'
 import { KebabMenu } from '@/components/ui/KebabMenu'
 import { useConfirm } from '@/components/ConfirmProvider'
 
-type Filter = 'all' | 'active' | 'inactive'
+type StatusFilter = 'active' | 'inactive'
 type Sort = 'recent' | 'old'
 
 export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
@@ -20,13 +20,16 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   const supabase = createClient()
   const confirm = useConfirm()
   const [items, setItems] = useState(initial)
-  const [filter, setFilter] = useState<Filter>('all')
+  const [statuses, setStatuses] = useState<StatusFilter[]>([]) // vazio = Todos
   const [sort, setSort] = useState<Sort>('recent')
 
+  // Multi-seleção: alterna o status; se ficar vazio, volta pra "Todos" automaticamente.
+  function toggleStatusFilter(s: StatusFilter) {
+    setStatuses((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]))
+  }
+
   const filtered = items
-    .filter((s) =>
-      filter === 'all' ? true : filter === 'active' ? s.status === 'active' : s.status === 'inactive',
-    )
+    .filter((s) => statuses.length === 0 || statuses.includes(s.status as StatusFilter))
     .sort((a, b) => {
       const da = new Date(a.created_at).getTime()
       const db = new Date(b.created_at).getTime()
@@ -95,13 +98,13 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
       </div>
 
       <div className="no-scrollbar flex gap-2 overflow-x-auto px-5 pb-1 pt-4">
-        <Chip active={filter === 'all'} onClick={() => setFilter('all')}>
+        <Chip active={statuses.length === 0} onClick={() => setStatuses([])}>
           Todos
         </Chip>
-        <Chip active={filter === 'active'} onClick={() => setFilter('active')}>
+        <Chip active={statuses.includes('active')} onClick={() => toggleStatusFilter('active')}>
           Ativos
         </Chip>
-        <Chip active={filter === 'inactive'} onClick={() => setFilter('inactive')}>
+        <Chip active={statuses.includes('inactive')} onClick={() => toggleStatusFilter('inactive')}>
           Inativos
         </Chip>
         <Chip active={sort === 'recent'} onClick={() => setSort('recent')}>
