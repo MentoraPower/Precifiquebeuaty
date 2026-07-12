@@ -86,7 +86,7 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
         </Link>
         <div className="mt-5 text-center">
           <h1 className="text-[34px] font-medium leading-tight">Gerenciar Serviços</h1>
-          <p className="mx-auto mt-1.5 max-w-[330px] text-[14px] text-muted">
+          <p className="mx-auto mt-1.5 max-w-[290px] text-[14px] text-muted">
             Cadastre, precifique e organize todos os serviços do seu negócio.
           </p>
         </div>
