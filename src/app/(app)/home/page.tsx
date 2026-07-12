@@ -31,7 +31,7 @@ export default async function HomePage() {
     <main>
       {/* Card preto full-width: saudação + avatar + custo da hora (só a base arredondada) */}
       <section className="relative overflow-hidden rounded-b-[40px] bg-ink text-white shadow-[0_9px_18px_-8px_rgba(17,17,17,0.38)]">
-        <div className="pointer-events-none absolute inset-0 bg-[url('/hourly-bg.jpg')] bg-cover bg-center opacity-[0.85]" />
+        <div className="pointer-events-none absolute inset-0 bg-[url('/hourly-bg.jpg')] bg-cover bg-center opacity-[0.90]" />
         <div className="relative px-5 pb-6" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 18px)' }}>
           <div className="flex items-center justify-between">
             <h1 className="text-[24px] font-bold leading-tight">Olá, {firstName}</h1>
@@ -154,7 +154,7 @@ function StatPill({ href, value, label }: { href: string; value: number; label: 
   return (
     <Link
       href={href}
-      className="flex shrink-0 items-center gap-1.5 rounded-pill bg-gradient-to-r from-[#4a3620] to-brown px-4 py-2.5 text-[14px] text-white transition active:scale-[0.99]"
+      className="flex shrink-0 items-center gap-1.5 rounded-pill bg-brown/70 px-4 py-2.5 text-[14px] text-white transition active:scale-[0.99]"
     >
       <span className="font-bold">{value}</span>
       <span className="text-white/70">{label}</span>
