@@ -9,6 +9,7 @@ import { formatCents, formatDateBR, initials } from '@/lib/format'
 import { Card } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/misc'
 import { TopLoadingBar } from '@/components/TopLoadingBar'
+import { Greeting } from './Greeting'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,7 +35,7 @@ export default async function HomePage() {
         <div className="pointer-events-none absolute inset-0 bg-[url('/hourly-bg.jpg')] bg-cover bg-center opacity-[0.90]" />
         <div className="relative px-5 pb-5" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 16px)' }}>
           <div className="flex items-center justify-between">
-            <h1 className="text-[24px] font-bold leading-tight">Olá, {firstName}</h1>
+            <Greeting name={firstName} />
             <Link href="/perfil" aria-label="Perfil" className="shrink-0">
               {profile?.avatar_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
