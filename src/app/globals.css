@@ -84,6 +84,16 @@ main {
   animation: pageIn 0.2s ease-out;
 }
 
+/* Carrossel em loop (marquee) — usado na landing "Veja por dentro" */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /* Barra de carregamento no topo (indeterminada) */
 .progress-track {
   position: fixed;

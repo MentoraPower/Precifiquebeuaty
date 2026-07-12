@@ -212,13 +212,15 @@ export default function LandingPage() {
         <Container>
           <h2 className="text-center text-[28px] font-semibold leading-tight [text-wrap:balance] md:text-[32px]">Veja por dentro</h2>
         </Container>
-        {/* full-bleed, sem limite lateral e sem sombra */}
-        <div className="no-scrollbar mt-10 flex snap-x gap-5 overflow-x-auto px-8 pb-2">
-          {SCREENS.map((s) => (
-            <div key={s.src} className="snap-center">
-              <Phone src={s.src} alt={s.alt} small shadow={false} />
-            </div>
-          ))}
+        {/* full-bleed, loop automático bem lento (marquee), sem sombra */}
+        <div className="mt-10 overflow-hidden">
+          <div className="flex w-max gap-5 pr-5 [animation:marquee_90s_linear_infinite]">
+            {[...SCREENS, ...SCREENS].map((s, i) => (
+              <div key={`${s.src}-${i}`}>
+                <Phone src={s.src} alt={s.alt} small shadow={false} />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
