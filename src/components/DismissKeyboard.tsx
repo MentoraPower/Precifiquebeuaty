@@ -13,7 +13,14 @@ export function DismissKeyboard() {
       const active = document.activeElement as HTMLElement | null
       if (!active || !/^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName)) return
       const target = e.target as HTMLElement | null
-      if (target && target.closest('input, textarea, select, label, [contenteditable="true"]')) return
+      // Não fecha o teclado ao tocar em campos NEM em elementos interativos
+      // (botão/link) — senão o blur no pointerdown desloca o layout e o clique
+      // no "Entrar" erra o alvo.
+      if (
+        target &&
+        target.closest('input, textarea, select, label, button, a, [role="button"], [contenteditable="true"]')
+      )
+        return
       active.blur()
     }
     document.addEventListener('pointerdown', handler, true)
