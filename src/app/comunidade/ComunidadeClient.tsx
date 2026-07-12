@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ImagePlus, Send, Smile, Sparkles, X, Loader2, Trash2 } from 'lucide-react'
+import { ChevronLeft, ImagePlus, Send, Smile, MessagesSquare, X, Loader2, Trash2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useConfirm } from '@/components/ConfirmProvider'
 import type { CommunityPostRow, CommunityReactionRow } from '@/lib/database.types'
@@ -139,9 +139,8 @@ export function ComunidadeClient({
         <button onClick={() => router.back()} aria-label="Voltar" className="-ml-1 rounded-pill p-1.5 text-ink hover:bg-line/50">
           <ChevronLeft className="h-6 w-6" />
         </button>
-        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brown text-white">
-          <Sparkles className="h-5 w-5" />
-        </span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/icons/icon-192.png" alt="Precifica Beauty" className="h-11 w-11 rounded-2xl object-cover ring-1 ring-line" />
         <div className="min-w-0 flex-1">
           <p className="truncate text-[16px] font-bold leading-tight">Comunidade Precifica</p>
           <p className="text-[12px] text-muted">Novidades e conteúdos exclusivos</p>
@@ -153,7 +152,7 @@ export function ComunidadeClient({
         {posts.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center text-center">
             <span className="flex h-16 w-16 items-center justify-center rounded-3xl bg-brown/10 text-brown">
-              <Sparkles className="h-7 w-7" />
+              <MessagesSquare className="h-7 w-7" />
             </span>
             <p className="mt-4 text-[15px] font-semibold">Nada por aqui ainda</p>
             <p className="mt-1 max-w-[240px] text-[13px] text-muted">
