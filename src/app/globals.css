@@ -84,17 +84,6 @@ main {
   animation: pageIn 0.2s ease-out;
 }
 
-/* Vai-e-volta (ping-pong) — usado na landing "Veja por dentro".
-   O conjunto fica centralizado e oscila suavemente, preenchendo os dois lados. */
-@keyframes sway {
-  from {
-    transform: translateX(6%);
-  }
-  to {
-    transform: translateX(-6%);
-  }
-}
-
 /* Barra de carregamento no topo (indeterminada) */
 .progress-track {
   position: fixed;

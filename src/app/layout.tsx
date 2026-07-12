@@ -42,19 +42,7 @@ export const viewport: Viewport = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const h = headers()
-
-  // Landing page de vendas (domínio precificabeauty.biteti.co / rota /lp):
-  // renderiza só a página, sem bloqueio de desktop nem estrutura do app.
-  if (h.get('x-lp') === '1') {
-    return (
-      <html lang="pt-BR" className={instrumentSans.variable}>
-        <body className="font-sans">{children}</body>
-      </html>
-    )
-  }
-
-  const ua = h.get('user-agent')
+  const ua = headers().get('user-agent')
   const isMobile = isMobileDevice(ua)
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://precifica.biteti.co'
