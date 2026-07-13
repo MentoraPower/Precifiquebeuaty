@@ -6,6 +6,8 @@ import './globals.css'
 import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
 import { DismissKeyboard } from '@/components/DismissKeyboard'
 import { ContentProtection } from '@/components/ContentProtection'
+import { AntiInspect } from '@/components/AntiInspect'
+import { IdleLogout } from '@/components/IdleLogout'
 import { ConfirmProvider } from '@/components/ConfirmProvider'
 import { DesktopBlock } from '@/components/DesktopBlock'
 import { isMobileDevice } from '@/lib/device'
@@ -61,10 +63,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <ServiceWorkerRegister />
             <DismissKeyboard />
             <ContentProtection />
+            <IdleLogout />
           </>
         ) : (
           <DesktopBlock url={siteUrl} qrSvg={qrSvg} />
         )}
+        <AntiInspect />
       </body>
     </html>
   )
