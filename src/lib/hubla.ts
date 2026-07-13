@@ -36,35 +36,58 @@ interface Options {
   // Quando definido, só processa eventos cujo event.sellerId bata com este id
   // (usado para uma oferta específica, ex.: "Power Academy + Precifica Beauty").
   requireSellerId?: string
+  // Nome do endpoint (para o log).
+  endpoint?: string
 }
 
 export async function processHublaWebhook(req: NextRequest, opts: Options = {}): Promise<NextResponse> {
+  const admin = createAdminClient()
+
+  // Lê o corpo cru (para logar exatamente o que a Hubla enviou).
+  const rawText = await req.text()
+  let body: HublaPayload = {}
+  try {
+    body = JSON.parse(rawText) as HublaPayload
+  } catch {
+    // segue com body vazio; ainda logamos o texto cru
+  }
+  const type = body?.type
+  const ev = body?.event ?? {}
+  const email = String(ev.userEmail ?? '').trim().toLowerCase()
+
+  // Registra TODA requisição recebida, com o resultado.
+  async function log(result: string) {
+    await admin
+      .from('webhook_logs')
+      .insert({
+        endpoint: opts.endpoint ?? null,
+        event_type: type ?? null,
+        seller_id: ev.sellerId ?? null,
+        email: email || null,
+        result,
+        raw: (body && Object.keys(body).length ? body : { rawText }) as unknown as Json,
+      })
+      .then(() => {})
+  }
+
   // Autenticação simples via secret (na URL ?secret=... ou header x-webhook-secret)
   const secret = process.env.HUBLA_WEBHOOK_SECRET
   const provided = req.nextUrl.searchParams.get('secret') ?? req.headers.get('x-webhook-secret')
   if (!secret || provided !== secret) {
+    await log('unauthorized')
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
-  let body: HublaPayload
-  try {
-    body = (await req.json()) as HublaPayload
-  } catch {
-    return NextResponse.json({ error: 'invalid json' }, { status: 400 })
-  }
-
-  const type = body?.type
-  const ev = body?.event ?? {}
-
   // Validação da oferta: se exigir um sellerId, ignora eventos de outras ofertas.
   if (opts.requireSellerId && ev.sellerId !== opts.requireSellerId) {
+    await log('seller_mismatch')
     return NextResponse.json({ ok: true, ignored: 'seller_mismatch' })
   }
 
-  const email = String(ev.userEmail ?? '').trim().toLowerCase()
-  if (!email) return NextResponse.json({ error: 'no email' }, { status: 400 })
-
-  const admin = createAdminClient()
+  if (!email) {
+    await log('no_email')
+    return NextResponse.json({ error: 'no email' }, { status: 400 })
+  }
 
   const baseRow = {
     email,
@@ -110,6 +133,7 @@ export async function processHublaWebhook(req: NextRequest, opts: Options = {}):
       })
       await sendEmail(email, granted.subject, granted.html)
 
+      await log(isNewAccount ? 'access_granted_new' : 'access_granted_existing')
       return NextResponse.json({ ok: true, action: 'access_granted', email, newAccount: isNewAccount })
     }
 
@@ -124,12 +148,15 @@ export async function processHublaWebhook(req: NextRequest, opts: Options = {}):
       const revoked = accessRevokedEmail(ev.userName)
       await sendEmail(email, revoked.subject, revoked.html)
 
+      await log('access_revoked')
       return NextResponse.json({ ok: true, action: 'access_revoked', email })
     }
 
     // Outros tipos: responde 200 para a Hubla não reenviar, mas não faz nada.
+    await log(`ignored_type:${type ?? 'unknown'}`)
     return NextResponse.json({ ok: true, ignored: type ?? 'unknown' })
   } catch (err) {
+    await log(`error:${err instanceof Error ? err.message : 'internal'}`)
     return NextResponse.json({ error: err instanceof Error ? err.message : 'internal' }, { status: 500 })
   }
 }
