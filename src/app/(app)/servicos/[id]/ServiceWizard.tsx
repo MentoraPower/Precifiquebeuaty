@@ -63,7 +63,9 @@ export function ServiceWizard({
   const [step, setStep] = useState(0)
   const [name, setName] = useState(service?.name ?? '')
   const [duration, setDuration] = useState(service?.duration_minutes ?? 60)
-  const [additional, setAdditional] = useState(service?.additional_cost_cents ?? 0)
+  // Custos adicionais fixos foram descontinuados: todo insumo vai na aba Insumos.
+  // Mantemos o valor já salvo (se houver) só para não alterar preços antigos.
+  const additional = service?.additional_cost_cents ?? 0
   const [cardFee, setCardFee] = useState(service?.card_fee_bps ?? defaults.cardFeeBps)
   const [tax, setTax] = useState(service?.tax_bps ?? defaults.taxBps)
   const [commission, setCommission] = useState(service?.partner_commission_bps ?? defaults.commissionBps)
@@ -235,15 +237,6 @@ export function ServiceWizard({
                 persistFields({ duration_minutes: v })
               }}
               hint="Formato horas : minutos (ex.: 01:30 = 1h30)"
-            />
-            <MoneyField
-              label="Custos adicionais fixos (opcional)"
-              valueCents={additional}
-              onChangeCents={(c) => {
-                setAdditional(c)
-                persistFields({ additional_cost_cents: c })
-              }}
-              hint="Descartáveis, embalagem do atendimento, etc."
             />
             {hourlyCostCents == null && (
               <Card className="flex items-start gap-2 border-attention/40 bg-attention/5">
