@@ -13,10 +13,14 @@ const BOT_UA =
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const isWebhook = pathname.startsWith('/api/webhooks')
-  const isMeta = pathname === '/robots.txt' || pathname === '/sitemap.xml'
 
-  // Webhooks das ferramentas (Hubla/TMB) e robots.txt passam intactos.
-  if (!isWebhook && !isMeta) {
+  // robots.txt/sitemap: serve o arquivo estático sem passar pelo gate de login.
+  if (pathname === '/robots.txt' || pathname === '/sitemap.xml') {
+    return NextResponse.next()
+  }
+
+  // Webhooks das ferramentas (Hubla/TMB) passam intactos.
+  if (!isWebhook) {
     // Sondagens de bots/scanners — travadas na hora.
     if (SUSPICIOUS.test(pathname)) {
       return new NextResponse('Forbidden', { status: 403 })
