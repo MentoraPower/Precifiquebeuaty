@@ -30,10 +30,13 @@ export default async function HomePage() {
 
   return (
     <main>
-      {/* Card preto full-width: saudação + avatar + custo da hora (só a base arredondada) */}
-      <section className="relative overflow-hidden rounded-b-[40px] bg-ink text-white shadow-[0_9px_18px_-8px_rgba(17,17,17,0.38)]">
+      {/* Card preto flutuante: saudação + avatar + custo da hora (margem no topo/laterais, cantos arredondados) */}
+      <section
+        className="relative mx-3 overflow-hidden rounded-[32px] bg-ink text-white shadow-[0_12px_28px_-12px_rgba(17,17,17,0.45)]"
+        style={{ marginTop: 'calc(max(env(safe-area-inset-top), 0px) + 12px)' }}
+      >
         <div className="pointer-events-none absolute inset-0 bg-[url('/hourly-bg.jpg')] bg-cover bg-center opacity-[0.90]" />
-        <div className="relative px-5 pb-5" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 0px) + 16px)' }}>
+        <div className="relative px-5 pb-5 pt-5">
           <div className="flex items-center justify-between">
             <Greeting name={firstName} />
             <Link href="/perfil" aria-label="Perfil" className="shrink-0">
