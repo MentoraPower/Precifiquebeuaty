@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Avatar, resizeImage } from '@/components/Avatar'
 import { useConfirm } from '@/components/ConfirmProvider'
+import { isRealImage } from '@/lib/image'
 
 export function PerfilClient({
   email,
@@ -47,6 +48,19 @@ export function PerfilClient({
     const file = e.target.files?.[0]
     if (fileRef.current) fileRef.current.value = ''
     if (!file) return
+
+    // Segurança: confirma que é uma foto de verdade (analisa o conteúdo, não a extensão).
+    if (!(await isRealImage(file))) {
+      await confirm({
+        title: 'Foto não validada',
+        message:
+          'Isso não é uma foto, e existem arquivos que podem prejudicar você e a nossa estrutura. Não conseguimos validar — por favor, suba uma foto real.',
+        confirmLabel: 'Ok',
+        cancelLabel: 'Fechar',
+      })
+      return
+    }
+
     setUploading(true)
     try {
       const blob = await resizeImage(file, 256)
