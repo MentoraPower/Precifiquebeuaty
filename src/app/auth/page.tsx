@@ -106,6 +106,8 @@ export default function AuthPage() {
       <div className="pointer-events-none fixed inset-x-0 bottom-0 h-80 bg-gradient-to-t from-brown/30 via-brown/10 to-transparent" />
 
       <div className="relative mb-6 text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-precifica.svg" alt="Precifica Beauty" className="mx-auto mb-6 h-auto w-[180px]" />
         <h1 className="text-[32px] font-medium leading-tight">{titles[view].title}</h1>
         <p className="mx-auto mt-1.5 max-w-[300px] text-[14px] text-muted">{titles[view].subtitle}</p>
       </div>
