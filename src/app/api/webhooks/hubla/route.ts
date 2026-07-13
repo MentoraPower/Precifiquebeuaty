@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { randomBytes } from 'crypto'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendEmail, accessGrantedEmail, accessRevokedEmail } from '@/lib/email'
 import type { Json } from '@/lib/database.types'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
+
+// Senha aleatória amigável (sem caracteres ambíguos).
+function generatePassword(len = 10): string {
+  const chars = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  const bytes = randomBytes(len)
+  let out = ''
+  for (let i = 0; i < len; i++) out += chars[bytes[i] % chars.length]
+  return out
+}
 
 interface HublaEvent {
   userId?: string
@@ -61,15 +71,19 @@ export async function POST(req: NextRequest) {
 
   try {
     if (type === 'NewSale') {
-      // Cria a conta se ainda não existir (o comprador define a senha pelo "Esqueceu a senha?").
-      await admin.auth.admin
-        .createUser({
-          email,
-          email_confirm: true,
-          app_metadata: { access_active: true },
-          user_metadata: { full_name: ev.userName ?? '' },
-        })
-        .catch(() => {})
+      // Só o primeiro nome (padrão de saudação do app).
+      const firstName = String(ev.userName ?? '').trim().split(/\s+/)[0] ?? ''
+
+      // Cria a conta com uma senha aleatória (se ainda não existir).
+      const password = generatePassword()
+      const { data: created, error: createErr } = await admin.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true,
+        app_metadata: { access_active: true },
+        user_metadata: { full_name: firstName },
+      })
+      const isNewAccount = !createErr && !!created?.user
 
       // Garante acesso ativo (vale também para conta já existente).
       await admin.rpc('grant_access', { p_email: email, p_active: true })
@@ -78,10 +92,15 @@ export async function POST(req: NextRequest) {
         .from('entitlements')
         .upsert({ ...baseRow, status: 'active', last_event: 'NewSale', refunded_at: null }, { onConflict: 'email' })
 
-      const granted = accessGrantedEmail(ev.userName)
+      // Só manda a senha se a conta foi criada agora (não sobrescreve senha existente).
+      const granted = accessGrantedEmail({
+        name: firstName,
+        email,
+        password: isNewAccount ? password : undefined,
+      })
       await sendEmail(email, granted.subject, granted.html)
 
-      return NextResponse.json({ ok: true, action: 'access_granted', email })
+      return NextResponse.json({ ok: true, action: 'access_granted', email, newAccount: isNewAccount })
     }
 
     if (type === 'Refunded') {

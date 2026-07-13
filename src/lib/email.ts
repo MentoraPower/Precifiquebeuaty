@@ -19,20 +19,37 @@ function pillButton(label: string, url: string): string {
   return `<a href="${url}" style="display:inline-block;background:#111111;color:#FFFFFF;text-decoration:none;font-weight:600;font-size:15px;padding:15px 32px;border-radius:999px">${label}</a>`
 }
 
-export function accessGrantedEmail(name?: string): { subject: string; html: string } {
+export function accessGrantedEmail({
+  name,
+  email,
+  password,
+}: {
+  name?: string
+  email?: string
+  password?: string
+}): { subject: string; html: string } {
   const hi = name ? `${name}, sua` : 'Sua'
+  const block =
+    password && email
+      ? `
+        <div style="background:#F7F4EF;border:1px solid #EAE7E1;border-radius:16px;padding:18px 18px;text-align:left;margin:0 0 22px">
+          <p style="margin:0 0 12px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#9A968E;font-weight:700">Seus dados de acesso</p>
+          <p style="margin:0 0 8px;font-size:14px;color:#111111"><span style="color:#6B6B6B">E-mail:</span> <b>${email}</b></p>
+          <p style="margin:0;font-size:14px;color:#111111"><span style="color:#6B6B6B">Senha:</span> <b style="letter-spacing:.5px">${password}</b></p>
+          <p style="margin:12px 0 0;font-size:12px;line-height:1.6;color:#9A968E">Recomendamos trocar a senha depois de entrar, em Perfil.</p>
+        </div>`
+      : `
+        <div style="background:#F7F4EF;border:1px solid #EAE7E1;border-radius:16px;padding:16px 18px;text-align:left;margin:0 0 24px">
+          <p style="margin:0;font-size:13px;line-height:1.6;color:#6B6B6B">
+            Você já tem uma conta. Entre com a sua senha atual. Se não lembrar, toque em <b style="color:#111111">Esqueceu a senha?</b> na tela de login.
+          </p>
+        </div>`
   return {
     subject: 'Acesso liberado - Precifica Beauty',
     html: shell({
       title: 'Acesso liberado',
       subtitle: `${hi} compra foi confirmada e seu acesso ao Precifica Beauty já está ativo.`,
-      inner: `
-        <div style="background:#F7F4EF;border:1px solid #EAE7E1;border-radius:16px;padding:16px 18px;text-align:left;margin:0 0 24px">
-          <p style="margin:0;font-size:13px;line-height:1.6;color:#6B6B6B">
-            Para entrar pela primeira vez, abra o app, toque em <b style="color:#111111">Esqueceu a senha?</b> e crie sua senha com o código enviado ao seu e-mail.
-          </p>
-        </div>
-        ${pillButton('Acessar o app', APP_URL)}`,
+      inner: `${block}${pillButton('Acessar o app', `${APP_URL}/auth`)}`,
     }),
   }
 }
