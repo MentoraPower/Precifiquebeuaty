@@ -103,9 +103,17 @@ export default function AuthPage() {
 
   return (
     <main className="relative flex min-h-screen flex-col justify-center px-6 py-12">
+      {/* Imagem de fundo no topo (full-width), com a cor de fundo sólida embaixo derretendo pra transparente pra cima */}
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[50vh] overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/login-bg.webp" alt="" className="h-full w-full object-cover object-[center_25%]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/55 to-transparent" />
+      </div>
+
+      {/* Gradiente escuro na base (mantido) */}
       <div className="pointer-events-none fixed inset-x-0 bottom-0 h-80 bg-gradient-to-t from-brown/30 via-brown/10 to-transparent" />
 
-      <div className="relative mb-6 text-center">
+      <div className="relative z-10 mb-6 text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo-precifica.svg" alt="Precifica Beauty" className="mx-auto mb-6 h-auto w-[180px]" />
         <h1 className="text-[32px] font-medium leading-tight">{titles[view].title}</h1>
@@ -113,7 +121,7 @@ export default function AuthPage() {
       </div>
 
       {view === 'login' && (
-        <form onSubmit={handleLogin} className="relative flex flex-col gap-3 rounded-[24px] border border-line bg-bg p-5 shadow-card">
+        <form onSubmit={handleLogin} className="relative z-10 flex flex-col gap-3 rounded-[24px] border border-line bg-bg p-5 shadow-card">
           <Input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail" required />
           <PasswordField value={password} onChange={setPassword} show={showPw} onToggle={() => setShowPw((v) => !v)} placeholder="Senha" autoComplete="current-password" />
           {error && <p className="text-[13px] text-danger">{error}</p>}
@@ -127,7 +135,7 @@ export default function AuthPage() {
       )}
 
       {view === 'forgot' && (
-        <form onSubmit={sendCode} className="relative flex flex-col gap-3 rounded-[24px] border border-line bg-bg p-5 shadow-card">
+        <form onSubmit={sendCode} className="relative z-10 flex flex-col gap-3 rounded-[24px] border border-line bg-bg p-5 shadow-card">
           <Input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail" required />
           {error && <p className="text-[13px] text-danger">{error}</p>}
           <Button type="submit" size="lg" fullWidth loading={loading} className="mt-3 rounded-pill">
@@ -138,7 +146,7 @@ export default function AuthPage() {
       )}
 
       {view === 'reset' && (
-        <form onSubmit={confirmReset} className="relative flex flex-col gap-3 rounded-[24px] border border-line bg-bg p-5 shadow-card">
+        <form onSubmit={confirmReset} className="relative z-10 flex flex-col gap-3 rounded-[24px] border border-line bg-bg p-5 shadow-card">
           {info && <p className="text-[13px] text-success">{info}</p>}
           <Input
             inputMode="numeric"
