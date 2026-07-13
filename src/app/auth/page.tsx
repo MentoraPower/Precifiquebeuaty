@@ -103,13 +103,6 @@ export default function AuthPage() {
 
   return (
     <main className="relative flex min-h-screen flex-col justify-center px-6 py-12">
-      {/* Imagem de fundo no topo (full-width), com a cor de fundo sólida embaixo derretendo pra transparente pra cima */}
-      <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[44vh] overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/login-bg.webp" alt="" className="h-full w-full object-cover object-[center_18%]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-surface from-32% via-surface/70 to-transparent" />
-      </div>
-
       {/* Gradiente escuro na base (mantido) */}
       <div className="pointer-events-none fixed inset-x-0 bottom-0 h-80 bg-gradient-to-t from-brown/30 via-brown/10 to-transparent" />
 
