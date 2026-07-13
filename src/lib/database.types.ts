@@ -198,6 +198,17 @@ export type CommunityReactionRow = {
   created_at: string
 }
 
+export type WebhookLogRow = {
+  id: string
+  endpoint: string | null
+  event_type: string | null
+  seller_id: string | null
+  email: string | null
+  result: string | null
+  raw: Json | null
+  created_at: string
+}
+
 export type Database = {
   public: {
     Tables: {
@@ -217,6 +228,7 @@ export type Database = {
       campaign_items: Table<CampaignItemRow>
       community_posts: Table<CommunityPostRow>
       community_reactions: Table<CommunityReactionRow>
+      webhook_logs: Table<WebhookLogRow>
     }
     Views: Record<string, never>
     Functions: {
