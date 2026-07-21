@@ -44,18 +44,36 @@ export const viewport: Viewport = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const ua = headers().get('user-agent')
+  const h = headers()
+  const ua = h.get('user-agent')
   const isMobile = isMobileDevice(ua)
 
+  // Área administrativa (/alunos): abre no desktop em largura total. A tela de
+  // login (/auth) também abre no desktop, para o admin conseguir entrar. O
+  // restante do app continua só no celular (QR code no desktop).
+  const pathname = h.get('x-pathname') || ''
+  // SÓ a /alunos abre no desktop (com login próprio da aba). Todo o resto do app
+  // — inclusive o login do app (/auth) — continua só no celular (QR no desktop).
+  const isAdminArea = pathname.startsWith('/alunos')
+
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://precifica.biteti.co'
-  const qrSvg = isMobile
+  const qrSvg = isMobile || isAdminArea
     ? ''
     : await QRCode.toString(siteUrl, { type: 'svg', margin: 0, color: { dark: '#2C1E16', light: '#00000000' } })
 
   return (
     <html lang="pt-BR" className={instrumentSans.variable}>
       <body className="font-sans">
-        {isMobile ? (
+        {isAdminArea ? (
+          // Painel de admin — largura total, desktop e celular.
+          <>
+            <ConfirmProvider>
+              <div className="min-h-screen bg-surface">{children}</div>
+            </ConfirmProvider>
+            <IdleLogout />
+            <AntiInspect />
+          </>
+        ) : isMobile ? (
           <>
             <ConfirmProvider>
               <div className="mx-auto min-h-screen max-w-app bg-surface">{children}</div>
@@ -64,11 +82,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <DismissKeyboard />
             <ContentProtection />
             <IdleLogout />
+            <AntiInspect />
           </>
         ) : (
-          <DesktopBlock url={siteUrl} qrSvg={qrSvg} />
+          <>
+            <DesktopBlock url={siteUrl} qrSvg={qrSvg} />
+            <AntiInspect />
+          </>
         )}
-        <AntiInspect />
       </body>
     </html>
   )
