@@ -42,9 +42,9 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  // Sem `viewportFit: 'cover'`: o conteúdo NÃO passa por baixo da barra de
-  // status. Com 'cover', ao rolar a tela o iOS aplica seu blur + camada cinza
-  // sobre o que fica atrás da barra — era o "brilho branco" no topo da Home.
+  // 'cover' é necessário para que env(safe-area-inset-top) tenha valor real —
+  // é ele que dimensiona a faixa sólida do topo (ver RootLayout abaixo).
+  viewportFit: 'cover',
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -61,6 +61,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="font-sans">
         {isMobile ? (
           <>
+            {/* Faixa sólida atrás da barra de status.
+                O iOS borra o que passa por baixo da barra ao rolar a tela — era
+                o "brilho" no topo da Home (o preto do card sangrando no bege).
+                Cobrindo essa área com UMA cor sólida, o blur do iOS passa a
+                borrar cor uniforme, o que devolve exatamente a mesma cor. */}
+            <div
+              aria-hidden
+              className="pointer-events-none fixed inset-x-0 top-0 z-[60] bg-surface"
+              style={{ height: 'max(env(safe-area-inset-top), 0px)' }}
+            />
             <ConfirmProvider>
               <div className="mx-auto min-h-screen max-w-app bg-surface">{children}</div>
             </ConfirmProvider>
