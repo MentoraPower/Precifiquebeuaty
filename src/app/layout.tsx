@@ -24,7 +24,9 @@ export const metadata: Metadata = {
   description: 'Precifique com clareza, calcule seu lucro e a viabilidade das suas campanhas.',
   manifest: '/manifest.webmanifest',
   applicationName: 'Precifica Beauty',
-  appleWebApp: { capable: true, statusBarStyle: 'black', title: 'Precifica Beauty' },
+  // statusBarStyle 'default' = barra clara com texto escuro, igual ao fundo do
+  // app. Estava 'black' (barra preta), incoerente com o tema claro.
+  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'Precifica Beauty' },
   icons: {
     icon: [
       { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
@@ -36,11 +38,13 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#111111',
+  themeColor: '#F7F4EF',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  viewportFit: 'cover',
+  // Sem `viewportFit: 'cover'`: o conteúdo NÃO passa por baixo da barra de
+  // status. Com 'cover', ao rolar a tela o iOS aplica seu blur + camada cinza
+  // sobre o que fica atrás da barra — era o "brilho branco" no topo da Home.
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
