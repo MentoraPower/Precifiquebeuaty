@@ -89,7 +89,7 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
       <div className="safe-top px-5 pt-5">
         <div className="flex justify-center">
           <Link href="/servicos/novo">
-            <Button size="md" className="h-12 rounded-pill px-10">
+            <Button size="md" className="h-12 rounded-pill px-16">
               <Plus className="h-4 w-4" /> Criar novo
             </Button>
           </Link>
