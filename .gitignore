@@ -9,3 +9,6 @@ build
 *.tsbuildinfo
 next-env.d.ts
 coverage
+
+# Utilitário local com senhas de admin — não versionar
+scripts/seed-admins.mjs

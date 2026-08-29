@@ -181,6 +181,10 @@ export type EntitlementRow = {
   updated_at: string
 }
 
+export type CommunityAdminRow = {
+  user_id: string
+}
+
 export type CommunityPostRow = {
   id: string
   author_id: string
@@ -226,6 +230,7 @@ export type Database = {
       campaigns: Table<CampaignRow>
       campaign_expenses: Table<CampaignExpenseRow>
       campaign_items: Table<CampaignItemRow>
+      community_admins: Table<CommunityAdminRow>
       community_posts: Table<CommunityPostRow>
       community_reactions: Table<CommunityReactionRow>
       webhook_logs: Table<WebhookLogRow>

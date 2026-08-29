@@ -23,6 +23,15 @@ export function formatDateBR(iso: string | null | undefined): string {
   return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
 }
 
+/** Data + hora pt-BR (ex.: "21/07/2026 às 14:32"). */
+export function formatDateTimeBR(iso: string | null | undefined): string {
+  if (!iso) return '—'
+  const d = new Date(iso)
+  const data = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+  const hora = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+  return `${data} às ${hora}`
+}
+
 export function initials(name: string | null | undefined): string {
   if (!name) return 'W'
   const parts = name.trim().split(/\s+/).slice(0, 2)
