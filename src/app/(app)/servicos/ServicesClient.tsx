@@ -22,6 +22,7 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   const [items, setItems] = useState(initial)
   const [statuses, setStatuses] = useState<StatusFilter[]>([]) // vazio = Todos
   const [sort, setSort] = useState<Sort | null>(null) // null = padrão (mais recentes)
+  const [duplicating, setDuplicating] = useState(false)
 
   // Multi-seleção: alterna o status; se ficar vazio, volta pra "Todos" automaticamente.
   function toggleStatusFilter(s: StatusFilter) {
@@ -53,27 +54,58 @@ export function ServicesClient({ initial }: { initial: ServiceRow[] }) {
   }
 
   async function duplicate(s: ServiceRow) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-    if (!user) return
-    const { data } = await supabase
-      .from('services')
-      .insert({
-        user_id: user.id,
-        name: `${s.name} (cópia)`,
-        duration_minutes: s.duration_minutes,
-        additional_cost_cents: s.additional_cost_cents,
-        card_fee_bps: s.card_fee_bps,
-        tax_bps: s.tax_bps,
-        partner_commission_bps: s.partner_commission_bps,
-        desired_margin_bps: s.desired_margin_bps,
-        status: 'draft',
-      })
-      .select()
-      .single()
-    if (data) setItems((p) => [data, ...p])
-    router.refresh()
+    if (duplicating) return
+    setDuplicating(true)
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+      const [{ data: copy }, { data: inputs, error: inputsError }] = await Promise.all([
+        supabase
+          .from('services')
+          .insert({
+            user_id: user.id,
+            name: `${s.name} (cópia)`,
+            icon: s.icon,
+            duration_minutes: s.duration_minutes,
+            additional_cost_cents: s.additional_cost_cents,
+            current_price_cents: s.current_price_cents,
+            card_fee_bps: s.card_fee_bps,
+            tax_bps: s.tax_bps,
+            partner_commission_bps: s.partner_commission_bps,
+            desired_margin_bps: s.desired_margin_bps,
+            status: 'draft',
+          })
+          .select()
+          .single(),
+        supabase.from('service_inputs').select('product_id, quantity_used').eq('service_id', s.id),
+      ])
+      if (!copy) return
+
+      // Copia os insumos junto, para a aluna não precisar incluir um a um de novo.
+      let failed = !!inputsError
+      if (!failed && inputs && inputs.length > 0) {
+        const { error } = await supabase
+          .from('service_inputs')
+          .insert(inputs.map((i) => ({ service_id: copy.id, product_id: i.product_id, quantity_used: i.quantity_used })))
+        failed = !!error
+      }
+      if (failed) {
+        // Não deixa uma cópia pela metade (sem insumos) para trás.
+        await supabase.from('services').delete().eq('id', copy.id)
+        await confirm({
+          title: 'Não foi possível duplicar',
+          message: 'Os insumos não puderam ser copiados. Tente novamente.',
+          confirmLabel: 'Ok',
+        })
+        return
+      }
+      setItems((p) => [copy, ...p])
+      router.refresh()
+    } finally {
+      setDuplicating(false)
+    }
   }
 
   async function archive(s: ServiceRow) {

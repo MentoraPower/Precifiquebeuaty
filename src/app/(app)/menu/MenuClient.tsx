@@ -96,7 +96,7 @@ export function MenuClient({
         </Section>
 
         <Section title="Assinatura">
-          <Row icon={CreditCard} label="Assinatura" hint="Pagamento e comprovante" href="/assinatura" />
+          <Row icon={CreditCard} label="Assinatura" hint="Vitalícia · comprovante" href="/assinatura" />
         </Section>
 
         <InstallPWARow />
