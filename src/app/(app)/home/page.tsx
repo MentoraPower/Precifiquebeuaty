@@ -107,8 +107,8 @@ async function HomeBody() {
 
   return (
     <div className="px-5 pt-6">
-      {/* Números do negócio — pills dentro de um fundo translúcido, scroll edge-to-edge */}
-      <div className="overflow-hidden rounded-2xl bg-ink/[0.06]">
+      {/* Números do negócio — pills dentro de um bloco branco, scroll edge-to-edge */}
+      <div className="overflow-hidden rounded-2xl border border-line bg-bg shadow-card">
         <div className="no-scrollbar flex gap-2 overflow-x-auto p-2">
           <StatPill href="/servicos" value={counts.services} label="serviços" />
           <StatPill href="/negocio/insumos" value={counts.products} label="insumos" />
@@ -172,7 +172,7 @@ function StatPill({ href, value, label }: { href: string; value: number; label: 
   return (
     <Link
       href={href}
-      className="flex shrink-0 items-center gap-1.5 rounded-pill bg-ink/15 px-4 py-2.5 text-[14px] text-ink transition active:scale-[0.99]"
+      className="flex shrink-0 items-center gap-1.5 rounded-pill border border-line bg-bg px-4 py-2.5 text-[14px] text-ink transition hover:border-ink/20 active:scale-[0.99]"
     >
       <span className="font-bold">{value}</span>
       <span className="text-ink/60">{label}</span>
